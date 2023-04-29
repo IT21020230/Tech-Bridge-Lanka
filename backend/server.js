@@ -24,7 +24,7 @@ mongoose
     // listen for request
     app.listen(port, () => {
       console.log(
-        `connected to the database and listening on http://localhost:${port}`
+        `Connected to the Database and Listening on http://localhost:${port}`
       );
     });
   })
@@ -36,20 +36,4 @@ mongoose
 //const userRoutes = require('./routes/userRoutes')
 
 // define routes
-app.use("/api/users", userRoutes);
-
-// connect to db
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    // listen for request
-    app.listen(process.env.PORT, () => {
-      console.log(
-        "connected to the db and listening on port",
-        process.env.PORT
-      );
-    });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+//app.use("/api/users", userRoutes);
