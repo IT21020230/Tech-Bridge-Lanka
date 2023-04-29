@@ -33,7 +33,7 @@ mongoose
   });
 
 // set up routes
-//const userRoutes = require('./routes/userRoutes')
+const userRoutes = require("./src/routes/userRoutes");
 
 // define routes
-//app.use("/api/users", userRoutes);
+app.use("/api/user", userRoutes);
