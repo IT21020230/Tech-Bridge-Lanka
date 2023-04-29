@@ -7,12 +7,16 @@
     "abbrev": "^1.1.1",
     "anymatch": "^3.1.3",
     "balanced-match": "^1.0.2",
+    "bcryptjs": "^2.4.3",
     "binary-extensions": "^2.2.0",
+    "body-parser": "^1.20.2",
     "brace-expansion": "^1.1.11",
     "braces": "^3.0.2",
     "chokidar": "^3.5.3",
     "concat-map": "^0.0.1",
+    "cors": "^2.8.5",
     "debug": "^3.2.7",
+    "express": "^4.18.2",
     "fill-range": "^7.0.1",
     "glob-parent": "^5.1.2",
     "has-flag": "^3.0.0",
@@ -22,6 +26,7 @@
     "is-glob": "^4.0.3",
     "is-number": "^7.0.0",
     "minimatch": "^3.1.2",
+    "mongoose": "^7.1.0",
     "ms": "^2.1.3",
     "nodemon": "^2.0.22",
     "nopt": "^1.0.10",
@@ -34,11 +39,12 @@
     "supports-color": "^5.5.0",
     "to-regex-range": "^5.0.1",
     "touch": "^3.1.0",
-    "undefsafe": "^2.0.5"
+    "undefsafe": "^2.0.5",
+    "validator": "^13.9.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon server.js"
   },
   "author": "",
   "license": "ISC"
