@@ -16,6 +16,12 @@ app.use((req, res, next) => {
 });
 app.use(cors());
 
+// set up routes
+const userRoutes = require("./src/routes/userRoutes");
+
+// define routes
+app.use("/api/user", userRoutes);
+
 // Connect to the database
 mongoose.set("strictQuery", false);
 mongoose
@@ -31,9 +37,3 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
-// set up routes
-const userRoutes = require("./src/routes/userRoutes");
-
-// define routes
-app.use("/api/user", userRoutes);
