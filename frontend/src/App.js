@@ -1,18 +1,24 @@
-import { Routes, Route } from "react-router-dom";
+import { lazy } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// home pages
-// const Home = lazy(() => import("./pages/home/Home"));
+// User Register Page
+const UserRegisterPage = lazy(() =>
+  import("./TBL/pages/user/userRegisterPage")
+);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header"></header>
-
-      {/* <Routes> */}
-      {/* Homepages */}
-      {/* <Route path={process.env.PUBLIC_URL + "/"} element={<Home />} /> */}
-      {/* </Routes> */}
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          {/* Homepages */}
+          <Route
+            path={process.env.PUBLIC_URL + "/UserRegister"}
+            element={<UserRegisterPage />}
+          />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
