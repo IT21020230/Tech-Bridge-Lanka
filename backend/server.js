@@ -18,9 +18,11 @@ app.use(cors());
 
 // set up routes
 const userRoutes = require("./src/routes/userRoutes");
+const postRoutes = require("./src/routes/postRoutes");
 
 // define routes
 app.use("/api/user", userRoutes);
+app.use("/api/post", postRoutes);
 
 // Connect to the database
 mongoose.set("strictQuery", false);
