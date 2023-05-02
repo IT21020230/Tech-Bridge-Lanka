@@ -1,6 +1,4 @@
-
 const UserRegister = () => {
-
   return (
     <div>
       <p>test</p>

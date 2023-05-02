@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 const UserRegisterPage = lazy(() =>
   import("./TBL/pages/user/userRegisterPage")
 );
+const TestingUi = lazy(() => import("./TBL/pages/TestingUI/testingUI"));
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
           <Route
             path={process.env.PUBLIC_URL + "/UserRegister"}
             element={<UserRegisterPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/test"}
+            element={<TestingUi />}
           />
         </Routes>
       </div>

@@ -1,4 +1,4 @@
-import UserRegister from "../../components/user/userRegister";
+import Test from "../../components/test";
 import Navbar from "../../layout/Navbar/Navbar";
 import Footer from "../../layout/Footer/Footer";
 import Slidebar from "../../layout/Slidebar/Slidebar";
@@ -9,9 +9,8 @@ const UserRegisterPage = () => {
     <main>
       <Navbar />
       <div className="content">
-        {" "}
         <Slidebar />
-        <UserRegister></UserRegister>
+        <Test />
       </div>
       <Footer />
     </main>
