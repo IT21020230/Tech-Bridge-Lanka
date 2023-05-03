@@ -2,9 +2,7 @@ import { lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // User Register Page
-const UserRegisterPage = lazy(() =>
-  import("./TBL/pages/user/userRegisterPage")
-);
+const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
 
 function App() {
   return (
@@ -13,8 +11,8 @@ function App() {
         <Routes>
           {/* Homepages */}
           <Route
-            path={process.env.PUBLIC_URL + "/UserRegister"}
-            element={<UserRegisterPage />}
+            path={process.env.PUBLIC_URL + "/SignUp"}
+            element={<SignUp />}
           />
         </Routes>
       </div>
