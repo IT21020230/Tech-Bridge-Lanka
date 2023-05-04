@@ -6,6 +6,8 @@ import { useAuthContext } from "./TBL/hooks/useAuthContext";
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
 // Login Page
 const Login = lazy(() => import("./TBL/pages/user/login"));
+//Tset UI page
+const TestingUi = lazy(() => import("./TBL/pages/TestingUI/testingUI"));
 
 function App() {
   const { user } = useAuthContext();
@@ -26,6 +28,10 @@ function App() {
             <Route
               path="/signup"
               element={!user ? <SignUp /> : <Navigate to="/" />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/test"}
+              element={<TestingUi />}
             />
           </Routes>
         </div>
