@@ -2,6 +2,10 @@ import { lazy } from "react";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
+// import { SignUp } from "./TBL/pages/user/signUp";
+// import { Login } from "./TBL/pages/user/login";
+// import { TestingUi } from "./TBL/pages/TestingUI/testingUI";
+
 // Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
 // Login Page
@@ -17,10 +21,10 @@ function App() {
       <BrowserRouter>
         <div className="pages">
           <Routes>
-            {/* <Route
+            <Route
               path="/"
-              element={user ? <Home /> : <Navigate to="/login" />}
-            /> */}
+              element={user ? <TestingUi /> : <Navigate to="/" />}
+            />
             <Route
               path="/login"
               element={!user ? <Login /> : <Navigate to="/" />}

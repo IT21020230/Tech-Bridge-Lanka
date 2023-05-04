@@ -1,12 +1,16 @@
 import Login from "../../components/user/login";
+import Navbar from "../../Layout/Navbar/Navbar";
+import Footer from "../../Layout/Footer/Footer";
 
 const LoginPage = () => {
   return (
-    <div className="app">
-      <main className="content">
+    <main className="app">
+      <Navbar />
+      <div className="content">
           <Login />
-      </main>
-    </div>
+      </div>
+      <Footer />
+    </main>
   );
 }
 

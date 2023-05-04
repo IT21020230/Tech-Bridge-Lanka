@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from '../../hooks/useLogin';
 import axios from 'axios';
 import './login.css';
 
@@ -10,22 +11,24 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, error, isLoading } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post('http://localhost:7000/api/user/login', {
-        email, password
-      }).then(() => {
-        console.log('User logged in successfully');
+    await login(email, password)
+    // await axios.post('http://localhost:7000/api/user/login', {
+    //     email, password
+    //   }).then(() => {
+    //     console.log('User logged in successfully');
     
-        toast.success(`User Login Successful`, {
-          position: "bottom-left",
-        });
-        setTimeout(() => {
-          navigate("/");
-        }, 2500);
-      });
+    //     toast.success(`User Login Successful`, {
+    //       position: "bottom-left",
+    //     });
+    //     setTimeout(() => {
+    //       navigate("/");
+    //     }, 2500);
+    //   });
 
   }
 
@@ -50,7 +53,8 @@ const Login = () => {
           value={password}
         />
         <br/>
-        <button type='submit'>Login</button>
+        <button disabled={isLoading} type='submit'>Login</button>
+        {error && <div className='error'>{error}</div>}
       </form>
     </div>
   );
