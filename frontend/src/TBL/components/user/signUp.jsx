@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './signUp.css';
+import { useSignup } from '../../hooks/useSignup';
 
 const SignUp = () => {
 
@@ -17,20 +18,24 @@ const SignUp = () => {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
 
+  const {signup, error, isLoading} = useSignup()
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-      const user = await axios.post('http://localhost:8080/api/user/signup', {
-        email, password, confirmPassword, name, phone, age, address, city
-      }).then(() => {
-        console.log('User registered successfully');
+
+    await signup(email, password, confirmPassword, name, phone, age, address, city)
+      // await axios.post('http://localhost:8080/api/user/signup', {
+      //   email, password, confirmPassword, name, phone, age, address, city
+      // }).then(() => {
+      //   console.log('User registered successfully');
     
-        toast.success(`User Registration Successful`, {
-          position: "bottom-left",
-        });
-        setTimeout(() => {
-          navigate("/");
-        }, 2500);
-      });
+      //   toast.success(`User Registration Successful`, {
+      //     position: "bottom-left",
+      //   });
+      //   setTimeout(() => {
+      //     navigate("/");
+      //   }, 2500);
+      // });
   }
 
   return (
@@ -94,7 +99,8 @@ const SignUp = () => {
           onChange={(e) => setCity(e.target.value)}
           value={city}
         />
-        <button type='submit'>Sign Up</button>
+        <button disabled={isLoading} type='submit'>Sign Up</button>
+        {error && <div className='error'>{error}</div> }
       </form>
     </div>
   );

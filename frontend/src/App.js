@@ -1,22 +1,50 @@
 import { lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
-// User Register Page
+// Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
+// Login Page
+const Login = lazy(() => import("./TBL/pages/user/login"));
 
 function App() {
+  const { user } = useAuthContext();
+
   return (
-    <Router>
-      <div className="App">
-        <Routes>
-          {/* Homepages */}
-          <Route
-            path={process.env.PUBLIC_URL + "/SignUp"}
-            element={<SignUp />}
-          />
-        </Routes>
-      </div>
-    </Router>
+    <div className="App">
+      <BrowserRouter>
+        <div className="pages">
+          <Routes>
+            {/* <Route
+              path="/"
+              element={user ? <Home /> : <Navigate to="/login" />}
+            /> */}
+            <Route
+              path="/login"
+              element={!user ? <Login /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/signup"
+              element={!user ? <SignUp /> : <Navigate to="/" />}
+            />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </div>
+    // <Router>
+    //   <div className="App">
+    //     <Routes>
+    //       {/* Signup */}
+    //       <Route
+    //         path={process.env.PUBLIC_URL + "/SignUp"}
+    //         element={<SignUp />}
+    //       />
+
+    //       {/* Login */}
+    //       <Route path={process.env.PUBLIC_URL + "/Login"} element={<Login />} />
+    //     </Routes>
+    //   </div>
+    // </Router>
   );
 }
 
