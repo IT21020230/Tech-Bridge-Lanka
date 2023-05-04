@@ -2,6 +2,7 @@ import {useState} from 'react';
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from '../../hooks/useLogin';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import './login.css';
 
@@ -53,7 +54,7 @@ const Login = () => {
           value={password}
         />
         <br/>
-        <button disabled={isLoading} type='submit'>Login</button>
+        <Button disabled={isLoading} type='submit' variant="outline-primary">Login</Button>
         {error && <div className='error'>{error}</div>}
       </form>
     </div>

@@ -41,20 +41,6 @@ function App() {
         </div>
       </BrowserRouter>
     </div>
-    // <Router>
-    //   <div className="App">
-    //     <Routes>
-    //       {/* Signup */}
-    //       <Route
-    //         path={process.env.PUBLIC_URL + "/SignUp"}
-    //         element={<SignUp />}
-    //       />
-
-    //       {/* Login */}
-    //       <Route path={process.env.PUBLIC_URL + "/Login"} element={<Login />} />
-    //     </Routes>
-    //   </div>
-    // </Router>
   );
 }
 

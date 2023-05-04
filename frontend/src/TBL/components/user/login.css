@@ -33,8 +33,6 @@
     margin: 0 auto;
   }
   
-  
-  
   /* new workout form */
   label, input {
     display: block;
@@ -68,7 +66,6 @@
   input.error {
     border: 1px solid var(--error);
   }
-  
   
   /* auth forms */
   form.signup, form.login {
