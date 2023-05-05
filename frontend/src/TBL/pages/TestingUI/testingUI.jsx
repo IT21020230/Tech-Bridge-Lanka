@@ -1,7 +1,7 @@
 import Test from "../../components/test";
-import Navbar from "../../layout/Navbar/Navbar";
-import Footer from "../../layout/Footer/Footer";
-import Slidebar from "../../layout/Slidebar/Slidebar";
+import Navbar from "../../Layout/Navbar/Navbar";
+import Footer from "../../Layout/Footer/Footer";
+import Sidebar from "../../Layout/Slidebar/Slidebar";
 import "../index.css";
 
 const UserRegisterPage = () => {
@@ -9,7 +9,7 @@ const UserRegisterPage = () => {
     <main>
       <Navbar />
       <div className="content">
-        <Slidebar />
+        <Sidebar />
         <Test />
       </div>
       <Footer />
