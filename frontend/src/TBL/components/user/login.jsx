@@ -1,18 +1,41 @@
 import {useState} from 'react';
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useLogin } from '../../hooks/useLogin';
+import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 import './login.css';
 
 const Login = () => {
 
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login, error, isLoading } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    await login(email, password)
+    // await axios.post('http://localhost:7000/api/user/login', {
+    //     email, password
+    //   }).then(() => {
+    //     console.log('User logged in successfully');
+    
+    //     toast.success(`User Login Successful`, {
+    //       position: "bottom-left",
+    //     });
+    //     setTimeout(() => {
+    //       navigate("/");
+    //     }, 2500);
+    //   });
 
   }
 
   return (
     <div>
+      <ToastContainer />
       <form className='login' onSubmit={handleSubmit}>
         <h1>Login</h1>
         <label htmlFor='email'>Email</label>
@@ -23,7 +46,7 @@ const Login = () => {
           value={email}
         />
         <br/>
-        <label htmlFor='email'>Password</label>
+        <label htmlFor='password'>Password</label>
         <input
           type='password'
           name='password'
@@ -31,10 +54,11 @@ const Login = () => {
           value={password}
         />
         <br/>
-        <button type='submit'>Login</button>
+        <Button disabled={isLoading} type='submit' variant="outline-primary">Login</Button>
+        {error && <div className='error'>{error}</div>}
       </form>
     </div>
   );
 };
 
-export default SignUp;
+export default Login;

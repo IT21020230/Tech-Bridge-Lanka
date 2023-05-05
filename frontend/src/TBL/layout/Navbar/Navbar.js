@@ -50,6 +50,7 @@ function OffcanvasExample() {
         </Navbar>
       ))}
     </>
+
   );
 }
 
