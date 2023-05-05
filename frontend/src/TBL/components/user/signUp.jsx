@@ -48,7 +48,7 @@ const SignUp = () => {
 
     if ( !email || email === '' ) {
       newErrors.email = 'Please enter an Email!'
-    } else if (email.match(validEmail)) {
+    } else if (!email.match(validEmail)) {
       newErrors.email = 'Please enter a valid Email!'
     }
 
@@ -57,8 +57,6 @@ const SignUp = () => {
 
     if ( !password || password === '' ) {
       newErrors.password = 'Please enter an Password!'
-    } else if (password === confirmPassword) {
-      newErrors.password = 'Password should match with Confirm Password!'
     } else if(password.match(pattern)) {
       newErrors.password = 'Password should contain atleast 8 characters, 1 uppercase, 1 lowercase and 1 number!'
     }
@@ -66,7 +64,7 @@ const SignUp = () => {
     // confirm password errors
     if ( !confirmPassword || confirmPassword === '' ) {
       newErrors.confirmPassword = 'Please enter the Password again!'
-    } else if (password === confirmPassword) {
+    } else if (password !== confirmPassword) {
       newErrors.confirmPassword = 'Confirm Password should match with Password!'
     }
 
@@ -111,6 +109,8 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    console.log(form);
 
     const newErrors = findFormErrors()
 

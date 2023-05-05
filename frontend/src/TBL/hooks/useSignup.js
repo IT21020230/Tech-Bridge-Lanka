@@ -13,7 +13,7 @@ export const useSignup = () => {
     name,
     phone,
     age,
-    address,
+    province,
     city
   ) => {
     setIsLoading(true);
@@ -29,7 +29,7 @@ export const useSignup = () => {
         name,
         phone,
         age,
-        address,
+        province,
         city,
       }),
     });
