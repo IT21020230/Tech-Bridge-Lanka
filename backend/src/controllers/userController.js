@@ -153,8 +153,22 @@ const addUserLocation = async (req, res) => {
   }
 };
 
+// endpoint to get all user locations
+const getLocations = async (req, res) => {
+  try {
+    const users = await User.find({ homeLocation: { $ne: null } }); // find all users with a non-null homeLocation field
+    const locations = users.map(user => user.homeLocation.coordinates); // extract the coordinates from each user's homeLocation field
+    res.json(locations); // send the list of coordinates as a JSON response
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+};
+
 module.exports = {
   getAllUsers,
   loginUser,
   signupUser,
+  addUserLocation,
+  getLocations,
 };

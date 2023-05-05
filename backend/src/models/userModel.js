@@ -34,7 +34,7 @@ const userSchema = new Schema({
   },
 });
 
-UserSchema.index({ homeLocation: "2dsphere" });
+userSchema.index({ homeLocation: "2dsphere" });
 
 // export user model
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", userSchema);

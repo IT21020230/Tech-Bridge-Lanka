@@ -19,7 +19,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-      const user = await axios.post('http://localhost:8080/api/user/signup', {
+      const user = await axios.post('http://localhost:8000/api/user/signup', {
         email, password, confirmPassword, name, phone, age, address, city
       }).then(() => {
         console.log('User registered successfully');

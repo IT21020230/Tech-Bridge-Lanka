@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ReactMapboxGl, { Marker, ZoomControl } from "react-mapbox-gl";
 import mapboxgl from "mapbox-gl";
+import axios from 'axios';
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./mapView.css";
 import PlacesAutocomplete, {
@@ -26,11 +27,26 @@ const MapView = () => {
     [81.899167, 9.835298], // northeast corner of Sri Lanka
   ];
 
-  const handleSendLocation = () => {
+  const handleSendLocation = async () => {
     const { latitude, longitude } = location;
     alert(latitude);
     alert(longitude);
-    // TODO: Send location data via API
+    
+    // const userId = "6453a8bcc6d9e14527bdf3e1"; // replace with actual user ID
+    // const { latitude, longitude } = location;
+
+    // try {
+    //   await axios.patch(`http://localhost:8000/api/user/home-location`, {
+    //     userId,
+    //     latitude,
+    //     longitude,
+    //   });
+
+    //   alert("Location data sent successfully!");
+    // } catch (error) {
+    //   console.error(error);
+    //   alert("Failed to send location data. Please try again later.");
+    // }
   };
 
   const handleGeolocationSuccess = (position) => {

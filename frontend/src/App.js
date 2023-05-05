@@ -1,10 +1,9 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-// home pages
+// map pages
 const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
-import { lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
 
 // User Register Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
@@ -25,6 +24,7 @@ function App() {
             element={<TestingUi />}
           />
           <Route path={process.env.PUBLIC_URL + "/map"} element={<Map />} />
+          <Route path={process.env.PUBLIC_URL + "/map-live"} element={<MapLive />} />
         </Routes>
       </div>
     </Router>
