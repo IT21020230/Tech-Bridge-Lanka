@@ -1,0 +1,20 @@
+$theme-colors: (
+  "primary": white,
+  "secondary": red,
+  "dark": tomato,
+  "light": #459c98,
+  "success": tomato,
+  "info": tomato,
+  "warning": tomato,
+  "danger": tomato,
+);
+
+// $body-color: red; // Change the font color
+$navbar-text-color: white; // Change the navbar text color
+// $navbar-link-color: white; // Change the navbar link color
+// $navbar-brand-color: $dark; // Change the navbar brand color
+// $navbar-toggler-icon-bg: $dark; // Change the navbar toggler icon background color
+// $dropdown-bg: $primary; // Change the dropdown background color
+// $dropdown-link-color: $dark; // Change the dropdown link color
+
+@import "~bootstrap/scss/bootstrap";
