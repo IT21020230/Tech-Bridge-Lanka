@@ -61,7 +61,7 @@ const signupUser = async (req, res) => {
       name,
       phone,
       age,
-      address,
+      province,
       city,
     } = req.body;
 
@@ -109,7 +109,7 @@ const signupUser = async (req, res) => {
       name,
       phone,
       age,
-      address,
+      province,
       city,
     });
     await user.save();

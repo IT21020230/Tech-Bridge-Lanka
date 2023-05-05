@@ -39,7 +39,7 @@ header a {
 label, input {
   display: block;
 }
-input {
+/* input {
   padding: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -56,7 +56,7 @@ form button {
   font-family: "Poppins";
   border-radius: 4px;
   cursor: pointer;
-}
+} */
 div.error {
   padding: 10px;
   background: #ffefef;
@@ -71,7 +71,7 @@ input.error {
 
 
 /* auth forms */
-form.signup, form.login {
+form.signup, form.login, #signupForm {
   max-width: 400px;
   margin: 40px auto;
   padding: 20px;
