@@ -16,6 +16,12 @@ const Login = lazy(() => import("./TBL/pages/user/login"));
 //Tset UI page
 const TestingUi = lazy(() => import("./TBL/pages/TestingUI/testingUI"));
 
+//Accept or Decline blogs
+const AcceptDeclineBlogsPage = lazy(() => import("./TBL/pages/admin/AcceptDeclineBlogPage"));
+const AcceptMembersPage = lazy(() => import("./TBL/pages/admin/AcceptMembersPage"))
+const CreateIssuesPage = lazy(() => import("./TBL/pages/admin/CreateIssuesPage"))
+const IssuesToAcceptPage = lazy(() => import("./TBL/pages/admin/IssuesToAcceptPage"))
+
 function App() {
   const { user } = useAuthContext();
 
@@ -40,6 +46,27 @@ function App() {
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
             />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/accept-decline-blogs-page"}
+              element={<AcceptDeclineBlogsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/accept-members-page"}
+              element={<AcceptMembersPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/create-issues"}
+              element={<CreateIssuesPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/issues-to-accept"}
+              element={<IssuesToAcceptPage />}
+            />
+
           </Routes>
         </div>
       </BrowserRouter>
