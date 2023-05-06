@@ -7,9 +7,17 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
 
+import { useLogout } from "../../hooks/useLogout";
+
 import "./Navbar.css";
 
 function OffcanvasExample() {
+  const { logout } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <>
       <div className="image-container">
@@ -42,7 +50,26 @@ function OffcanvasExample() {
                     Home
                   </Nav.Link>
                   <Nav.Link
-                    href="#action2"
+                    href="/login"
+                    style={{ color: "white", fontWeight: "bold" }}
+                  >
+                    Login
+                  </Nav.Link>
+                  <Nav.Link
+                    href="/signup"
+                    style={{ color: "white", fontWeight: "bold" }}
+                  >
+                    Register
+                  </Nav.Link>
+                  <Button
+                    variant="outline-danger"
+                    className="btn-logout"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                  <Nav.Link
+                    href=""
                     style={{ color: "white", fontWeight: "bold" }}
                   >
                     Link

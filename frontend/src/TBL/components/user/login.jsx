@@ -1,93 +1,149 @@
-import {useState} from 'react';
-import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Row from "react-bootstrap/Row";
 import { useLogin } from '../../hooks/useLogin';
-import './login.css';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import * as formik from "formik";
+import * as yup from "yup";
+import { Formik, Field, ErrorMessage } from "formik";
+import { useState } from "react";
 
-const Login = () => {
+import { BiTrash } from "react-icons/bi";
+import { IoAddSharp } from "react-icons/io5";
 
-  const validator = require("validator");
+function Login() {
 
-  const navigate = useNavigate();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const { login, error, isLoading } = useLogin();
 
-  const [ form, setForm ] = useState({})
-  const [ errors, setErrors ] = useState({})
+  const [fields, setFields] = useState([{ value: "" }]);
 
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value
-    })
+  const handleInputChange = (index, event) => {
+    const values = [...fields];
+    values[index].value = event.target.value;
+    setFields(values);
+  };
 
-    // Check and see if errors exist, and remove them from the error object:
-    if ( !!errors[field] ) setErrors({
-      ...errors,
-      [field]: null
-    })
-  }
+  const handleAddField = () => {
+    const values = [...fields];
+    values.push({ value: "" });
+    setFields(values);
+  };
 
-  const findFormErrors = () => {
-    const { email, password } = form
-    const newErrors = {}
+  const handleRemoveField = (index) => {
+    const values = [...fields];
+    values.splice(index, 1);
+    setFields(values);
+  };
 
-    // email errors
-    if ( !email || email === '' ) newErrors.email = 'Please enter an email!'
-    else if (!validator.isEmail(email)) {
-      newErrors.email = 'Please enter an email!'
-    }
-    // password errors
-    if ( !password || password === '' ) newErrors.password = 'Please enter a password!'
-
-    return newErrors
-  }
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, values) => {
     e.preventDefault()
 
-    const newErrors = findFormErrors()
+    await login(values.email, values.password)
+  };
 
-    if ( Object.keys(newErrors).length > 0 ) {
-      // show errors
-      setErrors(newErrors)
-    } else {
-      // If no errors
-      await login(form.email, form.password)
-    }
-  }
+  const { Formik } = formik;
+
+  const schema = yup.object().shape({
+
+    email: yup
+    .string()
+    .required("Please enter an Email!")
+    .email("Please enter a valid Email!"),
+
+    password: yup
+      .string()
+      .required("Please enter a Password!")
+    });
 
   return (
-    <div>
-      <ToastContainer />
-      <br/>
-      <div className='App d-flex flex-column align-items-center' id='loginForm'>
-      <h3>Login</h3>
-      <Form style={{ width: '300px' }} onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label>Email</Form.Label>
-          <Form.Control type='email' onChange={ e => setField('email', e.target.value)} isInvalid={ !!errors.email }/>
-          <Form.Control.Feedback type='invalid'>{ errors.email }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>Password</Form.Label>
-          <Form.Control type='password' onChange={ e => setField('password', e.target.value)} isInvalid={ !!errors.password }/>
-          <Form.Control.Feedback type='invalid'>{ errors.password }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Button disabled={isLoading} type='submit' variant="outline-primary">Login</Button>
-        {error && <div className='error'>{error}</div>}
-      </Form>
-      <br/>
+    <div
+      style={{
+        backgroundColor: "#E8E8E8",
+        marginLeft: "500px",
+        marginRight: "500px",
+        marginBottom: "17px",
+        padding: "50px",
+      }}
+    >
+      <div>
+        <h1 style={{textAlign: "center"}} className="head">Login</h1>
       </div>
+      <Formik
+        validationSchema={schema}
+        validateOnChange={false} // Disable validation on change
+        validateOnBlur={true} // Enable validation on blur
+        onSubmit={handleSubmit}
+        initialValues={{
+          email: "",
+          password: "", 
+        }}
+      >
+        {({ handleSubmit, handleChange, values, touched, errors }) => (
+          <Form noValidate onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Email
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    aria-describedby="inputGroupPrepend"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    isValid={touched.email && !errors.email}
+                    isInvalid={!!errors.email}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
 
-    </div> 
+
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Password
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="password"
+                    aria-describedby="inputGroupPrepend"
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    isValid={touched.password && !errors.password}
+                    isInvalid={!!errors.password}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              
+            </Row>
+
+            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
+              Login
+            </Button>
+            {error && <div className='error'>{error}</div>}
+          </Form>
+        )}
+      </Formik>
+
+    </div>
   );
-};
+}
 
 export default Login;

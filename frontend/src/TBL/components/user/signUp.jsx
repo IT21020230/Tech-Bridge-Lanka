@@ -1,16 +1,20 @@
-import {useState} from 'react';
-import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
-import './signUp.css';
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Row from "react-bootstrap/Row";
 import { useSignup } from '../../hooks/useSignup';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import * as formik from "formik";
+import * as yup from "yup";
+import { Formik, Field, ErrorMessage } from "formik";
+import { useState } from "react";
 
-const SignUp = () => {
+import { BiTrash } from "react-icons/bi";
+import { IoAddSharp } from "react-icons/io5";
 
-  const validator = require("validator");
+function SignUp() {
 
-  const navigate = useNavigate();
+  const {signup, error, isLoading} = useSignup()
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,171 +25,350 @@ const SignUp = () => {
   const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
 
-  const [ form, setForm ] = useState({})
-  const [ errors, setErrors ] = useState({})
-  
-  const {signup, error, isLoading} = useSignup()
+  const [fields, setFields] = useState([{ value: "" }]);
 
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value
-    })
+  const handleInputChange = (index, event) => {
+    const values = [...fields];
+    values[index].value = event.target.value;
+    setFields(values);
+  };
 
-    // Check and see if errors exist, and remove them from the error object:
-    if ( !!errors[field] ) setErrors({
-      ...errors,
-      [field]: null
-    })
-  }
+  const handleAddField = () => {
+    const values = [...fields];
+    values.push({ value: "" });
+    setFields(values);
+  };
 
-  const findFormErrors = () => {
-    const { email, password, confirmPassword, name, phone, age, province, city } = form
-    const newErrors = {}
+  const handleRemoveField = (index) => {
+    const values = [...fields];
+    values.splice(index, 1);
+    setFields(values);
+  };
 
-    // email errors
-    const validEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-    if ( !email || email === '' ) {
-      newErrors.email = 'Please enter an Email!'
-    } else if (!email.match(validEmail)) {
-      newErrors.email = 'Please enter a valid Email!'
-    }
-
-    // password errors
-    const pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
-
-    if ( !password || password === '' ) {
-      newErrors.password = 'Please enter an Password!'
-    } else if(password.match(pattern)) {
-      newErrors.password = 'Password should contain atleast 8 characters, 1 uppercase, 1 lowercase and 1 number!'
-    }
-
-    // confirm password errors
-    if ( !confirmPassword || confirmPassword === '' ) {
-      newErrors.confirmPassword = 'Please enter the Password again!'
-    } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = 'Confirm Password should match with Password!'
-    }
-
-
-    // password errors
-    if ( !name || name === '' ) {
-      newErrors.name = 'Please enter the Name!'
-    } else if(name.length < 4) {
-      newErrors.name = 'Length of Name must be greater than 3 characters!'
-    }
-
-    // password errors
-    if ( !age || age === '' ) {
-      newErrors.age = 'Please enter the Age!'
-    } else if(age < 12) {
-      newErrors.age = 'Age must be greater than 12!'
-    }
-
-    // password errors
-    if ( !phone || phone === '' ) {
-      newErrors.phone = 'Please enter a Phone number!'
-    } else if(phone.length < 10) {
-      newErrors.phone = 'Please enter a valid Phone number!'
-    }
-
-    // password errors
-    if ( !city || city === '' ) {
-      newErrors.city = 'Please enter a City!'
-    } else if(city.length < 4) {
-      newErrors.city = 'Length of City must be greater than 3 characters!'
-    } 
-
-    // password errors
-    if ( !province || province === '' ) {
-      newErrors.province = 'Please enter a Province!'
-    } else if(province.length < 4) {
-      newErrors.province = 'Length of Province must be greater than 3 characters!'
-    }
-
-    return newErrors
-  }
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, values) => {
     e.preventDefault()
 
-    console.log(form);
+    console.log(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
 
-    const newErrors = findFormErrors()
+    await signup(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
+  };
 
-    if ( Object.keys(newErrors).length > 0 ) {
-      // show errors
-      setErrors(newErrors)
-    } else {
-      // If no errors
-      await signup(form.email, form.password, form.confirmPassword, form.name, form.phone, form.age, form.province, form.city)
-    }
-  }
+  const { Formik } = formik;
+
+  const schema = yup.object().shape({
+
+    email: yup
+    .string()
+    .required("Please enter an Email!")
+    .email("Please enter a valid Email!"),
+
+    password: yup
+      .string()
+      .required("Please enter a Password!")
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/, "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"),
+    
+    confirmPassword: yup
+      .string()
+      .required("Please enter the Password again!")
+      .matches(password, "Confirm Password should match with Password!"),
+
+    phone: yup
+      .string()
+      .required("Please enter a Phone number!")
+      .matches(/^[0-9]{10}$/, "Contact number must be a 10-digit number without spaces or dashes"),
+    
+    name: yup
+      .string()
+      .required("Please enter the Name!"),
+
+    age: yup
+      .string()
+      .required("Please enter the Age!"),
+
+    province: yup
+      .string()
+      .required("Please enter the Province!"),
+      
+    city: yup
+      .string()
+      .required("Please enter the City!")
+    });
 
   return (
-    <div>
-      <ToastContainer />
-      <br/>
-      <div className='App d-flex flex-column align-items-center' id='signupForm'>
-      <h3>Register</h3>
-      <Form style={{ width: '300px' }} onSubmit={handleSubmit}>
-        <Form.Group>
-          <Form.Label>Email</Form.Label>
-          <Form.Control type='email' onChange={ e => setField('email', e.target.value)} isInvalid={ !!errors.email }/>
-          <Form.Control.Feedback type='invalid'>{ errors.email }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>Password</Form.Label>
-          <Form.Control type='password' onChange={ e => setField('password', e.target.value)} isInvalid={ !!errors.password }/>
-          <Form.Control.Feedback type='invalid'>{ errors.password }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control type='password' onChange={ e => setField('confirmPassword', e.target.value)} isInvalid={ !!errors.confirmPassword }/>
-          <Form.Control.Feedback type='invalid'>{ errors.confirmPassword }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>Name</Form.Label>
-          <Form.Control type='text' onChange={ e => setField('name', e.target.value)} isInvalid={ !!errors.name }/>
-          <Form.Control.Feedback type='invalid'>{ errors.name }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>Phone</Form.Label>
-          <Form.Control type='number' onChange={ e => setField('phone', e.target.value)} isInvalid={ !!errors.phone }/>
-          <Form.Control.Feedback type='invalid'>{ errors.phone }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>Age</Form.Label>
-          <Form.Control type='text' onChange={ e => setField('age', e.target.value)} isInvalid={ !!errors.age }/>
-          <Form.Control.Feedback type='invalid'>{ errors.age }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>City</Form.Label>
-          <Form.Control type='text' onChange={ e => setField('city', e.target.value)} isInvalid={ !!errors.city }/>
-          <Form.Control.Feedback type='invalid'>{ errors.city }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Form.Group>
-          <Form.Label>Province</Form.Label>
-          <Form.Control type='text' onChange={ e => setField('province', e.target.value)} isInvalid={ !!errors.province }/>
-          <Form.Control.Feedback type='invalid'>{ errors.province }</Form.Control.Feedback>
-        </Form.Group>
-        <br/>
-        <Button disabled={isLoading} type='submit' variant="outline-primary">Signup</Button>
-        {error && <div className='error'>{error}</div>}
-      </Form>
-      <br/>
+    <div
+      style={{
+        backgroundColor: "#E8E8E8",
+        marginLeft: "200px",
+        marginRight: "200px",
+        marginBottom: "17px",
+        padding: "50px",
+      }}
+    >
+      <div>
+        <h1 className="head">User Registration</h1>
       </div>
+      <Formik
+        validationSchema={schema}
+        validateOnChange={false} // Disable validation on change
+        validateOnBlur={true} // Enable validation on blur
+        onSubmit={handleSubmit}
+        initialValues={{
+          email: "",
+          password: "", 
+          confirmPassword: "", 
+          name: "", 
+          phone: "", 
+          age: "", 
+          province: "", 
+          city: ""
+        }}
+      >
+        {({ handleSubmit, handleChange, values, touched, errors }) => (
+          <Form noValidate onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Name
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    aria-describedby="inputGroupPrepend"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    isValid={touched.name && !errors.name}
+                    isInvalid={!!errors.name}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Email
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    aria-describedby="inputGroupPrepend"
+                    name="email"
+                    value={values.email}
+                    onChange={handleChange}
+                    isValid={touched.email && !errors.email}
+                    isInvalid={!!errors.email}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Password
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="password"
+                    aria-describedby="inputGroupPrepend"
+                    name="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    isValid={touched.password && !errors.password}
+                    isInvalid={!!errors.password}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Confirm Password
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="password"
+                    aria-describedby="inputGroupPrepend"
+                    name="confirmPassword"
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    isValid={touched.confirmPassword && !errors.confirmPassword}
+                    isInvalid={!!errors.confirmPassword}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.confirmPassword}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  City
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    aria-describedby="inputGroupPrepend"
+                    name="city"
+                    value={values.city}
+                    onChange={handleChange}
+                    isValid={touched.city && !errors.city}
+                    isInvalid={!!errors.city}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.city}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Province
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    aria-describedby="inputGroupPrepend"
+                    name="province"
+                    value={values.province}
+                    onChange={handleChange}
+                    isValid={touched.province && !errors.province}
+                    isInvalid={!!errors.province}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.province}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Age
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="number"
+                    aria-describedby="inputGroupPrepend"
+                    name="age"
+                    value={values.age}
+                    onChange={handleChange}
+                    isValid={touched.age && !errors.age}
+                    isInvalid={!!errors.age}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.age}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              {/* <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Upload Profile Photo
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="file"
+                    aria-describedby="inputGroupPrepend"
+                    name="logo"
+                    value={values.photo}
+                    onChange={handleChange}
+                    isValid={touched.photo && !errors.photo}
+                    isInvalid={!!errors.photo}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.photo}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group> */}
+
+              {/* {fields.map((field, index) => (
+                <Form.Group
+                  key={index}
+                  as={Col}
+                  md="10"
+                  controlId="validationFormikCommunitySize"
+                  className="ruleContainer"
+                >
+                  <Form.Control
+                    as="textarea"
+                    md="5"
+                    value={field.value}
+                    onChange={(event) => handleInputChange(index, event)}
+                    required
+                    className="ruleArea"
+                  />
+                  {index === fields.length - 1 && (
+                    <Button onClick={handleAddField} className="btn2">
+                      <IoAddSharp />
+                    </Button>
+                  )}
+                  {index > 0 && (
+                    <Button
+                      onClick={() => handleRemoveField(index)}
+                      className="btn"
+                    >
+                      <BiTrash />
+                    </Button>
+                  )}
+                </Form.Group>
+              ))} */}
+            </Row>
+
+            <Form.Group className="mb-3">
+              <Form.Check
+                required
+                name="terms"
+                label="Agree to terms and conditions"
+                onChange={handleChange}
+                isInvalid={!!errors.terms}
+                feedback={errors.terms}
+                feedbackType="invalid"
+                id="validationFormik0"
+              />
+            </Form.Group>
+            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
+              Register
+            </Button>
+            {error && <div className='error'>{error}</div>}
+          </Form>
+        )}
+      </Formik>
 
     </div>
   );
-};
+}
 
 export default SignUp;
