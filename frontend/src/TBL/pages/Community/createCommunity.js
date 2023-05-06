@@ -1,4 +1,4 @@
-import Test from "../../components/test";
+import CreateCommunity from "../../components/Community/createCommunity";
 import Navbar from "../../layout/Navbar/Navbar";
 import Footer from "../../layout/Footer/Footer";
 import Sidebar from "../../layout/Slidebar/Slidebar";
@@ -9,7 +9,7 @@ const UserRegisterPage = () => {
     <main>
       <Navbar />
       <div className="content">
-        <Test />
+        <CreateCommunity />
       </div>
       <Footer />
     </main>
