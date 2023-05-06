@@ -5,19 +5,23 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import logo from "../../assets/TBLlogo.png";
+
+import "./Navbar.css";
 
 function OffcanvasExample() {
   return (
     <>
+      <div className="image-container">
+        <img className="responsive-image" src={logo} />
+      </div>
       {["sm"].map((expand) => (
         <Navbar key={expand} bg="light" expand={expand} className="mb-3">
           <Container fluid>
             <Navbar.Brand
               href="#"
               style={{ color: "white", fontWeight: "bold" }}
-            >
-              Tech Bridge Lanka
-            </Navbar.Brand>
+            ></Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}
@@ -50,7 +54,6 @@ function OffcanvasExample() {
         </Navbar>
       ))}
     </>
-
   );
 }
 

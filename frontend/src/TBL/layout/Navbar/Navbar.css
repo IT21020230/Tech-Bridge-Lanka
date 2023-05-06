@@ -87,3 +87,68 @@ nav {
     font-size: 1.5rem;
   }
 }
+
+.image-container {
+  margin-left: 5%;
+}
+
+.responsive-image {
+  width: 100%; /* Set the image width to fill the container */
+  height: auto; /* Automatically adjust the height to maintain the aspect ratio */
+}
+
+/* Media queries for different screen sizes */
+@media (min-width: 376px) {
+  /* Styles for screens wider than 576px */
+  .responsive-image {
+    /* Define your desired width */
+    width: 100px;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Styles for screens wider than 768px */
+  .responsive-image {
+    /* Define your desired width */
+    width: 150px;
+  }
+}
+
+@media (min-width: 968px) {
+  /* Styles for screens wider than 768px */
+  .responsive-image {
+    /* Define your desired width */
+    width: 200px;
+  }
+}
+
+.responsive-image2 {
+  width: 100%; /* Set the image width to fill the container */
+  height: auto; /* Automatically adjust the height to maintain the aspect ratio */
+  margin-left: 74%;
+}
+
+/* Media queries for different screen sizes */
+@media (min-width: 376px) {
+  /* Styles for screens wider than 576px */
+  .responsive-image2 {
+    /* Define your desired width */
+    width: 50px;
+  }
+}
+
+@media (min-width: 768px) {
+  /* Styles for screens wider than 768px */
+  .responsive-image2 {
+    /* Define your desired width */
+    width: 50px;
+  }
+}
+
+@media (min-width: 968px) {
+  /* Styles for screens wider than 768px */
+  .responsive-image2 {
+    /* Define your desired width */
+    width: 100px;
+  }
+}
