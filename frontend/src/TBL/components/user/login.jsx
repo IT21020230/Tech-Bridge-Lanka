@@ -60,8 +60,8 @@ function Login() {
     <div
       style={{
         backgroundColor: "#E8E8E8",
-        marginLeft: "500px",
-        marginRight: "500px",
+        marginLeft: "525px",
+        marginRight: "525px",
         marginBottom: "17px",
         padding: "50px",
       }}
@@ -83,7 +83,7 @@ function Login() {
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
               
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="12" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -106,9 +106,9 @@ function Login() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-
-
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+</Row>
+              <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
