@@ -9,7 +9,6 @@ const UserRegisterPage = () => {
     <main>
       <Navbar />
       <div className="content">
-        <Sidebar />
         <Test />
       </div>
       <Footer />
