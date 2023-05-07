@@ -97,17 +97,18 @@ function SignUp() {
   return (
     <div
       style={{
-        backgroundColor: "#E8E8E8",
-        marginLeft: "200px",
-        marginRight: "200px",
+        backgroundColor: "#b0dae9",
+        marginLeft: "13%",
+        marginRight: "13%",
         marginBottom: "17px",
         padding: "50px",
+        
       }}
     >
       <div>
         <h1 className="head">User Registration</h1>
       </div>
-      <Formik
+      <Formik 
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
@@ -147,10 +148,11 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
+                    
                   }}
                 >
                   Email
@@ -194,7 +196,8 @@ function SignUp() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -242,7 +245,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -290,7 +293,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",

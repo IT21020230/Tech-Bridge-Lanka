@@ -7,6 +7,14 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
+  commID: {
+    type: String,
+    required: true,
+  },
+  commName: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,

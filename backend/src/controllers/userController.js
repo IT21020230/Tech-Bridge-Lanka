@@ -63,6 +63,7 @@ const signupUser = async (req, res) => {
       age,
       province,
       city,
+      photo,
     } = req.body;
 
     // Check name or email or password is empty
@@ -111,6 +112,7 @@ const signupUser = async (req, res) => {
       age,
       province,
       city,
+      photo,
     });
     await user.save();
 

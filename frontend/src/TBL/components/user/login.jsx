@@ -59,9 +59,9 @@ function Login() {
   return (
     <div
       style={{
-        backgroundColor: "#E8E8E8",
-        marginLeft: "525px",
-        marginRight: "525px",
+        backgroundColor: "#b0dae9",
+        marginLeft: "35%",
+        marginRight: "35%",
         marginBottom: "17px",
         padding: "50px",
       }}
@@ -133,7 +133,7 @@ function Login() {
               </Form.Group>
               
             </Row>
-
+<br/>
             <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
               Login
             </Button>

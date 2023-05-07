@@ -97,40 +97,79 @@ function Events() {
     return (
       <div
         style={{
-          backgroundColor: "#E8E8E8",
-          marginLeft: "200px",
-          marginRight: "200px",
+          backgroundColor: "#b0dae9",
           marginBottom: "17px",
+          marginLeft: "20%",
+          marginRight: "15%",
           padding: "50px",
+          width: "60%",
         }}
       >
         <div>
           <h1 className="head">Events</h1>
         </div>
-
-        <Card style={{ width: '30rem' }}>
-        <Card.Title style={{ textAlign: 'center' }}>Event 01</Card.Title>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-      <img src="https://pikwizard.com/pw/medium/bfbe02a0bb975704bf4d1f1ab62a32a8.avif" />
-      </div>
-      <Card.Body>
-        
-        <Card.Text>
-        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
-
-The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
-        </Card.Text>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-        <Button variant="primary">Participate</Button>
-        </div>
-      </Card.Body>
-    </Card>
-        
-        <UpdateModal
-          show={modalUpdateShow}
-          onHide={() => setModalUpdateShow(false)}
-        />
+        <br/>
   
+        <Card style={{ marginLeft: "10%", backgroundColor: "#89c7dd", width: '80%' }}><br/>
+          <Card.Title style={{ textAlign: 'center' }}><h4><b>Event 01</b></h4><h6>Leo Club of SLIIT</h6></Card.Title>
+          
+          <div style={{ display: "flex", justifyContent: "center" }}>
+        <Image src="https://learnenglish.britishcouncil.org/sites/podcasts/files/RS6243_175211709-hig.jpg" style={{height: "250px", width: "400px"}}/>
+        </div>
+        <Card.Body>
+          
+          <Card.Text>
+          Lorem ipsum dolor sit amet. Vel doloribus reiciendis 33 ipsum aliquam est commodi distinctio qui quia ipsam qui culpa alias? Et soluta laboriosam hic omnis tempore rem ipsam placeat. Sed maxime temporibus ex perferendis iusto vel quam temporibus eum accusamus aperiam ut quae galisum eos molestias maxime. Aut obcaecati sequi hic Quis alias ut repudiandae nihil et aliquid dolores sed voluptas officiis nam sint ipsam.
+  
+  Ut magni omnis eos odio amet sit labore quam ut enim explicabo ut rerum dolores. Sit aliquid inventore sit laboriosam possimus in autem galisum non ipsam voluptas rem sunt sapiente ad suscipit ipsum et esse saepe. Sed quos similique quo sapiente praesentium et perferendis enim et dolorem deleniti aut dolorum illum. Qui numquam ullam qui iusto quasi hic voluptate repellendus nam rerum ullam ut esse odio ut omnis autem est obcaecati quod.
+  
+  Et tempore laboriosam rem modi soluta sed ullam saepe et corporis placeat. Aut magni repellendus cum quis laudantium et facilis animi et aliquid laboriosam hic consequatur laudantium ad quae nihil et consectetur consequatur.
+  <br/><br/>Date: 13.06.2023<br/>Location: Colombo</Card.Text>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button variant="primary">Participate</Button>
+          </div>
+        </Card.Body>
+      </Card>
+  <br /><br/>
+      <Card style={{ marginLeft: "10%", backgroundColor: "#89c7dd", width: '80%' }}><br/>
+          <Card.Title style={{ textAlign: 'center' }}><h4><b>Event 02</b></h4><h6>Leo Club of SLIIT</h6></Card.Title>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+        <img src="https://learnenglish.britishcouncil.org/sites/podcasts/files/RS6243_175211709-hig.jpg" style={{height: "250px", width: "400px"}}/>
+        </div>
+        <Card.Body>
+          
+          <Card.Text>
+          Lorem ipsum dolor sit amet. Vel doloribus reiciendis 33 ipsum aliquam est commodi distinctio qui quia ipsam qui culpa alias? Et soluta laboriosam hic omnis tempore rem ipsam placeat. Sed maxime temporibus ex perferendis iusto vel quam temporibus eum accusamus aperiam ut quae galisum eos molestias maxime. Aut obcaecati sequi hic Quis alias ut repudiandae nihil et aliquid dolores sed voluptas officiis nam sint ipsam.
+  
+  Ut magni omnis eos odio amet sit labore quam ut enim explicabo ut rerum dolores. Sit aliquid inventore sit laboriosam possimus in autem galisum non ipsam voluptas rem sunt sapiente ad suscipit ipsum et esse saepe. Sed quos similique quo sapiente praesentium et perferendis enim et dolorem deleniti aut dolorum illum. Qui numquam ullam qui iusto quasi hic voluptate repellendus nam rerum ullam ut esse odio ut omnis autem est obcaecati quod.
+  
+  Et tempore laboriosam rem modi soluta sed ullam saepe et corporis placeat. Aut magni repellendus cum quis laudantium et facilis animi et aliquid laboriosam hic consequatur laudantium ad quae nihil et consectetur consequatur.
+  <br/><br/>Date: 13.06.2023<br/>Location: Colombo</Card.Text>     <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button variant="primary">Participate</Button>
+          </div>
+        </Card.Body>
+      </Card>
+      <br /><br/>
+      <Card style={{ marginLeft: "10%", backgroundColor: "#89c7dd", width: '80%' }}><br/>
+          <Card.Title style={{ textAlign: 'center' }}><h4><b>Event 03</b></h4><h6>Leo Club of SLIIT</h6></Card.Title>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+        <img src="https://study.com/cimages/multimages/16/man_delivering_lecture.jpeg" style={{height: "250px", width: "400px"}}/>
+        </div>
+        <Card.Body>
+          
+          <Card.Text>
+          Lorem ipsum dolor sit amet. Vel doloribus reiciendis 33 ipsum aliquam est commodi distinctio qui quia ipsam qui culpa alias? Et soluta laboriosam hic omnis tempore rem ipsam placeat. Sed maxime temporibus ex perferendis iusto vel quam temporibus eum accusamus aperiam ut quae galisum eos molestias maxime. Aut obcaecati sequi hic Quis alias ut repudiandae nihil et aliquid dolores sed voluptas officiis nam sint ipsam.
+  
+  Ut magni omnis eos odio amet sit labore quam ut enim explicabo ut rerum dolores. Sit aliquid inventore sit laboriosam possimus in autem galisum non ipsam voluptas rem sunt sapiente ad suscipit ipsum et esse saepe. Sed quos similique quo sapiente praesentium et perferendis enim et dolorem deleniti aut dolorum illum. Qui numquam ullam qui iusto quasi hic voluptate repellendus nam rerum ullam ut esse odio ut omnis autem est obcaecati quod.
+  
+  Et tempore laboriosam rem modi soluta sed ullam saepe et corporis placeat. Aut magni repellendus cum quis laudantium et facilis animi et aliquid laboriosam hic consequatur laudantium ad quae nihil et consectetur consequatur.
+  <br/><br/>Date: 13.06.2023<br/>Location: Colombo</Card.Text>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button variant="primary">Participate</Button>
+          </div>
+        </Card.Body>
+      </Card>
+
   
       </div>
     );
