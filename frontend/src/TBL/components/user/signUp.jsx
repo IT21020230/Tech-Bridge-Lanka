@@ -25,6 +25,7 @@ function SignUp() {
   const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
 
+<<<<<<< HEAD
   const [fields, setFields] = useState([{ value: "" }]);
 
   const handleInputChange = (index, event) => {
@@ -66,6 +67,14 @@ function SignUp() {
       .string()
       .required("Please enter a Password!")
       .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/, "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"),
+=======
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+      const user = await axios.post('http://localhost:8000/api/user/signup', {
+        email, password, confirmPassword, name, phone, age, address, city
+      }).then(() => {
+        console.log('User registered successfully');
+>>>>>>> feature/udesh/current-location
     
     confirmPassword: yup
       .string()

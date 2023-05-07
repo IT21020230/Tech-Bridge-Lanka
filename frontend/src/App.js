@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./custom.scss";
 // import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
@@ -19,6 +18,13 @@ import PostsPage from "./TBL/pages/blog/IndexPage";
 // import { TestingUi } from "./TBL/pages/TestingUI/testingUI";
 
 // Signup Page
+import { Suspense, lazy } from "react";
+
+// map pages
+const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
+const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
+
+// User Register Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
 
 // Login Page
@@ -175,10 +181,13 @@ function App() {
               path={process.env.PUBLIC_URL + "/edit/:id"}
               element={<EditPostPage />}
             />
+            <Route path={process.env.PUBLIC_URL + "/map"} element={<Map />} />
+            <Route path={process.env.PUBLIC_URL + "/map-live"} element={<MapLive />} />
           </Routes>
         </div>
       </BrowserRouter>
     </div>
+
   );
 }
 
