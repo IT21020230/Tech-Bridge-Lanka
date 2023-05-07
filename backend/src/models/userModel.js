@@ -22,15 +22,20 @@ const userSchema = new Schema({
   age: {
     type: Number,
   },
-  address: {
+  province: {
     type: String,
   },
   city: {
     type: String,
   },
+<<<<<<< HEAD
   homeLocation: {
     type: { type: String },
     coordinates: [Number],
+=======
+  photo: {
+    type: String,
+>>>>>>> e37b4da04d3059a70b898bb11159d4abe52e170a
   },
 });
 

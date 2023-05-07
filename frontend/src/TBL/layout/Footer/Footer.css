@@ -1,9 +1,9 @@
 .Footer1 {
   bottom: 0;
   width: 100%;
-  background-color: #1e2447;
+  background-color: #459c98;
   color: #a5b1cf;
-  padding: 1rem;
+  padding: 0rem;
   box-sizing: border-box;
   position: relative;
 }
@@ -15,7 +15,7 @@
 }
 
 .content2 p {
-  color: #7a8296;
+  color: white;
   font-size: 0.25rem;
   font-family: Tahoma, sans-serif;
 }
