@@ -22,10 +22,13 @@ const userSchema = new Schema({
   age: {
     type: Number,
   },
-  address: {
+  province: {
     type: String,
   },
   city: {
+    type: String,
+  },
+  photo: {
     type: String,
   },
 });

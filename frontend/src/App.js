@@ -10,10 +10,33 @@ import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
 // Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
+
 // Login Page
 const Login = lazy(() => import("./TBL/pages/user/login"));
-//Tset UI page
+
+// View User Page
+const ViewUser = lazy(() => import("./TBL/pages/user/viewUser"));
+
+// Test UI page
 const TestingUi = lazy(() => import("./TBL/pages/TestingUI/testingUI"));
+
+// View Project
+const ViewProject = lazy(() => import("./TBL/pages/project/viewProject"));
+
+// View Event
+const ViewEvent = lazy(() => import("./TBL/pages/event/viewEvent"));
+
+// List Project
+const ListProject = lazy(() => import("./TBL/pages/project/listProject"));
+
+//List Event
+const ListEvent = lazy(() => import("./TBL/pages/event/listEvent"));
+
+// List Project
+const Projects = lazy(() => import("./TBL/pages/project/projects"));
+
+//List Event
+const Events = lazy(() => import("./TBL/pages/event/events"));
 
 //community
 const CreateCommunity = lazy(() =>
@@ -54,6 +77,34 @@ function App() {
             <Route
               path="/signup"
               element={!user ? <SignUp /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/viewUser"
+              element={!user ? <ViewUser /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/viewProject"
+              element={!user ? <ViewProject /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/viewEvent"
+              element={!user ? <ViewEvent /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/listProject"
+              element={!user ? <ListProject /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/listEvent"
+              element={!user ? <ListEvent /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/events"
+              element={!user ? <Events /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/projects"
+              element={!user ? <Projects /> : <Navigate to="/" />}
             />
             <Route
               path={process.env.PUBLIC_URL + "/test"}

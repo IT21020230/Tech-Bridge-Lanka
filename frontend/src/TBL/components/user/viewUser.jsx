@@ -3,16 +3,71 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useSignup } from '../../hooks/useSignup';
+import Image from 'react-bootstrap/Image';
+import Modal from 'react-bootstrap/Modal';
+
 import * as formik from "formik";
 import * as yup from "yup";
-import { Formik, Field, ErrorMessage } from "formik";
-import { useState } from "react";
 
+import { Formik, Field, ErrorMessage } from "formik";
+import React, { useState } from "react";
+import { useSignup } from '../../hooks/useSignup';
 import { BiTrash } from "react-icons/bi";
 import { IoAddSharp } from "react-icons/io5";
 
-function SignUp() {
+function UpdateModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Update Your Account
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h5>Are you sure want to update your account ?</h5>
+
+      </Modal.Body>
+      <Modal.Footer>
+        <Button style={{marginRight: "20px"}} variant="success">Update</Button>
+        <Button onClick={props.onHide}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+function DeleteModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Delete Your Account
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h5>Are you sure want to permanently delete your account ?</h5>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button style={{marginRight: "20px"}} variant="danger">Delete</Button>
+        <Button onClick={props.onHide}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+function ViewUser() {
+
+  const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
 
   const {signup, error, isLoading} = useSignup()
 
@@ -66,12 +121,7 @@ function SignUp() {
       .string()
       .required("Please enter a Password!")
       .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/, "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"),
-    
-    confirmPassword: yup
-      .string()
-      .required("Please enter the Password again!")
-      .matches(password, "Confirm Password should match with Password!"),
-
+  
     phone: yup
       .string()
       .required("Please enter a Phone number!")
@@ -98,17 +148,16 @@ function SignUp() {
     <div
       style={{
         backgroundColor: "#b0dae9",
-        marginLeft: "13%",
-        marginRight: "13%",
+        marginLeft: "200px",
+        marginRight: "200px",
         marginBottom: "17px",
         padding: "50px",
-        
       }}
     >
       <div>
-        <h1 className="head">User Registration</h1>
+        <h1 className="head">My Account</h1>
       </div>
-      <Formik 
+      <Formik
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
@@ -128,7 +177,18 @@ function SignUp() {
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
               
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
+            <Row>
+
+
+            <div style={{ display: "flex", justifyContent: "center" }}>
+        <Col s={6} md={4}>
+          <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" style={{height: "250px", width: "250px"}} roundedCircle />
+        </Col>
+</div>
+
+      </Row>
+
+      <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
                 <Form.Label style={{ marginTop: "20px" }}>
                   Name
                 </Form.Label>
@@ -317,61 +377,33 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              {/* {fields.map((field, index) => (
-                <Form.Group
-                  key={index}
-                  as={Col}
-                  md="10"
-                  controlId="validationFormikCommunitySize"
-                  className="ruleContainer"
-                >
-                  <Form.Control
-                    as="textarea"
-                    md="5"
-                    value={field.value}
-                    onChange={(event) => handleInputChange(index, event)}
-                    required
-                    className="ruleArea"
-                  />
-                  {index === fields.length - 1 && (
-                    <Button onClick={handleAddField} className="btn2">
-                      <IoAddSharp />
-                    </Button>
-                  )}
-                  {index > 0 && (
-                    <Button
-                      onClick={() => handleRemoveField(index)}
-                      className="btn"
-                    >
-                      <BiTrash />
-                    </Button>
-                  )}
-                </Form.Group>
-              ))} */}
+            
             </Row>
 
-            <Form.Group className="mb-3">
-              <Form.Check
-                required
-                name="terms"
-                label="Agree to terms and conditions"
-                onChange={handleChange}
-                isInvalid={!!errors.terms}
-                feedback={errors.terms}
-                feedbackType="invalid"
-                id="validationFormik0"
-              />
-            </Form.Group>
-            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
-              Register
+            
+            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-success" onClick={() => setModalUpdateShow(true)}>
+              Update
+            </Button>
+            <Button style={{marginLeft: "30px"}} disabled={isLoading} className="submitBTN" type="submit" variant="outline-danger" onClick={() => setModalDeleteShow(true)}>
+              Delete
             </Button>
             {error && <div className='error'>{error}</div>}
           </Form>
         )}
       </Formik>
 
+      <UpdateModal
+        show={modalUpdateShow}
+        onHide={() => setModalUpdateShow(false)}
+      />
+
+      <DeleteModal
+        show={modalDeleteShow}
+        onHide={() => setModalDeleteShow(false)}
+      />
+
     </div>
   );
 }
 
-export default SignUp;
+export default ViewUser;

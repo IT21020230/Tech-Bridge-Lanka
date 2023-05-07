@@ -1,17 +1,17 @@
-import SignUp from "../../components/user/signUp";
+import ViewProject from "../../components/project/viewProject";
 import Navbar from "../../layout/Navbar/Navbar";
 import Footer from "../../layout/Footer/Footer";
 
-const SignUpPage = () => {
+const ViewUserPage = () => {
   return (
     <main className="app">
       <Navbar />
       <div className="content">
-        <SignUp />
+        <ViewProject />
       </div>
       <Footer />
     </main>
   );
 }
 
-export default SignUpPage;
+export default ViewUserPage;

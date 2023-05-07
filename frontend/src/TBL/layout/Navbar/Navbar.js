@@ -7,9 +7,17 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
 
+import { useLogout } from "../../hooks/useLogout";
+
 import "./Navbar.css";
 
 function OffcanvasExample() {
+  const { logout } = useLogout();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <>
       <div className="image-container">
@@ -36,17 +44,43 @@ function OffcanvasExample() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link
-                    href="/createcommunity"
-                    style={{ color: "white", fontWeight: "bold" }}
+
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
                   >
                     Home
                   </Nav.Link>
                   <Nav.Link
-                    href="#action2"
-                    style={{ color: "white", fontWeight: "bold" }}
+                    href="/projects"
+                    style={{ color: "black", fontWeight: "bold" }}
                   >
-                    Link
+                    Projects
                   </Nav.Link>
+                  <Nav.Link
+                    href="/events"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Events
+                  </Nav.Link>
+                  <Nav.Link
+                    href="/login"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Login
+                  </Nav.Link>
+                  <Nav.Link
+                    href="/signup"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Register
+                  </Nav.Link>
+                  <Button
+                    variant="outline-danger"
+                    className="btn-logout"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
