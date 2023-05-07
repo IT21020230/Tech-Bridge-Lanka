@@ -1,8 +1,18 @@
 import { lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./custom.scss";
-import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+// import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import AddPostPage from "./TBL/pages/blog/CreatePost";
+import EditPostPage from "./TBL/pages/blog/EditPost";
+import PostPage from "./TBL/pages/blog/PostPage";
+import PostsPage from "./TBL/pages/blog/IndexPage";
 
 // import { SignUp } from "./TBL/pages/user/signUp";
 // import { Login } from "./TBL/pages/user/login";
@@ -140,6 +150,30 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/community"}
               element={<Community />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/posts"}
+              element={<PostsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/post/:id"}
+              element={<PostPage />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/UserRegister"}
+              element={<UserRegisterPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/add-post"}
+              element={<AddPostPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/edit/:id"}
+              element={<EditPostPage />}
             />
           </Routes>
         </div>

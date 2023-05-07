@@ -15,12 +15,15 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // set up routes
 const userRoutes = require("./src/routes/userRoutes");
+const postRoutes = require("./src/routes/postRoutes");
 
 // define routes
 app.use("/api/user", userRoutes);
+app.use("/api/posts", postRoutes);
 
 // Connect to the database
 mongoose.set("strictQuery", false);
@@ -37,3 +40,11 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
+
+  
+  
+  
+  
+  
+  
+  
