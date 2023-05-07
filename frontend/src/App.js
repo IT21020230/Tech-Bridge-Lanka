@@ -6,6 +6,8 @@ import PostPage from "./TBL/pages/blog/PostPage";
 import PostsPage from "./TBL/pages/blog/IndexPage";
 import DistrictDataPage from "./TBL/pages/districtDataPage";
 
+import { useAuthContext } from "./TBL/hooks/useAuthContext";
+
 // User Register Page
 const UserRegisterPage = lazy(() =>
   import("./TBL/pages/user/userRegisterPage")

@@ -1,0 +1,39 @@
+.Footer1 {
+  bottom: 0;
+  width: 100%;
+  background-color: #459c98;
+  color: #a5b1cf;
+  padding: 0rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.content2 {
+  text-align: center;
+  padding: 2rem 2rem;
+  justify-content: center;
+}
+
+.content2 p {
+  color: white;
+  font-size: 0.25rem;
+  font-family: Tahoma, sans-serif;
+}
+
+@media (max-width: 8000px) {
+  .content2 p {
+    font-size: calc(0.649vw + 0.25rem);
+  }
+}
+
+@media (max-width: 8000px) {
+  .content2 {
+    padding: calc(0.35vw + 0.25rem);
+  }
+}
+
+@media (max-width: 0px) {
+  .content2 p {
+    font-size: calc(0.6vw + 1.25rem);
+  }
+}
