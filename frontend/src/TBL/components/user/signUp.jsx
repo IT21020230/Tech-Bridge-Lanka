@@ -290,7 +290,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              {/* <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -312,7 +312,7 @@ function SignUp() {
                     {errors.photo}
                   </Form.Control.Feedback>
                 </InputGroup>
-              </Form.Group> */}
+              </Form.Group>
 
               {/* {fields.map((field, index) => (
                 <Form.Group

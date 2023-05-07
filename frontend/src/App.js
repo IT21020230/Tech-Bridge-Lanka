@@ -1,6 +1,6 @@
 import { lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import "./custom.scss";
+import "./custom.scss";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
@@ -29,8 +29,14 @@ const ViewEvent = lazy(() => import("./TBL/pages/event/viewEvent"));
 // List Project
 const ListProject = lazy(() => import("./TBL/pages/project/listProject"));
 
-//Tset Event
+//List Event
 const ListEvent = lazy(() => import("./TBL/pages/event/listEvent"));
+
+// List Project
+const Projects = lazy(() => import("./TBL/pages/project/projects"));
+
+//List Event
+const Events = lazy(() => import("./TBL/pages/event/events"));
 
 //community
 const CreateCommunity = lazy(() =>
@@ -90,6 +96,14 @@ function App() {
             <Route
               path="/listEvent"
               element={!user ? <ListEvent /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/events"
+              element={!user ? <Events /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/projects"
+              element={!user ? <Projects /> : <Navigate to="/" />}
             />
             <Route
               path={process.env.PUBLIC_URL + "/test"}

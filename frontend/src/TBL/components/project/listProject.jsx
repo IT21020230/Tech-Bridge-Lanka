@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import Image from 'react-bootstrap/Image';
+import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 
 import * as formik from "formik";
@@ -14,55 +14,6 @@ import React, { useState } from "react";
 import { useSignup } from '../../hooks/useSignup';
 import { BiTrash } from "react-icons/bi";
 import { IoAddSharp } from "react-icons/io5";
-
-function UpdateModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Update Your Account
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Are you sure want to update your account ?</h5>
-
-      </Modal.Body>
-      <Modal.Footer>
-        <Button style={{marginRight: "20px"}} variant="success">Update</Button>
-        <Button onClick={props.onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
-function DeleteModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Delete Your Account
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Are you sure want to permanently delete your account ?</h5>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button style={{marginRight: "20px"}} variant="danger">Delete</Button>
-        <Button onClick={props.onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
 
 function ViewProject() {
 
@@ -155,141 +106,37 @@ function ViewProject() {
       }}
     >
       <div>
-        <h1 className="head">Project Details</h1>
+        <h1 className="head">Project List</h1>
       </div>
-      <Formik
-        validationSchema={schema}
-        validateOnChange={false} // Disable validation on change
-        validateOnBlur={true} // Enable validation on blur
-        onSubmit={handleSubmit}
-        initialValues={{
-          name: "",
-          description: "", 
-          timeline: "", 
-          
-        }}
-      >
-        {({ handleSubmit, handleChange, values, touched, errors }) => (
-          <Form noValidate onSubmit={handleSubmit}>
-            <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
-                <Form.Label style={{ marginTop: "20px" }}>
-                  Name
-                </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    aria-describedby="inputGroupPrepend"
-                    name="name"
-                    value={values.name}
-                    onChange={handleChange}
-                    isValid={touched.name && !errors.name}
-                    isInvalid={!!errors.name}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.name}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
-              </Row>
-              
-              <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
-                <Form.Label style={{ marginTop: "20px" }}>
-                  Description
-                </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="textarea"
-                    rows="5"
-                    aria-describedby="inputGroupPrepend"
-                    name="name"
-                    value={values.name}
-                    onChange={handleChange}
-                    isValid={touched.name && !errors.name}
-                    isInvalid={!!errors.name}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.name}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
-              </Row>
+      <Table responsive>
+      <thead>
+        <tr>
+          <th></th>
+          <th key={{}}>Name</th>
+          <th key={{}}>Description</th>
+          <th key={{}}>Start Date</th>
+          <th key={{}}>End Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
+          <td>1</td>
 
-              <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
-                <Form.Label
-                  style={{
-                    marginTop: "20px",
-                  }}
-                >
-                  Start date
-                </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="date"
-                    aria-describedby="inputGroupPrepend"
-                    name="startDate"
-                    value={values.startDate}
-                    onChange={handleChange}
-                    isValid={touched.startDate && !errors.startDate}
-                    isInvalid={!!errors.startDate}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.startDate}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
-              </Row>
+        </tr>
+        <tr>
+          <td>2</td>
 
-              <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
-                <Form.Label
-                  style={{
-                    marginTop: "20px",
-                  }}
-                >
-                  End date
-                </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="date"
-                    aria-describedby="inputGroupPrepend"
-                    name="endDate"
-                    value={values.endDate}
-                    onChange={handleChange}
-                    isValid={touched.endDate && !errors.endDate}
-                    isInvalid={!!errors.endDate}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.endDate}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
-              </Row>
+        </tr>
+        <tr>
+          <td>3</td>
 
-              <div style={{marginTop: "30px"}} >
-              <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-success" onClick={() => setModalUpdateShow(true)}>
-                Update
-              </Button>
-              <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-danger" onClick={() => setModalDeleteShow(true)} style={{marginLeft: "30px"}}>
-                Delete
-              </Button>
-              </div>
-            {error && <div className='error'>{error}</div>}
-          </Form>
-        )}
-      </Formik>
-
-      <UpdateModal
-        show={modalUpdateShow}
-        onHide={() => setModalUpdateShow(false)}
-      />
-
-      <DeleteModal
-        show={modalDeleteShow}
-        onHide={() => setModalDeleteShow(false)}
-      />
+        </tr>
+      </tbody>
+    </Table>
 
     </div>
   );

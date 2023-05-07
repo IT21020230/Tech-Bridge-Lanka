@@ -45,19 +45,31 @@ function OffcanvasExample() {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link
                     href="#action1"
-                    style={{ color: "white", fontWeight: "bold" }}
+                    style={{ color: "black", fontWeight: "bold" }}
                   >
                     Home
                   </Nav.Link>
                   <Nav.Link
+                    href="/projects"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Projects
+                  </Nav.Link>
+                  <Nav.Link
+                    href="/events"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Events
+                  </Nav.Link>
+                  <Nav.Link
                     href="/login"
-                    style={{ color: "white", fontWeight: "bold" }}
+                    style={{ color: "black", fontWeight: "bold" }}
                   >
                     Login
                   </Nav.Link>
                   <Nav.Link
                     href="/signup"
-                    style={{ color: "white", fontWeight: "bold" }}
+                    style={{ color: "black", fontWeight: "bold" }}
                   >
                     Register
                   </Nav.Link>
@@ -68,12 +80,6 @@ function OffcanvasExample() {
                   >
                     Logout
                   </Button>
-                  <Nav.Link
-                    href=""
-                    style={{ color: "white", fontWeight: "bold" }}
-                  >
-                    Link
-                  </Nav.Link>
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>
