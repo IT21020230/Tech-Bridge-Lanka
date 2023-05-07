@@ -23,6 +23,7 @@ import { Suspense, lazy } from "react";
 // map pages
 const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
 const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
+import DistrictDataPage from "./TBL/pages/districtDataPage";
 
 // User Register Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
@@ -182,12 +183,18 @@ function App() {
               element={<EditPostPage />}
             />
             <Route path={process.env.PUBLIC_URL + "/map"} element={<Map />} />
-            <Route path={process.env.PUBLIC_URL + "/map-live"} element={<MapLive />} />
+            <Route
+              path={process.env.PUBLIC_URL + "/map-live"}
+              element={<MapLive />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "dd-data"}
+              element={<DistrictDataPage />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
     </div>
-
   );
 }
 

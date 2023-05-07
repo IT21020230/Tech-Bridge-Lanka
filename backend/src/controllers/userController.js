@@ -8,7 +8,6 @@ const createToken = (_id) => {
   });
 };
 
-// get all users
 const User = require("../models/userModel");
 
 // login user

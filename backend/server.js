@@ -20,10 +20,12 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 // set up routes
 const userRoutes = require("./src/routes/userRoutes");
 const postRoutes = require("./src/routes/postRoutes");
+const districtRoutes = require("./src/routes/districtRoutes");
 
 // define routes
 app.use("/api/user", userRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/ddd-data", districtRoutes);
 
 // Connect to the database
 mongoose.set("strictQuery", false);
