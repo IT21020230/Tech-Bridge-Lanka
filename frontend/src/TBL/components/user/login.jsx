@@ -83,7 +83,7 @@ function Login() {
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
               
-              <Form.Group as={Col} md="12" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="12" controlId="validationFormikUsername" style={{width: "100%"}}>
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -108,7 +108,7 @@ function Login() {
               </Form.Group>
 </Row>
               <Row className="mb-3">
-              <Form.Group as={Col} md="12" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="12" controlId="validationFormikUsername" style={{width: "100%"}}> 
                 <Form.Label
                   style={{
                     marginTop: "20px",

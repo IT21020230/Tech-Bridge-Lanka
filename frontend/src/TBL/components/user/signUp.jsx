@@ -128,7 +128,7 @@ function SignUp() {
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
               
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "45%"}}>               
                 <Form.Label style={{ marginTop: "20px" }}>
                   Name
                 </Form.Label>
@@ -148,7 +148,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "5%", width: "45%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -173,7 +173,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "45%"}}>
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -197,7 +197,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "5%", width: "45%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -221,7 +221,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "45%"}}>
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -245,7 +245,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "5%", width: "45%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -269,7 +269,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "45%"}}>
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -293,7 +293,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "5%", width: "45%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",

@@ -24,7 +24,14 @@ function OffcanvasExample() {
         <img className="responsive-image" src={logo} />
       </div>
       {["sm"].map((expand) => (
-        <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+        <Navbar
+          key={expand}
+          expand={expand}
+          className="mb-3"
+          style={{
+            backgroundColor: "#459c98",
+          }}
+        >
           <Container fluid>
             <Navbar.Brand
               href="#"
@@ -74,7 +81,7 @@ function OffcanvasExample() {
                     Register
                   </Nav.Link>
                   <Button
-                    variant="outline-danger"
+                    variant="danger"
                     className="btn-logout"
                     onClick={handleLogout}
                   >
