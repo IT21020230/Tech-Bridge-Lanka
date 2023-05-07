@@ -200,11 +200,12 @@ function ViewProject() {
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
+                  disabled
                     type="text"
                     rows="5"
                     aria-describedby="inputGroupPrepend"
                     name="commName"
-                    value={values.commName}
+                    value={"Leo Club of SLIIT"}
                     onChange={handleChange}
                     isValid={touched.commName && !errors.commName}
                     isInvalid={!!errors.commName}
@@ -289,6 +290,32 @@ function ViewProject() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+              <Form.Group  as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Upload an Image
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="file"
+                    aria-describedby="inputGroupPrepend"
+                    name="logo"
+                    value={values.photo}
+                    onChange={handleChange}
+                    isValid={touched.photo && !errors.photo}
+                    isInvalid={!!errors.photo}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.photo}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group> 
               </Row>
 
               <div style={{marginTop: "30px"}} >

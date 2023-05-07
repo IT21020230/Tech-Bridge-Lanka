@@ -60,9 +60,10 @@ function Login() {
     <div
       style={{
         backgroundColor: "#b0dae9",
+        marginTop: "120px",
         marginLeft: "35%",
         marginRight: "35%",
-        marginBottom: "17px",
+        marginBottom: "120px",
         padding: "50px",
       }}
     >
@@ -133,14 +134,15 @@ function Login() {
               </Form.Group>
               
             </Row>
-<br/>
             <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
               Login
             </Button>
+            <br /><br /><p>No created account? <a href="/signup">Register</a><br /><br /></p>
             {error && <div className='error'>{error}</div>}
           </Form>
         )}
       </Formik>
+
 
     </div>
   );

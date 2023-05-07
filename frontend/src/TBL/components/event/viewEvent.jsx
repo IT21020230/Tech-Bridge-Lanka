@@ -200,17 +200,41 @@ function ViewUser() {
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
+                  disabled
                     type="text"
                     rows="5"
                     aria-describedby="inputGroupPrepend"
                     name="commName"
-                    value={values.commName}
+                    value={"Leo Club of SLIIT"}
                     onChange={handleChange}
                     isValid={touched.commName && !errors.commName}
                     isInvalid={!!errors.commName}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.commName}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Description
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="textarea"
+                    rows="5"
+                    aria-describedby="inputGroupPrepend"
+                    name="description"
+                    value={values.description}
+                    onChange={handleChange}
+                    isValid={touched.description && !errors.description}
+                    isInvalid={!!errors.description}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.description}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
@@ -226,14 +250,14 @@ function ViewUser() {
                     type="text"
                     rows="5"
                     aria-describedby="inputGroupPrepend"
-                    name="description"
-                    value={values.description}
+                    name="location"
+                    value={values.location}
                     onChange={handleChange}
-                    isValid={touched.description && !errors.description}
-                    isInvalid={!!errors.description}
+                    isValid={touched.location && !errors.location}
+                    isInvalid={!!errors.location}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.description}
+                    {errors.location}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
@@ -263,6 +287,32 @@ function ViewUser() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+              <Form.Group  as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Upload an image
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="file"
+                    aria-describedby="inputGroupPrepend"
+                    name="logo"
+                    value={values.photo}
+                    onChange={handleChange}
+                    isValid={touched.photo && !errors.photo}
+                    isInvalid={!!errors.photo}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.photo}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group> 
               </Row>
 
               <div style={{marginTop: "30px"}} >

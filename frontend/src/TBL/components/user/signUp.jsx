@@ -98,9 +98,10 @@ function SignUp() {
     <div
       style={{
         backgroundColor: "#b0dae9",
+        marginTop: "20px",
         marginLeft: "13%",
         marginRight: "13%",
-        marginBottom: "17px",
+        marginBottom: "20px",
         padding: "50px",
         
       }}
@@ -299,7 +300,31 @@ function SignUp() {
                     marginTop: "20px",
                   }}
                 >
-                  Upload Profile Photo
+                  Phone
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="number"
+                    aria-describedby="inputGroupPrepend"
+                    name="phone"
+                    value={values.phone}
+                    onChange={handleChange}
+                    isValid={touched.phone && !errors.phone}
+                    isInvalid={!!errors.phone}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.phone}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group  as={Col} md="5" controlId="validationFormikUsername" style={{width: "45%"}}>
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Upload a Profile Photo
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -362,9 +387,11 @@ function SignUp() {
                 id="validationFormik0"
               />
             </Form.Group>
+            
             <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
               Register
             </Button>
+            <br /><br /><p>Already have an account? <a href="/login">Login</a><br /><br /></p>
             {error && <div className='error'>{error}</div>}
           </Form>
         )}
