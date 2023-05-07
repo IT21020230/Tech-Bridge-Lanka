@@ -1,0 +1,16 @@
+.allP {
+  background-color: #f0f2f5;
+}
+
+.set {
+  background-color: white;
+  height: 1000px;
+}
+
+.viewBtn {
+  border: 0px;
+  background-color: rgb(12, 170, 12);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
