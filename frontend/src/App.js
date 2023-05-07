@@ -40,8 +40,9 @@ const Events = lazy(() => import("./TBL/pages/event/events"));
 
 //community
 const CreateCommunity = lazy(() =>
-  import("./TBL/pages/Community/createCommunity")
+  import("./TBL/pages/Community/createCommunitypage")
 );
+const Community = lazy(() => import("./TBL/pages/Community/communityPage"));
 
 //Accept or Decline blogs
 const AcceptDeclineBlogsPage = lazy(() =>
@@ -130,9 +131,15 @@ function App() {
               element={<IssuesToAcceptPage />}
             />
 
+            {/* Community */}
+
             <Route
               path={process.env.PUBLIC_URL + "/createCommunity"}
               element={<CreateCommunity />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/community"}
+              element={<Community />}
             />
           </Routes>
         </div>
