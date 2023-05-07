@@ -30,11 +30,10 @@ const commonStyles = {
   }
 
   const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
+    createData('Event 01', '6457df523d440e21c8c127db', '2021-02-07','Location 1'),
+    createData('Event 02', '6457df523d440e21c8c127da', '2021-03-11', 'Location 2'),
+    createData('Event 03', '6457df523d440e21c8c127d9', '2021-01-30', 'Location 3'),
+    
   ];
 
 function UpcomingEvents(){

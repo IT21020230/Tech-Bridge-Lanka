@@ -1,26 +1,26 @@
 import React from "react";
-import AcceptMembers from "../../components/admin/AcceptMembers";
+import CreateEvents from "../../components/admin/CreateEvents";
 import Navbar from "../../layout/Navbar/Navbar";
 
 import Slidebar from "../../layout/Slidebar/Slidebar";
 import Footer from "../../layout/Footer/Footer";
 
 
-function AcceptMembersPage(){
-    return(
+function CreateIssuesPage(){
 
+
+    return(
         <main>
       <Navbar />
       <div className="content">
         <Slidebar />
-        <AcceptMembers />
+        <CreateEvents />
         
       </div>
       <Footer />
     </main>
     )
-
 }
 
-export default AcceptMembersPage;
 
+export default CreateIssuesPage;

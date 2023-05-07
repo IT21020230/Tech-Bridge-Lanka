@@ -18,11 +18,12 @@ const TestingUi = lazy(() => import("./TBL/pages/TestingUI/testingUI"));
 
 //Accept or Decline blogs
 const AcceptDeclineBlogsPage = lazy(() => import("./TBL/pages/admin/AcceptDeclineBlogPage"));
-const AcceptMembersPage = lazy(() => import("./TBL/pages/admin/AcceptMembersPage"))
+const VerifyUserCommunitiesListPage = lazy(() => import("./TBL/pages/admin/VerifyUserCommunitiesListPage"))
 const CreateIssuesPage = lazy(() => import("./TBL/pages/admin/CreateIssuesPage"))
 const IssuesToAcceptPage = lazy(() => import("./TBL/pages/admin/IssuesToAcceptPage"))
 const AcceptDeclineUpcomingEventPage = lazy(() => import("./TBL/pages/admin/AcceptDeclineUpcomingEventPage"))
 const UpcomingEventsPage = lazy(() => import("./TBL/pages/admin/UpcomingEventsPage"))
+const CreateEventsPage = lazy(() => import("./TBL/pages/admin/CreateEventsPage"))
 const KithminaPage = lazy(() => import("./TBL/pages/admin/kithmina"))
 
 function App() {
@@ -56,8 +57,8 @@ function App() {
             />
 
             <Route
-              path={process.env.PUBLIC_URL + "/accept-members-page"}
-              element={<AcceptMembersPage />}
+              path={process.env.PUBLIC_URL + "/verify-user-communities-list"}
+              element={<VerifyUserCommunitiesListPage />}
             />
 
             <Route
@@ -78,6 +79,11 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/upcoming-events-list"}
               element={<UpcomingEventsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/create-events"}
+              element={<CreateEventsPage />}
             />
 
             <Route
