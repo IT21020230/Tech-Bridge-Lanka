@@ -23,6 +23,7 @@ const CreateIssuesPage = lazy(() => import("./TBL/pages/admin/CreateIssuesPage")
 const IssuesToAcceptPage = lazy(() => import("./TBL/pages/admin/IssuesToAcceptPage"))
 const AcceptDeclineUpcomingEventPage = lazy(() => import("./TBL/pages/admin/AcceptDeclineUpcomingEventPage"))
 const UpcomingEventsPage = lazy(() => import("./TBL/pages/admin/UpcomingEventsPage"))
+const KithminaPage = lazy(() => import("./TBL/pages/admin/kithmina"))
 
 function App() {
   const { user } = useAuthContext();
@@ -77,6 +78,11 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/upcoming-events-list"}
               element={<UpcomingEventsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/kithmina"}
+              element={<KithminaPage />}
             />
 
           </Routes>

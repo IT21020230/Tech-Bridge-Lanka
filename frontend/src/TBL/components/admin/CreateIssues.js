@@ -90,14 +90,14 @@ function CreateIssues(){
 
 <Box sx={commonStyles} >
   
+  
+  <Stack spacing={3} direction='column' sx={{justifyContent:'center',alignItems:'center', backgroundColor: '#a2c6eb', width:'50%', borderRadius: 10}}>
   <Typography variant="h3">Upload an issue</Typography>
-  <Stack spacing={2} direction='column' sx={{justifyContent:'center',alignItems:'center'}}>
-
         
-      <TextField id="outlined-basic" label="Type of issue" variant="outlined" sx={{width:'100%'}}/>
+      <TextField id="outlined-basic" label="Type of issue" variant="outlined" sx={{width:'80%', backgroundColor: '#fafafa', borderRadius: 2}}/>
       
 
-        <TextField fullWidth label="Tell us your problem here:" id="fullWidth"  multiline/>
+        <TextField fullWidth label="Tell us your problem here:" id="fullWidth"  multiline sx={{width:'80%', backgroundColor: '#fafafa', borderRadius: 2}}/>
 
       {/*  <Input type="file" hidden onChange={handleImageUpload} />
     
@@ -116,7 +116,7 @@ function CreateIssues(){
          />
 
 
-       <select value={province} onChange={handleSelectionChange1}>
+       <select value={province} onChange={handleSelectionChange1} >
       <option value="default">Select province</option>
       <option value="option1">Option 1</option>
       <option value="option2">Option 2</option>
@@ -131,7 +131,7 @@ function CreateIssues(){
     </select>
 
     
-    <Button variant="contained">PLACE ISSUE</Button>
+    <Button variant="contained" style={{ backgroundColor: 'green' }}>PLACE ISSUE</Button>
       
 </Stack>  
 

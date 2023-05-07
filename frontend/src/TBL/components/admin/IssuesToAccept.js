@@ -11,7 +11,7 @@ const commonStyles = {
     justifyContent:'center',
     alignItems:'center',
     flexDirection:'column',
-    width:'100wh',
+    width:'50wh',
     height:'100vh'
 
   };
@@ -25,7 +25,7 @@ function IssuesToAccept(){
 
         <Box sx={commonStyles}>
 
-            <Stack spacing={2} direction='column' sx={{justifyContent:'center',alignItems:'center'}}>
+            <Stack spacing={2} direction='column' sx={{display:'flex',justifyContent:'center',alignItems:'center',width:'50%',height:'90%'}}>
 
 
             <h3>Issue topic:</h3>{apiData.title}

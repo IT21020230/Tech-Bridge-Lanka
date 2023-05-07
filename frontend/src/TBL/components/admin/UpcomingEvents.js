@@ -12,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Link } from "react-router-dom";
 
 
 const commonStyles = {
@@ -45,14 +46,14 @@ function UpcomingEvents(){
             <Stack spacing={2} direction='column' sx={{justifyContent:'center',alignItems:'center'}}>
 
             <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ minWidth: 750 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell><h4>Event Name</h4></TableCell>
+            <TableCell align="right"><h4>Comunity ID</h4></TableCell>
+            <TableCell align="right"><h4>Date</h4></TableCell>
+            <TableCell align="right"><h4>Location</h4></TableCell>
+            <TableCell align="right"><h4>View</h4></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -67,7 +68,7 @@ function UpcomingEvents(){
               <TableCell align="right">{row.calories}</TableCell>
               <TableCell align="right">{row.fat}</TableCell>
               <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="right"><Link>View</Link></TableCell>
             </TableRow>
           ))}
         </TableBody>
