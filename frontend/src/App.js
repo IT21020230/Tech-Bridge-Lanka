@@ -2,8 +2,9 @@ import { lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddPostPage from "./TBL/pages/blog/CreatePost";
 import EditPostPage from "./TBL/pages/blog/EditPost";
-import PostPage from "./TBL/pages/blog/PostPage"
-import PostsPage from "./TBL/pages/blog/IndexPage"
+import PostPage from "./TBL/pages/blog/PostPage";
+import PostsPage from "./TBL/pages/blog/IndexPage";
+import DistrictDataPage from "./TBL/pages/districtDataPage";
 
 // User Register Page
 const UserRegisterPage = lazy(() =>
@@ -38,6 +39,11 @@ function App() {
           <Route
             path={process.env.PUBLIC_URL + "/edit/:id"}
             element={<EditPostPage />}
+          />
+
+          <Route
+            path={process.env.PUBLIC_URL + "dd-data"}
+            element={<DistrictDataPage />}
           />
         </Routes>
       </div>

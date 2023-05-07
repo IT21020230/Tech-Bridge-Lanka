@@ -1,4 +1,3 @@
-// get all users
 const User = require("../models/userModel");
 
 //return all users
