@@ -1,44 +1,26 @@
 const express = require("express");
+const multer = require('multer');
+const uploadMiddleware = multer({ dest: "uploads/" });
+
+const {
+  getPosts,
+  getPost,
+  addPost,
+  updatePost,
+} = require("../controllers/postController");
+
 const router = express.Router();
-const postController = require("../controllers/post");
-// const authMiddleware = require("../middlewares/auth");
-// const adminMiddleware = require("../middlewares/admin");
 
-// Create post route
-router.post(
-  "/posts",
-  authMiddleware.authenticateToken,
-  postController.createPost
-);
+// GET all posts
+router.get("/post", getPosts);
 
-// Edit post route
-router.put(
-  "/posts/:postId",
-  //   authMiddleware.authenticateToken,
-  postController.editPost
-);
+// CREATE new post
+router.post("/post", uploadMiddleware.single("file"), addPost);
 
-// Remove post route
-router.delete(
-  "/posts/:postId",
-//   authMiddleware.authenticateToken,
-  postController.removePost
-);
+// UPDATE new post
+router.put("/post", uploadMiddleware.single("file"), updatePost);
 
-// Approve post route
-router.patch(
-  "/posts/:postId/approve",
-//   authMiddleware.authenticateToken,
-//   adminMiddleware.isAdmin,
-  postController.approvePost
-);
-
-// Reject post route
-router.patch(
-  "/posts/:postId/reject",
-//   authMiddleware.authenticateToken,
-//   adminMiddleware.isAdmin,
-  postController.rejectPost
-);
+// GET single post
+router.get("/post/:id", getPost);
 
 module.exports = router;

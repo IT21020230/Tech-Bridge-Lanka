@@ -1,7 +1,9 @@
 import { lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import AddPostPage from "./TBL/pages/blog/addPostPage";
-import EditPostPage from "./TBL/pages/blog/editPostPage";
+import AddPostPage from "./TBL/pages/blog/CreatePost";
+import EditPostPage from "./TBL/pages/blog/EditPost";
+import PostPage from "./TBL/pages/blog/PostPage"
+import PostsPage from "./TBL/pages/blog/IndexPage"
 
 // User Register Page
 const UserRegisterPage = lazy(() =>
@@ -15,6 +17,15 @@ function App() {
         <Routes>
           {/* Homepages */}
           <Route
+            path={process.env.PUBLIC_URL + "/posts"}
+            element={<PostsPage />}
+          />
+
+          <Route
+            path={process.env.PUBLIC_URL + "/post/:id"}
+            element={<PostPage />}
+          />
+          <Route
             path={process.env.PUBLIC_URL + "/UserRegister"}
             element={<UserRegisterPage />}
           />
@@ -25,7 +36,7 @@ function App() {
           />
 
           <Route
-            path={process.env.PUBLIC_URL + "/edit-post"}
+            path={process.env.PUBLIC_URL + "/edit/:id"}
             element={<EditPostPage />}
           />
         </Routes>

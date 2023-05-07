@@ -1,22 +1,41 @@
 const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 
-const postSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  intro: { type: String, required: true },
-  coverImage: { type: String, required: true },
-  description: { type: String, required: true },
-  publishedCommunity: { type: String, required: true },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  date: { type: Date, default: Date.now },
-  status: { type: String, default: "pending" },
-});
-
-// Add toJSON method to remove underscore from id field
-postSchema.set("toJSON", {
-  transform: function (doc, ret) {
-    ret.id = ret._id;
-    delete ret._id;
+const PostSchema = new Schema(
+  {
+    title: String,
+    summary: String,
+    content: String,
+    cover: String,
+    community: String,
+    author: String,
   },
-});
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model("Post", postSchema);
+const PostModel = model("Post", PostSchema);
+
+module.exports = PostModel;
+
+// const mongoose = require("mongoose");
+// const { Schema, model } = mongoose;
+
+// const PostSchema = new Schema(
+//   {
+//     title: String,
+//     summary: String,
+//     content: String,
+//     cover: String,
+//     author: String,
+//     community: String,
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
+
+// const PostModel = model("Post", PostSchema);
+
+// module.exports = PostModel;
