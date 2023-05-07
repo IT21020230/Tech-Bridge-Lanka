@@ -147,7 +147,7 @@ function ViewUser() {
   return (
     <div
       style={{
-        backgroundColor: "#E8E8E8",
+        backgroundColor: "#b0dae9",
         marginLeft: "200px",
         marginRight: "200px",
         marginBottom: "17px",
@@ -180,14 +180,15 @@ function ViewUser() {
             <Row>
 
 
+            <div style={{ display: "flex", justifyContent: "center" }}>
         <Col s={6} md={4}>
-          <Image src="C:\Users\kisus\OneDrive\Pictures\AF\propic.png" roundedCircle />
+          <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" style={{height: "250px", width: "250px"}} roundedCircle />
         </Col>
-
+</div>
 
       </Row>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
+      <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
                 <Form.Label style={{ marginTop: "20px" }}>
                   Name
                 </Form.Label>
@@ -207,10 +208,11 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
+                    
                   }}
                 >
                   Email
@@ -254,7 +256,8 @@ function ViewUser() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -302,7 +305,7 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -350,7 +353,7 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",

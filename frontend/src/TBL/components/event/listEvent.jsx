@@ -98,7 +98,7 @@ function ViewUser() {
     return (
       <div
         style={{
-          backgroundColor: "#E8E8E8",
+          backgroundColor: "#b0dae9",
           marginLeft: "200px",
           marginRight: "200px",
           marginBottom: "17px",
@@ -107,32 +107,44 @@ function ViewUser() {
       >
         <div>
           <h1 className="head">Event List</h1>
-        </div>
-        <Table responsive>
+        </div><br />
+      <Table responsive style={{ backgroundColor: "#89c7dd"}}>
       <thead>
         <tr>
           <th></th>
           <th key={{}}>Name</th>
+          <th key={{}}>Community</th>
           <th key={{}}>Location</th>
-          <th key={{}}>Description</th>
           <th key={{}}>Date</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
-          <td>1</td>
+        <td>1</td>
+          <td>Event 01</td>
+          <td>Leo Club of SLIIT</td>
+          <td>Colombo</td>
+          <td>13.06.2023</td>
+          <td><Button variant="outline-primary">View more</Button></td>
 
         </tr>
         <tr>
           <td>2</td>
+          <td>Event 02</td>
+          <td>Leo Club of SLIIT</td>
+          <td>Colombo</td>
+          <td>13.06.2023</td>
+          <td><Button variant="outline-primary">View more</Button></td>
 
         </tr>
         <tr>
           <td>3</td>
+          <td>Event 03</td>
+          <td>Leo Club of SLIIT</td>
+          <td>Colombo</td>
+          <td>13.06.2023</td>
+          <td><Button variant="outline-primary">View more</Button></td>
 
         </tr>
       </tbody>
