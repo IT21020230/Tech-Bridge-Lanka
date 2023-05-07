@@ -1,5 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { Button, Input, Typography } from '@material-ui/core';
+import { styled } from "@material-ui/core";
+import { Stack } from "@mui/material";
+
+const commonStyles = {
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    flexDirection:'column',
+    width:'100wh',
+    height:'100vh'
+
+  };
 
 
 function AcceptDeclineBlog(){
@@ -27,11 +42,30 @@ function AcceptDeclineBlog(){
     },[]);
 
     return(
-        <div>
+        <>
+
+        <Box sx = {commonStyles}>
+
+            <Stack spacing={2} direction='column' sx={{justifyContent:'center',alignItems:'center'}}>
+
             <h1>Blog title: {apiData.userId}</h1>
       <p>Blog description: {apiData.id}</p>
       <div>Blog:  {apiData.title}</div>
-        </div>
+
+      <Button variant="contained" style={{ backgroundColor: 'green' }}>Accept</Button>
+      <Button variant="contained" style={{ backgroundColor: 'red' }}>Decline</Button>
+
+
+
+            </Stack>
+
+
+
+        </Box>
+        
+        
+        
+        </>
     )
 
 
@@ -39,3 +73,11 @@ function AcceptDeclineBlog(){
 }
 
 export default AcceptDeclineBlog;
+
+
+
+/* <div>
+            <h1>Blog title: {apiData.userId}</h1>
+      <p>Blog description: {apiData.id}</p>
+      <div>Blog:  {apiData.title}</div>
+        </div>*/

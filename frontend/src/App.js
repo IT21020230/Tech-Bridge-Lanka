@@ -21,6 +21,8 @@ const AcceptDeclineBlogsPage = lazy(() => import("./TBL/pages/admin/AcceptDeclin
 const AcceptMembersPage = lazy(() => import("./TBL/pages/admin/AcceptMembersPage"))
 const CreateIssuesPage = lazy(() => import("./TBL/pages/admin/CreateIssuesPage"))
 const IssuesToAcceptPage = lazy(() => import("./TBL/pages/admin/IssuesToAcceptPage"))
+const AcceptDeclineUpcomingEventPage = lazy(() => import("./TBL/pages/admin/AcceptDeclineUpcomingEventPage"))
+const UpcomingEventsPage = lazy(() => import("./TBL/pages/admin/UpcomingEventsPage"))
 
 function App() {
   const { user } = useAuthContext();
@@ -65,6 +67,16 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/issues-to-accept"}
               element={<IssuesToAcceptPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/accept-decline-upcoming-event"}
+              element={<AcceptDeclineUpcomingEventPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/upcoming-events-list"}
+              element={<UpcomingEventsPage />}
             />
 
           </Routes>
