@@ -1,9 +1,11 @@
 import { lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import AddPostPage from "./TBL/pages/blog/CreatePost";
 import EditPostPage from "./TBL/pages/blog/EditPost";
 import PostPage from "./TBL/pages/blog/PostPage"
 import PostsPage from "./TBL/pages/blog/IndexPage"
+import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
 // User Register Page
 const UserRegisterPage = lazy(() =>

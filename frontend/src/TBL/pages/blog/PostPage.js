@@ -4,6 +4,12 @@ import { formatISO9075 } from "date-fns";
 // import {UserContext} from "../UserContext";
 import { Link } from "react-router-dom";
 
+import Navbar from "../../layout/Navbar/Navbar";
+import Footer from "../../layout/Footer/Footer";
+import Sidebar from "../../layout/Slidebar/Slidebar";
+import { Grid, Card } from "@mui/material";
+import "../index.css";
+
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState(null);
   // const {userInfo} = useContext(UserContext);
@@ -19,11 +25,17 @@ export default function PostPage() {
   if (!postInfo) return "";
 
   return (
-    <div className="post-page">
-      <h1>{postInfo.title}</h1>
-      <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
-      <div className="author">by @{postInfo.author}</div>
-      {/* <div className="edit-row">
+    <main>
+      <Navbar />
+      <div className="content">
+        <Grid container spacing={0}>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6}>
+            <div className="post-page">
+              <h1>{postInfo.title}</h1>
+              <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
+              <div className="author">by @{postInfo.author}</div>
+              {/* <div className="edit-row">
         <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -42,16 +54,22 @@ export default function PostPage() {
           Edit this post
         </Link>
       </div> */}
-      <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
-        Edit this post
-      </Link>
-      <div className="image">
-        <img src={`http://localhost:8000/${postInfo.cover}`} alt="" />
+              <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
+                Edit this post
+              </Link>
+              <div className="image">
+                <img style={{width: "100vh"}} src={`http://localhost:8000/${postInfo.cover}`} alt="" />
+              </div>
+              <div style={{marginTop: "10px"}}
+                className="content"
+                dangerouslySetInnerHTML={{ __html: postInfo.content }}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={3}></Grid>
+        </Grid>
       </div>
-      <div
-        className="content"
-        dangerouslySetInnerHTML={{ __html: postInfo.content }}
-      />
-    </div>
+      <Footer />
+    </main>
   );
 }
