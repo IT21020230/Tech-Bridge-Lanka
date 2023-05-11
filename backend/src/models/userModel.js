@@ -18,18 +18,23 @@ const userSchema = new Schema({
   },
   phone: {
     type: Number,
+    required: false,
   },
   age: {
     type: Number,
+    required: false,
   },
   province: {
     type: String,
+    required: false,
   },
   city: {
     type: String,
+    required: false,
   },
   photo: {
     type: String,
+    required: false,
   },
 });
 

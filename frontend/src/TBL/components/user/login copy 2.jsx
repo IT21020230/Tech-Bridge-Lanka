@@ -3,7 +3,8 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useLogin } from "../../hooks/useLogin";
+import { useLogin } from '../../hooks/useLogin';
+import * as formik from "formik";
 import * as yup from "yup";
 import { Formik, Field, ErrorMessage } from "formik";
 import { useState } from "react";
@@ -12,20 +13,48 @@ import { BiTrash } from "react-icons/bi";
 import { IoAddSharp } from "react-icons/io5";
 
 function Login() {
+
   const { login, error, isLoading } = useLogin();
 
-  const handleSubmit = async (values) => {
-    await login(values.email, values.password);
+  const [fields, setFields] = useState([{ value: "" }]);
+
+  const handleInputChange = (index, event) => {
+    const values = [...fields];
+    values[index].value = event.target.value;
+    setFields(values);
   };
 
-  const schema = yup.object().shape({
-    email: yup
-      .string()
-      .required("Please enter an Email!")
-      .email("Please enter a valid Email!"),
+  const handleAddField = () => {
+    const values = [...fields];
+    values.push({ value: "" });
+    setFields(values);
+  };
 
-    password: yup.string().required("Please enter a Password!"),
-  });
+  const handleRemoveField = (index) => {
+    const values = [...fields];
+    values.splice(index, 1);
+    setFields(values);
+  };
+
+  const handleSubmit = async (e, values) => {
+    e.preventDefault()
+
+    await login(values.email, values.password)
+  };
+
+  const { Formik } = formik;
+
+  const schema = yup.object().shape({
+
+    email: yup
+    .string()
+    .required("Please enter an Email!")
+    .email("Please enter a valid Email!"),
+
+    password: yup
+      .string()
+      .required("Please enter a Password!")
+    });
 
   return (
     <div
@@ -39,9 +68,7 @@ function Login() {
       }}
     >
       <div>
-        <h1 style={{ textAlign: "center" }} className="head">
-          Login
-        </h1>
+        <h1 style={{textAlign: "center"}} className="head">Login</h1>
       </div>
       <Formik
         validationSchema={schema}
@@ -50,18 +77,14 @@ function Login() {
         onSubmit={handleSubmit}
         initialValues={{
           email: "",
-          password: "",
+          password: "", 
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group
-                as={Col}
-                md="12"
-                controlId="validationFormikUsername"
-                style={{ width: "100%" }}
-              >
+              
+              <Form.Group as={Col} md="12" controlId="validationFormikUsername" style={{width: "100%"}}>
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -84,14 +107,9 @@ function Login() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-            </Row>
-            <Row className="mb-3">
-              <Form.Group
-                as={Col}
-                md="12"
-                controlId="validationFormikUsername"
-                style={{ width: "100%" }}
-              >
+</Row>
+              <Row className="mb-3">
+              <Form.Group as={Col} md="12" controlId="validationFormikUsername" style={{width: "100%"}}> 
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -114,26 +132,18 @@ function Login() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
+              
             </Row>
-            <Button
-              disabled={isLoading}
-              className="submitBTN"
-              type="submit"
-              variant="outline-primary"
-            >
+            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
               Login
             </Button>
-            <br />
-            <br />
-            <p>
-              No created account? <a href="/signup">Register</a>
-              <br />
-              <br />
-            </p>
-            {error && <div className="error">{error}</div>}
+            <br /><br /><p>No created account? <a href="/signup">Register</a><br /><br /></p>
+            {error && <div className='error'>{error}</div>}
           </Form>
         )}
       </Formik>
+
+
     </div>
   );
 }
