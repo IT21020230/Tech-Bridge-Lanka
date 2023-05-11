@@ -8,9 +8,6 @@ import * as yup from "yup";
 import { Formik } from "formik";
 import { useState } from "react";
 
-import { BiTrash } from "react-icons/bi";
-import { IoAddSharp } from "react-icons/io5";
-
 function SignUp() {
   const { signup, error, isLoading } = useSignup();
 

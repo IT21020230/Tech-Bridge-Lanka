@@ -71,7 +71,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={user ? <TestingUi /> : <Navigate to="/" />}
+              element={user ? <TestingUi /> : <Navigate to="/login" />}
             />
             <Route
               path="/login"
@@ -79,40 +79,46 @@ function App() {
             />
             <Route
               path="/signup"
-              element={!user ? <SignUp /> : <Navigate to="/" />}
+              element={!user ? <SignUp /> : <Navigate to="/login" />}
             />
-            <Route
+            {/* <Route
               path="/viewUser"
-              element={!user ? <ViewUser /> : <Navigate to="/" />}
-            />
+              element={user ? <ViewUser /> : <Navigate to="/login" />}
+            /> */}
+
+            {/* <Route
+              path={process.env.PUBLIC_URL + "/viewUser"}
+              element={<ViewUser />}
+            /> */}
+
             <Route
               path="/viewProject"
-              element={!user ? <ViewProject /> : <Navigate to="/" />}
+              element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
             <Route
               path="/viewEvent"
-              element={!user ? <ViewEvent /> : <Navigate to="/" />}
+              element={user ? <ViewEvent /> : <Navigate to="/login" />}
             />
             <Route
               path="/listProject"
-              element={!user ? <ListProject /> : <Navigate to="/" />}
+              element={user ? <ListProject /> : <Navigate to="/test" />}
             />
             <Route
               path="/listEvent"
-              element={!user ? <ListEvent /> : <Navigate to="/" />}
+              element={user ? <ListEvent /> : <Navigate to="/login" />}
             />
             <Route
               path="/events"
-              element={!user ? <Events /> : <Navigate to="/" />}
+              element={user ? <Events /> : <Navigate to="/login" />}
             />
             <Route
               path="/projects"
               element={!user ? <Projects /> : <Navigate to="/" />}
             />
-            <Route
+            {/* <Route
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
-            />
+            /> */}
 
             <Route
               path={process.env.PUBLIC_URL + "/accept-decline-blogs-page"}
