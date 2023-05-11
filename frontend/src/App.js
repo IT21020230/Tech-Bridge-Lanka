@@ -43,6 +43,9 @@ const CreateCommunity = lazy(() =>
   import("./TBL/pages/Community/createCommunitypage")
 );
 const Community = lazy(() => import("./TBL/pages/Community/communityPage"));
+const CommunityList = lazy(() =>
+  import("./TBL/pages/Community/communityListPage")
+);
 
 //Accept or Decline blogs
 const AcceptDeclineBlogsPage = lazy(() =>
@@ -140,6 +143,10 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/community"}
               element={<Community />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/communityList"}
+              element={<CommunityList />}
             />
           </Routes>
         </div>

@@ -10,6 +10,7 @@ import { useState } from "react";
 import "./index.css";
 import { BiTrash } from "react-icons/bi";
 import { IoAddSharp } from "react-icons/io5";
+import { AiOutlineSearch } from "react-icons/ai";
 function FormExample() {
   const [fields, setFields] = useState([{ value: "" }]);
   const handleInputChange = (index, event) => {

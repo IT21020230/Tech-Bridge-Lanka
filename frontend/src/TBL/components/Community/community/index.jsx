@@ -362,43 +362,43 @@ export default function () {
                         <Grid item xs={4}>
                           <div className="memberList">
                             <img src={p01} className="proPic" />
-                            <p>President</p>
+
                             <p>Jhon de silva</p>
                           </div>
                         </Grid>
                         <Grid item xs={4}>
                           <div className="memberList">
                             <img src={p02} className="proPic" />
-                            <p>Vice President</p>
-                            <p>Jhon de silva</p>
+
+                            <p>S.N.W Gunasekara</p>
                           </div>
                         </Grid>
                         <Grid item xs={4}>
                           <div className="memberList">
                             <img src={p03} className="proPic" />
-                            <p>Secretary</p>
-                            <p>Jhon de silva</p>
+
+                            <p>W.A Alwis</p>
                           </div>
                         </Grid>
                         <Grid item xs={4}>
                           <div className="memberList">
                             <img src={p03} className="proPic" />
-                            <p>Secretary</p>
-                            <p>Jhon de silva</p>
+
+                            <p>Jerms Proyantha</p>
                           </div>
                         </Grid>
                         <Grid item xs={4}>
                           <div className="memberList">
                             <img src={p03} className="proPic" />
-                            <p>Secretary</p>
-                            <p>Jhon de silva</p>
+
+                            <p>A.S Gunarathna</p>
                           </div>
                         </Grid>
                         <Grid item xs={4}>
                           <div className="memberList">
                             <img src={p03} className="proPic" />
-                            <p>Secretary</p>
-                            <p>Jhon de silva</p>
+
+                            <p>W.P Kavish</p>
                           </div>
                         </Grid>
                       </Grid>
@@ -798,7 +798,7 @@ export default function () {
                           <img className="memberList1" src={p01} />
                         </Grid>
                         <Grid item xs={8}>
-                          <p className="oneName">S.N.W Gunasekara</p>
+                          <p className="oneName">Jhon de silva</p>
                         </Grid>
                         <Grid item xs={1}>
                           <OverlayTrigger
@@ -818,7 +818,7 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p02} />
                         </Grid>
                         <Grid item xs={8}>
                           <p className="oneName">S.N.W Gunasekara</p>
@@ -841,10 +841,10 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
-                          <p className="oneName">S.N.W Gunasekara</p>
+                          <p className="oneName">W.A Alwis</p>
                         </Grid>
                         <Grid item xs={1}>
                           <OverlayTrigger
@@ -864,10 +864,10 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
-                          <p className="oneName">S.N.W Gunasekara</p>
+                          <p className="oneName">Jerms Proyantha</p>
                         </Grid>
                         <Grid item xs={1}>
                           <OverlayTrigger
@@ -887,10 +887,10 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
-                          <p className="oneName">S.N.W Gunasekara</p>
+                          <p className="oneName">A.S Gunarathna</p>
                         </Grid>
                         <Grid item xs={1}>
                           <OverlayTrigger
@@ -910,10 +910,10 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
-                          <p className="oneName">S.N.W Gunasekara</p>
+                          <p className="oneName">W.P Kavish</p>
                         </Grid>
                         <Grid item xs={1}>
                           <OverlayTrigger
@@ -929,29 +929,6 @@ export default function () {
                       </Grid>
                     </div>
                   </Grid>{" "}
-                  <Grid item xs={6}>
-                    <div className="oneMember">
-                      <Grid container spacing={0}>
-                        <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <p className="oneName">S.N.W Gunasekara</p>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="right"
-                            overlay={popover}
-                          >
-                            <button variant="success" className="optionBTN">
-                              :
-                            </button>
-                          </OverlayTrigger>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>
                 </Grid>
               </div>
             </Tab>
