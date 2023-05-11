@@ -24,7 +24,14 @@ function OffcanvasExample() {
         <img className="responsive-image" src={logo} />
       </div>
       {["sm"].map((expand) => (
-        <Navbar key={expand} bg="light" expand={expand} className="mb-3">
+        <Navbar
+          key={expand}
+          expand={expand}
+          className="mb-3"
+          style={{
+            backgroundColor: "#459c98",
+          }}
+        >
           <Container fluid>
             <Navbar.Brand
               href="#"
@@ -44,12 +51,40 @@ function OffcanvasExample() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link
-
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Home
                   </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Stories
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Map
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    DDD
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Communities
+                  </Nav.Link>
+
                   <Nav.Link
                     href="/projects"
                     style={{ color: "black", fontWeight: "bold" }}
@@ -62,7 +97,7 @@ function OffcanvasExample() {
                   >
                     Events
                   </Nav.Link>
-                  <Nav.Link
+                  {/* <Nav.Link
                     href="/login"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
@@ -73,9 +108,9 @@ function OffcanvasExample() {
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Register
-                  </Nav.Link>
+                  </Nav.Link> */}
                   <Button
-                    variant="outline-danger"
+                    variant="danger"
                     className="btn-logout"
                     onClick={handleLogout}
                   >

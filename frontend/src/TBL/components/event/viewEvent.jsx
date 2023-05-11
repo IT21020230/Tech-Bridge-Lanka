@@ -147,9 +147,9 @@ function ViewUser() {
     return (
       <div
         style={{
-          backgroundColor: "#E8E8E8",
-          marginLeft: "200px",
-          marginRight: "200px",
+          backgroundColor: "#b0dae9",
+          marginLeft: "30%",
+          marginRight: "30%",
           marginBottom: "17px",
           padding: "50px",
         }}
@@ -158,110 +158,163 @@ function ViewUser() {
           <h1 className="head">Event Details</h1>
         </div>
         <Formik
-          validationSchema={schema}
-          validateOnChange={false} // Disable validation on change
-          validateOnBlur={true} // Enable validation on blur
-          onSubmit={handleSubmit}
-          initialValues={{
-            name: "",
-            description: "", 
-            timeline: "", 
-            
-          }}
-        >
-          {({ handleSubmit, handleChange, values, touched, errors }) => (
-            <Form noValidate onSubmit={handleSubmit}>
-              <Row className="mb-3">
-                <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
-                  <Form.Label style={{ marginTop: "20px" }}>
-                    Name
-                  </Form.Label>
-                  <InputGroup hasValidation>
-                    <Form.Control
-                      type="text"
-                      aria-describedby="inputGroupPrepend"
-                      name="name"
-                      value={values.name}
-                      onChange={handleChange}
-                      isValid={touched.name && !errors.name}
-                      isInvalid={!!errors.name}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.name}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </Form.Group>
-                </Row>
-                
-                <Row className="mb-3">
-                <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
-                  <Form.Label style={{ marginTop: "20px" }}>
-                    Location
-                  </Form.Label>
-                  <InputGroup hasValidation>
-                    <Form.Control
-                      type="text"
-                      aria-describedby="inputGroupPrepend"
-                      name="location"
-                      value={values.location}
-                      onChange={handleChange}
-                      isValid={touched.location && !errors.location}
-                      isInvalid={!!errors.location}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.location}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </Form.Group>
-                </Row>
+        validationSchema={schema}
+        validateOnChange={false} // Disable validation on change
+        validateOnBlur={true} // Enable validation on blur
+        onSubmit={handleSubmit}
+        initialValues={{
+          name: "",
+          description: "", 
+          timeline: "", 
+          
+        }}
+      >
+        {({ handleSubmit, handleChange, values, touched, errors }) => (
+          <Form noValidate onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername"  style={{width: "100%"}} >               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Name
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    aria-describedby="inputGroupPrepend"
+                    name="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    isValid={touched.name && !errors.name}
+                    isInvalid={!!errors.name}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.name}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              </Row>
 
-                <Row className="mb-3">
-                <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
-                  <Form.Label style={{ marginTop: "20px" }}>
-                    Description
-                  </Form.Label>
-                  <InputGroup hasValidation>
-                    <Form.Control
-                      type="textarea"
-                      aria-describedby="inputGroupPrepend"
-                      name="description"
-                      value={values.description}
-                      onChange={handleChange}
-                      isValid={touched.description && !errors.description}
-                      isInvalid={!!errors.description}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.description}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </Form.Group>
-                </Row>
-  
-                <Row className="mb-3">
-                <Form.Group as={Col} md="5" controlId="validationFormikUsername">
-                  <Form.Label
-                    style={{
-                      marginTop: "20px",
-                    }}
-                  >
-                    Date
-                  </Form.Label>
-                  <InputGroup hasValidation>
-                    <Form.Control
-                      type="date"
-                      aria-describedby="inputGroupPrepend"
-                      name="startDate"
-                      value={values.startDate}
-                      onChange={handleChange}
-                      isValid={touched.startDate && !errors.startDate}
-                      isInvalid={!!errors.startDate}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      {errors.startDate}
-                    </Form.Control.Feedback>
-                  </InputGroup>
-                </Form.Group>
-                </Row>
+              <Row className="mb-3">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Community
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                  disabled
+                    type="text"
+                    rows="5"
+                    aria-describedby="inputGroupPrepend"
+                    name="commName"
+                    value={"Leo Club of SLIIT"}
+                    onChange={handleChange}
+                    isValid={touched.commName && !errors.commName}
+                    isInvalid={!!errors.commName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.commName}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Description
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="textarea"
+                    rows="5"
+                    aria-describedby="inputGroupPrepend"
+                    name="description"
+                    value={values.description}
+                    onChange={handleChange}
+                    isValid={touched.description && !errors.description}
+                    isInvalid={!!errors.description}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.description}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              </Row>
+              
+              <Row className="mb-3">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Location
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    rows="5"
+                    aria-describedby="inputGroupPrepend"
+                    name="location"
+                    value={values.location}
+                    onChange={handleChange}
+                    isValid={touched.location && !errors.location}
+                    isInvalid={!!errors.location}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.location}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Date
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="date"
+                    aria-describedby="inputGroupPrepend"
+                    name="startDate"
+                    value={values.startDate}
+                    onChange={handleChange}
+                    isValid={touched.startDate && !errors.startDate}
+                    isInvalid={!!errors.startDate}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.startDate}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+              <Form.Group  as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Upload an image
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="file"
+                    aria-describedby="inputGroupPrepend"
+                    name="logo"
+                    value={values.photo}
+                    onChange={handleChange}
+                    isValid={touched.photo && !errors.photo}
+                    isInvalid={!!errors.photo}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.photo}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group> 
+              </Row>
+
               <div style={{marginTop: "30px"}} >
               <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-success" onClick={() => setModalUpdateShow(true)}>
                 Update
@@ -270,20 +323,20 @@ function ViewUser() {
                 Delete
               </Button>
               </div>
-              {error && <div className='error'>{error}</div>}
-            </Form>
-          )}
-        </Formik>
-  
-        <UpdateModal
-          show={modalUpdateShow}
-          onHide={() => setModalUpdateShow(false)}
-        />
-  
-        <DeleteModal
-          show={modalDeleteShow}
-          onHide={() => setModalDeleteShow(false)}
-        />
+            {error && <div className='error'>{error}</div>}
+          </Form>
+        )}
+      </Formik>
+
+      <UpdateModal
+        show={modalUpdateShow}
+        onHide={() => setModalUpdateShow(false)}
+      />
+
+      <DeleteModal
+        show={modalDeleteShow}
+        onHide={() => setModalDeleteShow(false)}
+      />
   
       </div>
     );

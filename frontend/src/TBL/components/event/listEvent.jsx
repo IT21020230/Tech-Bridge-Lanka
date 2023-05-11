@@ -101,7 +101,8 @@ function ViewUser() {
           backgroundColor: "#b0dae9",
           marginLeft: "200px",
           marginRight: "200px",
-          marginBottom: "17px",
+          marginBottom: "200px",
+          marginTop: "60px",
           padding: "50px",
         }}
       >

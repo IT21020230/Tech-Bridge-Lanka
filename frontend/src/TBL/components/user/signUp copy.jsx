@@ -4,8 +4,9 @@ import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import { useSignup } from "../../hooks/useSignup";
+import * as formik from "formik";
 import * as yup from "yup";
-import { Formik } from "formik";
+import { Formik, Field, ErrorMessage } from "formik";
 import { useState } from "react";
 
 import { BiTrash } from "react-icons/bi";
@@ -14,20 +15,36 @@ import { IoAddSharp } from "react-icons/io5";
 function SignUp() {
   const { signup, error, isLoading } = useSignup();
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [age, setAge] = useState("");
+  const [province, setProvince] = useState("");
+  const [city, setCity] = useState("");
+
   const [fields, setFields] = useState([{ value: "" }]);
 
-  const [photo, setPhoto] = useState("");
+  const handleInputChange = (index, event) => {
+    const values = [...fields];
+    values[index].value = event.target.value;
+    setFields(values);
+  };
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    const base64 = await convertToBase64(file);
-    setPhoto(base64);
+  const handleAddField = () => {
+    const values = [...fields];
+    values.push({ value: "" });
+    setFields(values);
+  };
+
+  const handleRemoveField = (index) => {
+    const values = [...fields];
+    values.splice(index, 1);
+    setFields(values);
   };
 
   const handleSubmit = async (values) => {
-    //e.preventDefault();
-
     console.log(
       values.email,
       values.password,
@@ -36,22 +53,22 @@ function SignUp() {
       values.phone,
       values.age,
       values.province,
-      values.city,
-      photo
+      values.city
     );
 
-    await signup(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      values.province,
-      values.city,
-      photo
-    );
+    // await signup(
+    //   values.email,
+    //   values.password,
+    //   values.confirmPassword,
+    //   values.name,
+    //   values.phone,
+    //   values.age,
+    //   values.province,
+    //   values.city
+    // );
   };
+
+  const { Formik } = formik;
 
   const schema = yup.object().shape({
     email: yup
@@ -70,7 +87,7 @@ function SignUp() {
     confirmPassword: yup
       .string()
       .required("Please enter the Password again!")
-      .oneOf([yup.ref("password"), ""], "Passwords must match"),
+      .matches(password, "Confirm Password should match with Password!"),
 
     phone: yup
       .string()
@@ -112,7 +129,7 @@ function SignUp() {
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
-        onSubmit={handleSubmit}
+        onSubmit={console.log}
         initialValues={{
           email: "",
           password: "",
@@ -370,8 +387,11 @@ function SignUp() {
                   <Form.Control
                     type="file"
                     aria-describedby="inputGroupPrepend"
-                    name="photo"
-                    onChange={(e) => handleFileUpload(e)}
+                    name="logo"
+                    value={values.photo}
+                    onChange={handleChange}
+                    isValid={touched.photo && !errors.photo}
+                    isInvalid={!!errors.photo}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.photo}
@@ -417,16 +437,3 @@ function SignUp() {
 }
 
 export default SignUp;
-
-function convertToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-}

@@ -147,9 +147,9 @@ function ViewProject() {
   return (
     <div
       style={{
-        backgroundColor: "#E8E8E8",
-        marginLeft: "200px",
-        marginRight: "200px",
+        backgroundColor: "#b0dae9",
+        marginLeft: "30%",
+        marginRight: "30%",
         marginBottom: "17px",
         padding: "50px",
       }}
@@ -172,7 +172,7 @@ function ViewProject() {
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername"  style={{width: "100%"}} >               
                 <Form.Label style={{ marginTop: "20px" }}>
                   Name
                 </Form.Label>
@@ -192,9 +192,33 @@ function ViewProject() {
                 </InputGroup>
               </Form.Group>
               </Row>
+
+              <Row className="mb-3">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Community
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                  disabled
+                    type="text"
+                    rows="5"
+                    aria-describedby="inputGroupPrepend"
+                    name="commName"
+                    value={"Leo Club of SLIIT"}
+                    onChange={handleChange}
+                    isValid={touched.commName && !errors.commName}
+                    isInvalid={!!errors.commName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.commName}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              </Row>
               
               <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
                 <Form.Label style={{ marginTop: "20px" }}>
                   Description
                 </Form.Label>
@@ -203,21 +227,21 @@ function ViewProject() {
                     type="textarea"
                     rows="5"
                     aria-describedby="inputGroupPrepend"
-                    name="name"
-                    value={values.name}
+                    name="description"
+                    value={values.description}
                     onChange={handleChange}
-                    isValid={touched.name && !errors.name}
-                    isInvalid={!!errors.name}
+                    isValid={touched.description && !errors.description}
+                    isInvalid={!!errors.description}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.name}
+                    {errors.description}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
               </Row>
 
               <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -243,7 +267,7 @@ function ViewProject() {
               </Row>
 
               <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -266,6 +290,32 @@ function ViewProject() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
+              </Row>
+
+              <Row className="mb-3">
+              <Form.Group  as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Upload an Image
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="file"
+                    aria-describedby="inputGroupPrepend"
+                    name="logo"
+                    value={values.photo}
+                    onChange={handleChange}
+                    isValid={touched.photo && !errors.photo}
+                    isInvalid={!!errors.photo}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.photo}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group> 
               </Row>
 
               <div style={{marginTop: "30px"}} >
