@@ -60,6 +60,7 @@ function OffcanvasExample() {
                     Home
                   </Nav.Link>
 
+
                   <Nav.Link
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
@@ -88,15 +89,58 @@ function OffcanvasExample() {
                     Communities
                   </Nav.Link>
 
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Stories
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Map
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    DDD
+                  </Nav.Link>
+
+
+                  <Nav.Link
+                    href="#action1"
+
+                  {/* <Nav.Link
+                    href="/login"
+
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Communities
+                  </Nav.Link>
+
                   <Nav.Link
                     href="/projects"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
+
                     Projects
                   </Nav.Link>
                   <Nav.Link
                     href="/events"
                     style={{ color: "black", fontWeight: "bold" }}
+
+                    Register
+                  </Nav.Link> */}
+                  <Button
+                    variant="danger"
+                    className="btn-logout"
+                    onClick={handleLogout}
+
                   >
                     Events
                   </Nav.Link>
