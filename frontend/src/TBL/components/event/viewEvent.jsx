@@ -3,179 +3,269 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import Image from 'react-bootstrap/Image';
-import Modal from 'react-bootstrap/Modal';
-
-import * as formik from "formik";
+import Image from "react-bootstrap/Image";
+import Modal from "react-bootstrap/Modal";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { Formik } from "formik";
 
-import { Formik, Field, ErrorMessage } from "formik";
-import React, { useState } from "react";
-import { useSignup } from '../../hooks/useSignup';
-import { BiTrash } from "react-icons/bi";
-import { IoAddSharp } from "react-icons/io5";
-
-function UpdateModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Update Your Account
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Are you sure want to update your account ?</h5>
-
-      </Modal.Body>
-      <Modal.Footer>
-        <Button style={{marginRight: "20px"}} variant="success">Update</Button>
-        <Button onClick={props.onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
-function DeleteModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Delete Your Account
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Are you sure want to permanently delete your account ?</h5>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button style={{marginRight: "20px"}} variant="danger">Delete</Button>
-        <Button onClick={props.onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
-function ViewUser() {
+function ViewEvent() {
+  const [name, setName] = useState("");
+  const [commID, setCommID] = useState("64577ee1f64e188701af5510");
+  const [commName, setCommName] = useState("Leo Club of SLIIT");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [location, setLocation] = useState("");
+  const [date, setDate] = useState("");
 
   const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
   const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
 
-  const {signup, error, isLoading} = useSignup()
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [age, setAge] = useState('');
-  const [province, setProvince] = useState('');
-  const [city, setCity] = useState('');
+  const [events, setEvents] = useState({
+    name: "",
+    commID: "",
+    commName: "",
+    description: "",
+    image: "",
+    location: "",
+    date: "",
+    __v: 0,
+    _id: "",
+  });
 
-  const [fields, setFields] = useState([{ value: "" }]);
+  //GET EVENT DATA
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const response = await fetch(`http://localhost:7000/api/events/${id}`);
+      const json = await response.json();
 
-  const handleInputChange = (index, event) => {
-    const values = [...fields];
-    values[index].value = event.target.value;
-    setFields(values);
-  };
+      if (response.ok) {
+        setEvents({
+          name: `${json["name"]}`,
+          commID: `${json["commID"]}`,
+          commName: `${json["commName"]}`,
+          description: `${json["description"]}`,
+          image: `${json["image"]}`,
+          location: `${json["location"]}`,
+          date: `${json["date"]}`,
+          __v: 0,
+          _id: `${json["_id"]}`,
+        });
+        setName(json["name"]);
+        setCommID(json["commID"]);
+        setCommName(json["commName"]);
+        setDescription(json["description"]);
+        setImage(json["image"]);
+        setLocation(json["location"]);
+        setDate(json["date"]);
 
-  const handleAddField = () => {
-    const values = [...fields];
-    values.push({ value: "" });
-    setFields(values);
-  };
+        console.log(json);
+      } else {
+        console.log("failed");
+      }
+    };
 
-  const handleRemoveField = (index) => {
-    const values = [...fields];
-    values.splice(index, 1);
-    setFields(values);
-  };
+    fetchEvents();
+  }, [setEvents]);
 
+  //Update EVENT
   const handleSubmit = async (e, values) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    console.log(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
+    const response = await fetch("http://localhost:7000/api/events/" + id, {
+      method: "PATCH",
+      body: JSON.stringify({
+        name: values.name,
+        description: values.description,
+        image: values.image,
+        location: values.location,
+        date: values.date,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
 
-    await signup(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.log(json.error);
+    }
+
+    if (response.ok) {
+      console.log("Event updated successfully.", json);
+
+      toast.success(`Event updated successfully `, {
+        position: "bottom-left",
+      });
+      setTimeout(() => {
+        navigate("/listEvent");
+      }, 3000);
+    }
   };
 
-  const { Formik } = formik;
+  //DELETE EVENT
+  const handleDeleteSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch("http://localhost:7000/api/events/" + id, {
+      method: "DELETE",
+    });
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.log(json.error);
+    }
+
+    if (response.ok) {
+      console.log("Event deleted successfully.", json);
+
+      toast.success(`Event deleted successfully `, {
+        position: "bottom-left",
+      });
+      setTimeout(() => {
+        navigate("/listEvent");
+      }, 3000);
+    }
+  };
+
+  //Update modal
+  function UpdateModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Update this Event
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Are you sure want to update this event ?</h5>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ marginRight: "20px" }}
+            variant="success"
+            onClick={handleSubmit}
+          >
+            Update
+          </Button>
+          <Button onClick={props.onHide}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  //Delete modal
+  function DeleteModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Delete this Event
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Are you sure want to permanently delete this event ?</h5>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ marginRight: "20px" }}
+            variant="danger"
+            onClick={handleDeleteSubmit}
+          >
+            Delete
+          </Button>
+          <Button onClick={props.onHide}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
   const schema = yup.object().shape({
-
     email: yup
-    .string()
-    .required("Please enter an Email!")
-    .email("Please enter a valid Email!"),
+      .string()
+      .required("Please enter an Email!")
+      .email("Please enter a valid Email!"),
 
     password: yup
       .string()
       .required("Please enter a Password!")
-      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/, "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"),
-  
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
+        "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"
+      ),
+
     phone: yup
       .string()
       .required("Please enter a Phone number!")
-      .matches(/^[0-9]{10}$/, "Contact number must be a 10-digit number without spaces or dashes"),
-    
-    name: yup
-      .string()
-      .required("Please enter the Name!"),
+      .matches(
+        /^[0-9]{10}$/,
+        "Contact number must be a 10-digit number without spaces or dashes"
+      ),
 
-    age: yup
-      .string()
-      .required("Please enter the Age!"),
+    name: yup.string().required("Please enter the Name!"),
 
-    province: yup
-      .string()
-      .required("Please enter the Province!"),
-      
-    city: yup
-      .string()
-      .required("Please enter the City!")
-    });
+    age: yup.string().required("Please enter the Age!"),
 
-    return (
-      <div
-        style={{
-          backgroundColor: "#b0dae9",
-          marginLeft: "30%",
-          marginRight: "30%",
-          marginBottom: "17px",
-          padding: "50px",
-        }}
-      >
-        <div>
-          <h1 className="head">Event Details</h1>
-        </div>
-        <Formik
+    province: yup.string().required("Please enter the Province!"),
+
+    city: yup.string().required("Please enter the City!"),
+  });
+
+  return (
+    <div
+      style={{
+        backgroundColor: "#b0dae9",
+        marginLeft: "30%",
+        marginRight: "30%",
+        marginBottom: "17px",
+        padding: "50px",
+      }}
+    >
+      <ToastContainer />
+      <div>
+        <h1 className="head">Event Details</h1>
+      </div>
+      <Formik
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
         onSubmit={handleSubmit}
         initialValues={{
-          name: "",
-          description: "", 
-          timeline: "", 
-          
+          name: name,
+          description: description,
+          commName: commName,
+          location: location,
+          date: date,
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername"  style={{width: "100%"}} >               
-                <Form.Label style={{ marginTop: "20px" }}>
-                  Name
-                </Form.Label>
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "100%" }}
+              >
+                <Form.Label style={{ marginTop: "20px" }}>Name</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="text"
@@ -191,16 +281,19 @@ function ViewUser() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-              </Row>
+            </Row>
 
-              <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
-                <Form.Label style={{ marginTop: "20px" }}>
-                  Community
-                </Form.Label>
+            <Row className="mb-3">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "100%" }}
+              >
+                <Form.Label style={{ marginTop: "20px" }}>Community</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
-                  disabled
+                    disabled
                     type="text"
                     rows="5"
                     aria-describedby="inputGroupPrepend"
@@ -215,10 +308,15 @@ function ViewUser() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-              </Row>
+            </Row>
 
-              <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
+            <Row className="mb-3">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "100%" }}
+              >
                 <Form.Label style={{ marginTop: "20px" }}>
                   Description
                 </Form.Label>
@@ -238,13 +336,16 @@ function ViewUser() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-              </Row>
-              
-              <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>               
-                <Form.Label style={{ marginTop: "20px" }}>
-                  Location
-                </Form.Label>
+            </Row>
+
+            <Row className="mb-3">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "100%" }}
+              >
+                <Form.Label style={{ marginTop: "20px" }}>Location</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="text"
@@ -261,10 +362,15 @@ function ViewUser() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-              </Row>
+            </Row>
 
-              <Row className="mb-3">
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
+            <Row className="mb-3">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "100%" }}
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -287,10 +393,15 @@ function ViewUser() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-              </Row>
+            </Row>
 
-              <Row className="mb-3">
-              <Form.Group  as={Col} md="5" controlId="validationFormikUsername" style={{width: "100%"}}>
+            <Row className="mb-3">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "100%" }}
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -312,18 +423,28 @@ function ViewUser() {
                     {errors.photo}
                   </Form.Control.Feedback>
                 </InputGroup>
-              </Form.Group> 
-              </Row>
+              </Form.Group>
+            </Row>
 
-              <div style={{marginTop: "30px"}} >
-              <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-success" onClick={() => setModalUpdateShow(true)}>
+            <div style={{ marginTop: "30px" }}>
+              <Button
+                className="submitBTN"
+                type="submit"
+                variant="outline-success"
+                onClick={() => setModalUpdateShow(true)}
+              >
                 Update
               </Button>
-              <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-danger" onClick={() => setModalDeleteShow(true)} style={{marginLeft: "30px"}}>
+              <Button
+                className="submitBTN"
+                type="submit"
+                variant="outline-danger"
+                onClick={() => setModalDeleteShow(true)}
+                style={{ marginLeft: "30px" }}
+              >
                 Delete
               </Button>
-              </div>
-            {error && <div className='error'>{error}</div>}
+            </div>
           </Form>
         )}
       </Formik>
@@ -337,9 +458,8 @@ function ViewUser() {
         show={modalDeleteShow}
         onHide={() => setModalDeleteShow(false)}
       />
-  
-      </div>
-    );
+    </div>
+  );
 }
 
-export default ViewUser;
+export default ViewEvent;

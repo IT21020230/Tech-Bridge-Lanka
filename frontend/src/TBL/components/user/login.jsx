@@ -5,7 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import { useLogin } from "../../hooks/useLogin";
 import * as yup from "yup";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik } from "formik";
 
 function Login() {
   const { login, error, isLoading } = useLogin();

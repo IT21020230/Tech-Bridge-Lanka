@@ -91,7 +91,7 @@ function App() {
               element={<ViewUser />}
             /> */}
 
-            <Route
+            {/* <Route
               path="/viewProject"
               element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
@@ -113,8 +113,8 @@ function App() {
             />
             <Route
               path="/projects"
-              element={!user ? <Projects /> : <Navigate to="/" />}
-            />
+              element={!user ? <Projects /> : <Navigate to="/" />} 
+            /> */}
             {/* <Route
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
@@ -153,6 +153,32 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
+            />
+
+            {/* Must be Removed later */}
+            <Route
+              path={process.env.PUBLIC_URL + "/listProject"}
+              element={<ListProject />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/viewProject/:id"}
+              element={<ViewProject />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/projects"}
+              element={<Projects />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/listEvent"}
+              element={<ListEvent />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/viewEvent/:id"}
+              element={<ViewEvent />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/events"}
+              element={<Events />}
             />
           </Routes>
         </div>
