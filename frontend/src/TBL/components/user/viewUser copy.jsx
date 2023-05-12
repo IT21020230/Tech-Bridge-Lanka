@@ -3,107 +3,159 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useSignup } from "../../hooks/useSignup";
-import * as yup from "yup";
-import { Formik } from "formik";
-import { useState } from "react";
+import Image from 'react-bootstrap/Image';
+import Modal from 'react-bootstrap/Modal';
 
-function SignUp() {
-  const { signup, error, isLoading } = useSignup();
+import * as formik from "formik";
+import * as yup from "yup";
+
+import { Formik, Field, ErrorMessage } from "formik";
+import React, { useState } from "react";
+import { useSignup } from '../../hooks/useSignup';
+import { BiTrash } from "react-icons/bi";
+import { IoAddSharp } from "react-icons/io5";
+
+function UpdateModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Update Your Account
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h5>Are you sure want to update your account ?</h5>
+
+      </Modal.Body>
+      <Modal.Footer>
+        <Button style={{marginRight: "20px"}} variant="success">Update</Button>
+        <Button onClick={props.onHide}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+function DeleteModal(props) {
+  return (
+    <Modal
+      {...props}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Delete Your Account
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h5>Are you sure want to permanently delete your account ?</h5>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button style={{marginRight: "20px"}} variant="danger">Delete</Button>
+        <Button onClick={props.onHide}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
+
+function ViewUser() {
+
+  const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
+
+  const {signup, error, isLoading} = useSignup()
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [age, setAge] = useState('');
+  const [province, setProvince] = useState('');
+  const [city, setCity] = useState('');
 
   const [fields, setFields] = useState([{ value: "" }]);
 
-  const [photo, setPhoto] = useState("");
-
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
-    console.log(file);
-    const base64 = await convertToBase64(file);
-    setPhoto(base64);
+  const handleInputChange = (index, event) => {
+    const values = [...fields];
+    values[index].value = event.target.value;
+    setFields(values);
   };
 
-  const handleSubmit = async (values) => {
-    //e.preventDefault();
-
-    console.log(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      values.province,
-      values.city,
-      photo
-    );
-
-    await signup(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      values.province,
-      values.city,
-      photo
-    );
+  const handleAddField = () => {
+    const values = [...fields];
+    values.push({ value: "" });
+    setFields(values);
   };
+
+  const handleRemoveField = (index) => {
+    const values = [...fields];
+    values.splice(index, 1);
+    setFields(values);
+  };
+
+  const handleSubmit = async (e, values) => {
+    e.preventDefault()
+
+    console.log(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
+
+    await signup(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
+  };
+
+  const { Formik } = formik;
 
   const schema = yup.object().shape({
+
     email: yup
-      .string()
-      .required("Please enter an Email!")
-      .email("Please enter a valid Email!"),
+    .string()
+    .required("Please enter an Email!")
+    .email("Please enter a valid Email!"),
 
     password: yup
       .string()
       .required("Please enter a Password!")
-      .matches(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
-        "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"
-      ),
-
-    confirmPassword: yup
-      .string()
-      .required("Please enter the Password again!")
-      .oneOf([yup.ref("password"), ""], "Passwords must match"),
-
+      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/, "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"),
+  
     phone: yup
       .string()
       .required("Please enter a Phone number!")
-      .matches(
-        /^[0-9]{10}$/,
-        "Contact number must be a 10-digit number without spaces or dashes"
-      ),
+      .matches(/^[0-9]{10}$/, "Contact number must be a 10-digit number without spaces or dashes"),
+    
+    name: yup
+      .string()
+      .required("Please enter the Name!"),
 
-    name: yup.string().required("Please enter the Name!"),
+    age: yup
+      .string()
+      .required("Please enter the Age!"),
 
-    age: yup.string().required("Please enter the Age!"),
-
-    province: yup.string().required("Please enter the Province!"),
-
-    city: yup.string().required("Please enter the City!"),
-
-    // terms: yup
-    //   .bool()
-    //   .required()
-    //   .oneOf([true], "Terms and conditions must be accepted"),
-  });
+    province: yup
+      .string()
+      .required("Please enter the Province!"),
+      
+    city: yup
+      .string()
+      .required("Please enter the City!")
+    });
 
   return (
     <div
       style={{
         backgroundColor: "#b0dae9",
-        marginTop: "20px",
-        marginLeft: "13%",
-        marginRight: "13%",
-        marginBottom: "20px",
+        marginLeft: "200px",
+        marginRight: "200px",
+        marginBottom: "17px",
         padding: "50px",
       }}
     >
       <div>
-        <h1 className="head">User Registration</h1>
+        <h1 className="head">My Account</h1>
       </div>
       <Formik
         validationSchema={schema}
@@ -112,25 +164,34 @@ function SignUp() {
         onSubmit={handleSubmit}
         initialValues={{
           email: "",
-          password: "",
-          confirmPassword: "",
-          name: "",
-          phone: "",
-          age: "",
-          province: "",
-          city: "",
+          password: "", 
+          confirmPassword: "", 
+          name: "", 
+          phone: "", 
+          age: "", 
+          province: "", 
+          city: ""
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
-                <Form.Label style={{ marginTop: "20px" }}>Name</Form.Label>
+              
+            <Row>
+
+
+            <div style={{ marginLeft: "60px", display: "flex", justifyContent: "center" }}>
+        <Col s={6} md={4}>
+          <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" style={{height: "250px", width: "250px"}} roundedCircle />
+        </Col>
+</div>
+
+      </Row>
+
+      <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
+                <Form.Label style={{ marginTop: "20px" }}>
+                  Name
+                </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="text"
@@ -147,15 +208,11 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-              >
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
+                    
                   }}
                 >
                   Email
@@ -176,12 +233,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -205,12 +257,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-              >
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -234,12 +281,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -263,12 +305,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-              >
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -292,12 +329,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -321,12 +353,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-              >
+              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -350,80 +377,57 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label
                   style={{
                     marginTop: "20px",
                   }}
                 >
-                  Upload a Profile Photo
+                  Upload Profile Photo
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="file"
                     aria-describedby="inputGroupPrepend"
-                    name="photo"
-                    onChange={(e) => handleFileUpload(e)}
+                    name="logo"
+                    value={values.photo}
+                    onChange={handleChange}
+                    isValid={touched.photo && !errors.photo}
+                    isInvalid={!!errors.photo}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.photo}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
+
+            
             </Row>
 
-            <Form.Group className="mb-3">
-              <Form.Check
-                required
-                name="terms"
-                label="Agree to terms and conditions"
-                onChange={handleChange}
-                isInvalid={!!errors.terms}
-                feedback={errors.terms}
-                feedbackType="invalid"
-                id="validationFormik0"
-              />
-            </Form.Group>
-
-            <Button
-              disabled={isLoading}
-              className="submitBTN"
-              type="submit"
-              variant="outline-primary"
-            >
-              Register
+            <br/>
+            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-success" onClick={() => setModalUpdateShow(true)}>
+              Update
             </Button>
-            <br />
-            <br />
-            <p>
-              Already have an account? <a href="/login">Login</a>
-              <br />
-              <br />
-            </p>
-            {error && <div className="error">{error}</div>}
+            <Button style={{marginLeft: "30px"}} disabled={isLoading} className="submitBTN" type="submit" variant="outline-danger" onClick={() => setModalDeleteShow(true)}>
+              Delete
+            </Button>
+            {error && <div className='error'>{error}</div>}
           </Form>
         )}
       </Formik>
+
+      <UpdateModal
+        show={modalUpdateShow}
+        onHide={() => setModalUpdateShow(false)}
+      />
+
+      <DeleteModal
+        show={modalDeleteShow}
+        onHide={() => setModalDeleteShow(false)}
+      />
+
     </div>
   );
 }
 
-export default SignUp;
-
-function convertToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-}
+export default ViewUser;

@@ -6,10 +6,6 @@ import Row from "react-bootstrap/Row";
 import { useLogin } from "../../hooks/useLogin";
 import * as yup from "yup";
 import { Formik, Field, ErrorMessage } from "formik";
-import { useState } from "react";
-
-import { BiTrash } from "react-icons/bi";
-import { IoAddSharp } from "react-icons/io5";
 
 function Login() {
   const { login, error, isLoading } = useLogin();
