@@ -6,16 +6,20 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
+
 import { useAuthContext } from "../../hooks/useAuthContext";
+
 
 import { useLogout } from "../../hooks/useLogout";
 
 import "./Navbar.css";
+
 import Row from "react-bootstrap/esm/Row";
 
 function OffcanvasExample() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+
 
   const handleLogout = () => {
     logout();
@@ -27,6 +31,7 @@ function OffcanvasExample() {
         <img className="responsive-image" src={logo} />
       </div>
       {["sm"].map((expand) => (
+
         <Navbar
           key={expand}
           expand={expand}
@@ -35,6 +40,7 @@ function OffcanvasExample() {
             backgroundColor: "#459c98",
           }}
         >
+
           <Container fluid>
             <Navbar.Brand
               href="#"
@@ -54,11 +60,13 @@ function OffcanvasExample() {
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   <Nav.Link
+
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Home
                   </Nav.Link>
+
 
 
                   <Nav.Link
@@ -176,6 +184,7 @@ function OffcanvasExample() {
                       </Row>
                     </div>
                   )}
+
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

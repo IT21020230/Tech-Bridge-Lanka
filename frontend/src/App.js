@@ -1,7 +1,14 @@
 import { lazy } from "react";
+
+import AddPostPage from "./TBL/pages/blog/CreatePost";
+import EditPostPage from "./TBL/pages/blog/EditPost";
+import PostPage from "./TBL/pages/blog/PostPage"
+import PostsPage from "./TBL/pages/blog/IndexPage"
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./custom.scss";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
 // import { SignUp } from "./TBL/pages/user/signUp";
@@ -65,6 +72,7 @@ function App() {
   const { user } = useAuthContext();
 
   return (
+
     <div className="App">
       <BrowserRouter>
         <div className="pages">
@@ -90,6 +98,34 @@ function App() {
               path={process.env.PUBLIC_URL + "/viewUser"}
               element={<ViewUser />}
             /> */}
+
+{/* Udesh start */}
+{/* Homepages */}
+          <Route
+            path={process.env.PUBLIC_URL + "/posts"}
+            element={<PostsPage />}
+          />
+
+          <Route
+            path={process.env.PUBLIC_URL + "/post/:id"}
+            element={<PostPage />}
+          />
+          <Route
+            path={process.env.PUBLIC_URL + "/UserRegister"}
+            element={<UserRegisterPage />}
+          />
+
+          <Route
+            path={process.env.PUBLIC_URL + "/add-post"}
+            element={<AddPostPage />}
+          />
+
+          <Route
+            path={process.env.PUBLIC_URL + "/edit/:id"}
+            element={<EditPostPage />}
+          />
+              
+              {/* Usesh end */}
 
             <Route
               path="/viewProject"
@@ -158,6 +194,7 @@ function App() {
         </div>
       </BrowserRouter>
     </div>
+
   );
 }
 
