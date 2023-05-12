@@ -1,0 +1,62 @@
+.ruleContainer {
+  display: flex;
+  align-items: center;
+  height: auto;
+}
+
+.ruleArea {
+  margin-top: 10px;
+  flex: 2;
+}
+.btn,
+.btn2,
+.ruleArea {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.btn {
+  background-color: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 26px;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.btn::after {
+}
+
+.btn:hover {
+}
+
+.btn2 {
+  background-color: transparent;
+  border: none;
+  color: #459c98;
+  cursor: pointer;
+  font-size: 26px;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  font-weight: 10000;
+}
+
+.btn2::after {
+}
+
+.btn2:hover {
+}
+
+.submitBTN {
+  color: aliceblue;
+  background-color: #459c98;
+  font-size: 20px;
+  padding: 3px;
+}
+
+.head {
+  font-weight: 500;
+}

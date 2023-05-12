@@ -41,10 +41,16 @@ mongoose
     console.log(error);
   });
 
-  
-  
-  
-  
-  
-  
-  
+
+// set up routes
+const userRoutes = require("./src/routes/userRoutes");
+const postRoutes = require("./src/routes/postRoutes");
+const projectRoutes = require("./src/routes/projectRoutes");
+const eventRoutes = require("./src/routes/eventRoutes");
+
+// define routes
+app.use("/api/user", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/events", eventRoutes);
+

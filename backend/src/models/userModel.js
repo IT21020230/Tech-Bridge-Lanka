@@ -1,32 +1,40 @@
 const mongoose = require("mongoose");
+
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+const userSchema = new Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
-  },
-  phone: {
-    type: String,
-    default: null,
     unique: true,
   },
   password: {
     type: String,
     required: true,
   },
-  address: {
+  name: {
     type: String,
-    default: null,
+    required: false,
+  },
+  phone: {
+    type: Number,
+    required: false,
+  },
+  age: {
+    type: Number,
+    required: false,
+  },
+  province: {
+    type: String,
+    required: false,
   },
   city: {
     type: String,
-    default: null,
+    required: false,
+  },
+  photo: {
+    type: String,
+    required: false,
   },
   homeLocation: {
     type: { type: String },
@@ -36,5 +44,5 @@ const UserSchema = new Schema({
 
 UserSchema.index({ homeLocation: "2dsphere" });
 
-// export user model
-module.exports = mongoose.model("User", UserSchema); 
+module.exports = mongoose.model("User", userSchema);
+

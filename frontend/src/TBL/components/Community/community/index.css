@@ -1,0 +1,314 @@
+.coverPic {
+  width: 100%;
+  border: 0.5px solid black;
+  overflow: hidden;
+  object-fit: cover;
+}
+@media only screen and (max-width: 80px) {
+  .coverPic {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.imgContainer {
+  height: 400px;
+}
+
+.con {
+  max-height: 40px;
+  background-color: #f0f2f5;
+}
+
+.logoPic {
+  margin-top: -50%;
+  border-radius: 200px;
+  border: 1px solid black;
+  width: 100%;
+}
+
+.pageHeading {
+  font-size: 7rem;
+  font-family: "New Century Schoolbook";
+}
+
+@media (max-width: 2800px) {
+  .pageHeading {
+    font-size: calc(5.5vw + 0.25rem);
+  }
+}
+
+.pageDetails1 {
+  border-right: 0.5px solid black;
+  height: 100px;
+  width: 100%;
+}
+
+.pageDetails2 {
+  height: 100px;
+  border-left: 0.5px solid black;
+  width: 100%;
+  background-color: #e8e8e8;
+}
+
+.proPic {
+  width: 140px;
+  height: 140px;
+
+  border-radius: 0px;
+}
+
+.memberTitile {
+  font-weight: 510;
+  margin-bottom: 30px;
+}
+
+.memberBTN {
+  width: 100%;
+  height: 50px;
+  margin-top: 0%;
+  margin-bottom: 5%;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #e8e9eb; /* Set your desired color value */
+  color: black; /* Set the text color for better contrast */
+  border: none;
+}
+
+.lB {
+  background-color: rgb(255, 255, 255);
+}
+
+.memberList {
+  text-align: center;
+}
+
+.memberList p {
+  font-weight: bold;
+  margin-bottom: -1px;
+}
+
+.options {
+  background-color: white;
+  height: auto;
+}
+
+.data {
+  background-color: white;
+  height: auto;
+}
+
+.dataIn {
+  margin-left: 25px;
+}
+
+.aboutData {
+  margin-bottom: 15px;
+}
+
+.createEvent {
+  margin-top: 10px;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  background-color: white;
+  /* color: black; */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15%;
+}
+
+.ln1,
+.ln2 {
+  display: inline-block;
+}
+
+.ln1 {
+  color: #3e8e41;
+}
+
+.createProject {
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  background-color: white;
+  /* color: black; */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 15%;
+}
+
+.ln3,
+.ln4 {
+  display: inline-block;
+}
+
+.ln3 {
+  color: #afa406;
+}
+
+.abt {
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+  background-color: white;
+  /* color: black; */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.promt {
+  background-color: white;
+  height: auto;
+}
+
+.displayRule {
+  background-color: white;
+  height: auto;
+  margin-top: -130px;
+}
+
+.joinBtn {
+  margin-top: 165%;
+  margin-right: 10%;
+  width: auto;
+  height: auto;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 20px;
+  border-radius: 20px;
+  background-color: #1d345e;
+  color: white;
+}
+
+.aboutUsPaage {
+  height: auto;
+  background-color: white;
+  padding: 15px;
+}
+
+.editAbout {
+  border: 0;
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+.rules {
+  background-color: white;
+  height: auto;
+  padding-top: 10px;
+  padding-left: 10px;
+  margin-bottom: 30px;
+}
+
+.rulesList {
+  padding: 20px;
+}
+
+.editBtn {
+  padding: 10px;
+  font-size: 20px;
+  border: 0px;
+  background-color: white;
+  color: green;
+}
+
+.delteBtn {
+  padding: 10px;
+  font-size: 20px;
+  border: 0px;
+  background-color: white;
+  color: red;
+}
+
+.addRuleBtn {
+  background-color: #2db632;
+  color: #e8e8e8;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 10px;
+  border: 0px;
+}
+
+.CommunityMember {
+  height: auto;
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.memberList1 {
+  width: 85px;
+  height: 85px;
+
+  border-radius: 0px;
+}
+
+.oneMember {
+  border: 0.5px solid rgb(212, 212, 212);
+  padding: 10px;
+}
+
+.oneName {
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+  justify-content: center;
+  margin-top: 10%;
+}
+
+.optionBTN {
+  margin-top: 40%;
+  border: 0px;
+  font-size: 30px;
+  background-color: white;
+  font-weight: 500;
+}
+
+.inBTN {
+  background-color: white;
+  border: 1px solid rgb(214, 211, 211);
+  padding: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.memberOption {
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.invite {
+  background-color: rgb(58, 47, 160);
+  color: white;
+  padding: 10px;
+  border-radius: 40px;
+}
+
+.viewBtn {
+  border: 0px;
+  background-color: #2db632;
+  padding: 10px;
+  border-radius: 40px;
+}
+
+.acceptMember {
+  border: 0px;
+  background-color: #2db632;
+  color: white;
+  padding: 10px;
+  border-radius: 40px;
+}
+
+.rejectMember {
+  margin-left: 20px;
+  border: 0px;
+  background-color: red;
+  padding: 10px;
+  color: white;
+  border-radius: 40px;
+}
