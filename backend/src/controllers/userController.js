@@ -130,9 +130,50 @@ const getAllUsers = async (req, res) => {
   const users = await User.find({});
   res.status(200).json(users);
 };
+// store user's home location in the database
+const addUserLocation = async (req, res) => {
+  try {
+    const { userId, latitude, longitude } = req.body;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    user.homeLocation = {
+      type: "Point",
+      coordinates: [parseFloat(longitude), parseFloat(latitude)],
+    };
+
+    await user.save();
+
+    return res.send({ message: "Home location saved successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({ message: "Internal server error" });
+  }
+};
+
+// endpoint to get all user locations
+const getLocations = async (req, res) => {
+  try {
+    const users = await User.find({ homeLocation: { $ne: null } }); // find all users with a non-null homeLocation field
+    const locations = users.map(user => user.homeLocation.coordinates); // extract the coordinates from each user's homeLocation field
+    res.json(locations); // send the list of coordinates as a JSON response
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
+};
 
 module.exports = {
   getAllUsers,
   loginUser,
   signupUser,
+  getLocations,
+  addUserLocation,
+  loginUser,
+  signupUser,
+
 };

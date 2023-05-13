@@ -15,6 +15,21 @@ app.use((req, res, next) => {
   next();
 });
 app.use(cors());
+app.use("/uploads", express.static(__dirname + "/uploads"));
+
+// set up routes
+const userRoutes = require("./src/routes/userRoutes");
+const postRoutes = require("./src/routes/postRoutes");
+const districtRoutes = require("./src/routes/districtRoutes");
+const projectRoutes = require("./src/routes/projectRoutes");
+const eventRoutes = require("./src/routes/eventRoutes");
+
+// define routes
+app.use("/api/user", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/ddd-data", districtRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/events", eventRoutes);
 
 // Connect to the database
 mongoose.set("strictQuery", false);
@@ -31,15 +46,3 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-
-// set up routes
-const userRoutes = require("./src/routes/userRoutes");
-const postRoutes = require("./src/routes/postRoutes");
-const projectRoutes = require("./src/routes/projectRoutes");
-const eventRoutes = require("./src/routes/eventRoutes");
-
-// define routes
-app.use("/api/user", userRoutes);
-app.use("/api/posts", postRoutes);
-app.use("/api/projects", projectRoutes);
-app.use("/api/events", eventRoutes);
