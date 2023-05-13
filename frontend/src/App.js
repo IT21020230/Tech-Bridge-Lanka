@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
 // map pages
 const Map = lazy(() => import("./TBL/pages/map/map.jsx"));

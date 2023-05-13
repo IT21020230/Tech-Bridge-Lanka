@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import ReactMapboxGl, { Marker, ZoomControl } from "react-mapbox-gl";
 import mapboxgl from "mapbox-gl";
-import axios from 'axios';
+import axios from "axios";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./mapView.css";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+
+import Navbar from "../../layout/Navbar/Navbar";
+import Footer from "../../layout/Footer/Footer";
+import Sidebar from "../../layout/Slidebar/Slidebar";
+import { Grid, Card } from "@mui/material";
+import "../index.css";
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -28,25 +34,25 @@ const MapView = () => {
   ];
 
   const handleSendLocation = async () => {
-    const { latitude, longitude } = location;
-    alert(latitude);
-    alert(longitude);
-    
-    // const userId = "6453a8bcc6d9e14527bdf3e1"; // replace with actual user ID
     // const { latitude, longitude } = location;
+    // alert(latitude);
+    // alert(longitude);
 
-    // try {
-    //   await axios.patch(`http://localhost:8000/api/user/home-location`, {
-    //     userId,
-    //     latitude,
-    //     longitude,
-    //   });
+    const userId = "64577ff67e4e188701fa551c"; // replace with actual user ID
+    const { latitude, longitude } = location;
 
-    //   alert("Location data sent successfully!");
-    // } catch (error) {
-    //   console.error(error);
-    //   alert("Failed to send location data. Please try again later.");
-    // }
+    try {
+      await axios.patch(`http://localhost:8000/api/user/home-location`, {
+        userId,
+        latitude,
+        longitude,
+      });
+
+      alert("Location data sent successfully!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to send location data. Please try again later.");
+    }
   };
 
   const handleGeolocationSuccess = (position) => {
@@ -94,80 +100,97 @@ const MapView = () => {
   };
 
   return (
-    <>
-      <PlacesAutocomplete
-        value={address}
-        onChange={setAddress}
-        onSelect={handleAddressSelect}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div className="autocomplete-container">
-            <input
-              {...getInputProps({ placeholder: "Search Places..." })}
-              className="input"
-            />
-            <div className="autocomplete-dropdown-container">
-              {loading && <div>Loading...</div>}
-              {suggestions.map((suggestion) => {
-                const className = suggestion.active
-                  ? "suggestion-item--active"
-                  : "suggestion-item";
-                // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                  : { backgroundColor: "#ffffff", cursor: "pointer" };
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
-                  >
-                    <span>{suggestion.description}</span>
+    <main>
+      <Navbar />
+      <div className="content">
+        <Grid container spacing={0}>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6}>
+            <div style={{}}>
+              <PlacesAutocomplete
+                value={address}
+                onChange={setAddress}
+                onSelect={handleAddressSelect}
+              >
+                {({
+                  getInputProps,
+                  suggestions,
+                  getSuggestionItemProps,
+                  loading,
+                }) => (
+                  <div className="autocomplete-container">
+                    <input
+                      {...getInputProps({ placeholder: "Search Places..." })}
+                      className="input"
+                    />
+                    <div className="autocomplete-dropdown-container">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map((suggestion) => {
+                        const className = suggestion.active
+                          ? "suggestion-item--active"
+                          : "suggestion-item";
+                        // inline style for demonstration purpose
+                        const style = suggestion.active
+                          ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                          : { backgroundColor: "#ffffff", cursor: "pointer" };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style,
+                            })}
+                          >
+                            <span>{suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                );
-              })}
+                )}
+              </PlacesAutocomplete>
+              <Map
+                style="mapbox://styles/mapbox/streets-v9"
+                center={center}
+                fitBounds={locationBounds}
+                fitBoundsOptions={{ padding: 20 }}
+                zoom={[zoom]}
+                maxBounds={[
+                  [78.588709, 5.721103], // Southwest coordinates
+                  [82.881341, 9.938232], // Northeast coordinates
+                ]}
+                containerStyle={{
+                  height: "500px",
+                  width: "500px",
+                }}
+                onClick={handleClick}
+              >
+                <ZoomControl />
+                <mapboxgl.GeolocateControl
+                  positionOptions={{ enableHighAccuracy: true }}
+                  trackUserLocation={true}
+                  onGeolocate={handleGeolocationSuccess}
+                />
+                {location.latitude && location.longitude && (
+                  <Marker
+                    draggable={true}
+                    coordinates={[location.longitude, location.latitude]}
+                    onDragEnd={handleMarkerDragEnd}
+                  />
+                )}
+              </Map>
+              <button
+                onClick={handleSendLocation}
+                disabled={!location.latitude || !location.longitude}
+              >
+                Send Location
+              </button>
             </div>
-          </div>
-        )}
-      </PlacesAutocomplete>
-      <Map
-        style="mapbox://styles/mapbox/streets-v9"
-        center={center}
-        fitBounds={locationBounds}
-        fitBoundsOptions={{ padding: 20 }}
-        zoom={[zoom]}
-        maxBounds={[
-          [78.588709, 5.721103], // Southwest coordinates
-          [82.881341, 9.938232], // Northeast coordinates
-        ]}
-        containerStyle={{
-          height: "500px",
-          width: "500px",
-        }}
-        onClick={handleClick}
-      >
-        <ZoomControl />
-        <mapboxgl.GeolocateControl
-          positionOptions={{ enableHighAccuracy: true }}
-          trackUserLocation={true}
-          onGeolocate={handleGeolocationSuccess}
-        />
-        {location.latitude && location.longitude && (
-          <Marker
-            draggable={true}
-            coordinates={[location.longitude, location.latitude]}
-            onDragEnd={handleMarkerDragEnd}
-          />
-        )}
-      </Map>
-      <button
-        onClick={handleSendLocation}
-        disabled={!location.latitude || !location.longitude}
-      >
-        Send Location
-      </button>
-    </>
+          </Grid>
+          <Grid item xs={3}></Grid>
+        </Grid>
+      </div>
+      <Footer />
+    </main>
   );
 };
 
