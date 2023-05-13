@@ -70,6 +70,10 @@ function App() {
         <div className="pages">
           <Routes>
             <Route
+              path={process.env.PUBLIC_URL + "/test"}
+              element={<TestingUi />}
+            />
+            <Route
               path="/"
               element={user ? <TestingUi /> : <Navigate to="/login" />}
             />
@@ -156,6 +160,10 @@ function App() {
             />
 
             {/* Must be Removed later */}
+            <Route
+              path={process.env.PUBLIC_URL + "/viewUser"}
+              element={<ViewUser />}
+            />
             <Route
               path={process.env.PUBLIC_URL + "/listProject"}
               element={<ListProject />}

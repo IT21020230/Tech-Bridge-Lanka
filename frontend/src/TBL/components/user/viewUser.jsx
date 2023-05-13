@@ -185,7 +185,6 @@ function ViewUser() {
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
-
               <Row>
                 <div
                   style={{
@@ -203,19 +202,6 @@ function ViewUser() {
                   </Col>
                 </div>
               </Row>
-
-              
-            <Row>
-
-
-            <div style={{ marginLeft: "60px", display: "flex", justifyContent: "center" }}>
-        <Col s={6} md={4}>
-          <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png" style={{height: "250px", width: "250px"}} roundedCircle />
-        </Col>
-</div>
-
-      </Row>
-
 
               <Form.Group as={Col} md="5" controlId="validationFormikUsername">
                 <Form.Label style={{ marginTop: "20px" }}>Name</Form.Label>
@@ -429,30 +415,6 @@ function ViewUser() {
                     marginTop: "20px",
                   }}
                 >
-                  Phone
-                </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="number"
-                    aria-describedby="inputGroupPrepend"
-                    name="phone"
-                    value={values.phone}
-                    onChange={handleChange}
-                    isValid={touched.phone && !errors.phone}
-                    isInvalid={!!errors.phone}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.phone}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
-
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
-                <Form.Label
-                  style={{
-                    marginTop: "20px",
-                  }}
-                >
                   Upload Profile Photo
                 </Form.Label>
                 <InputGroup hasValidation>
@@ -469,7 +431,6 @@ function ViewUser() {
               </Form.Group>
             </Row>
 
-
             <br />
             <Button
               disabled={isLoading}
@@ -478,10 +439,6 @@ function ViewUser() {
               variant="outline-success"
               onClick={() => setModalUpdateShow(true)}
             >
-
-            <br/>
-            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-success" onClick={() => setModalUpdateShow(true)}>
-
               Update
             </Button>
             <Button
