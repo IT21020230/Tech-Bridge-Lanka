@@ -477,7 +477,7 @@ function ViewUser() {
               type="submit"
               variant="outline-success"
               onClick={() => setModalUpdateShow(true)}
-            >
+            ></Button>
 
             <br/>
             <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-success" onClick={() => setModalUpdateShow(true)}>

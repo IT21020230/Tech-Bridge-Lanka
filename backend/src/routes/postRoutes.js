@@ -3,7 +3,7 @@ const express = require("express");
 const multer = require('multer');
 const uploadMiddleware = multer({ dest: "uploads/" });
 
-const requireAuth = require("../middlewares/requireAuth");
+// const requireAuth = require("../middlewares/requireAuth");
 
 
 const {
@@ -16,7 +16,7 @@ const {
 const router = express.Router();
 
 
-router.use(requireAuth);
+// router.use(requireAuth);
 
 // GET all posts
 router.get("/post", getPosts);

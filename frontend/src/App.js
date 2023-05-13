@@ -2,23 +2,22 @@ import { Suspense, lazy } from "react";
 
 import AddPostPage from "./TBL/pages/blog/CreatePost";
 import EditPostPage from "./TBL/pages/blog/EditPost";
-import PostPage from "./TBL/pages/blog/PostPage"
-import PostsPage from "./TBL/pages/blog/IndexPage"
+import PostPage from "./TBL/pages/blog/PostPage";
+import PostsPage from "./TBL/pages/blog/IndexPage";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./custom.scss";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
-import { useAuthContext } from "./TBL/hooks/useAuthContext";
-
-// map pages
-const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
-const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
 
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
 // import { SignUp } from "./TBL/pages/user/signUp";
 // import { Login } from "./TBL/pages/user/login";
 // import { TestingUi } from "./TBL/pages/TestingUI/testingUI";
+
+// map pages
+const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
+const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
 
 // Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
@@ -77,7 +76,6 @@ function App() {
   const { user } = useAuthContext();
 
   return (
-
     <div className="App">
       <BrowserRouter>
         <div className="pages">
@@ -104,33 +102,33 @@ function App() {
               element={<ViewUser />}
             /> */}
 
-{/* Udesh start */}
-{/* Homepages */}
-          <Route
-            path={process.env.PUBLIC_URL + "/posts"}
-            element={<PostsPage />}
-          />
+            {/* Udesh start */}
+            {/* Homepages */}
+            <Route
+              path={process.env.PUBLIC_URL + "/posts"}
+              element={<PostsPage />}
+            />
 
-          <Route
-            path={process.env.PUBLIC_URL + "/post/:id"}
-            element={<PostPage />}
-          />
-          <Route
+            <Route
+              path={process.env.PUBLIC_URL + "/post/:id"}
+              element={<PostPage />}
+            />
+            {/* <Route
             path={process.env.PUBLIC_URL + "/UserRegister"}
             element={<UserRegisterPage />}
-          />
+          /> */}
 
-          <Route
-            path={process.env.PUBLIC_URL + "/add-post"}
-            element={<AddPostPage />}
-          />
+            <Route
+              path={process.env.PUBLIC_URL + "/add-post"}
+              element={<AddPostPage />}
+            />
 
-          <Route
-            path={process.env.PUBLIC_URL + "/edit/:id"}
-            element={<EditPostPage />}
-          />
-              
-              {/* Usesh end */}
+            <Route
+              path={process.env.PUBLIC_URL + "/edit/:id"}
+              element={<EditPostPage />}
+            />
+
+            {/* Usesh end */}
 
             <Route
               path="/viewProject"
@@ -195,11 +193,19 @@ function App() {
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
             />
+
+<Route
+              path={process.env.PUBLIC_URL + "/map"}
+              element={<Map />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/map-live"}
+              element={<MapLive />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
     </div>
-
   );
 }
 

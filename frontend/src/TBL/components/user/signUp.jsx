@@ -15,23 +15,6 @@ function SignUp() {
 
   const [photo, setPhoto] = useState("");
 
-<<<<<<< HEAD
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-      const user = await axios.post('http://localhost:8000/api/user/signup', {
-        email, password, confirmPassword, name, phone, age, address, city
-      }).then(() => {
-        console.log('User registered successfully');
-    
-        toast.success(`User Registration Successful`, {
-          position: "bottom-left",
-        });
-        setTimeout(() => {
-          navigate("/");
-        }, 2500);
-      });
-  }
-=======
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     console.log(file);
@@ -107,7 +90,6 @@ function SignUp() {
     //   .required()
     //   .oneOf([true], "Terms and conditions must be accepted"),
   });
->>>>>>> 7b0151d34e4400c34030d285df1000564c7049e3
 
   return (
     <div
