@@ -1,12 +1,16 @@
 import SignUp from "../../components/user/signUp";
+import Navbar from "../../layout/Navbar/Navbar";
+import Footer from "../../layout/Footer/Footer";
 
 const SignUpPage = () => {
   return (
-    <div className="app">
-      <main className="content">
-          <SignUp />
-      </main>
-    </div>
+    <main className="app">
+      <Navbar />
+      <div className="content">
+        <SignUp />
+      </div>
+      <Footer />
+    </main>
   );
 }
 

@@ -7,12 +7,19 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
 
+import { useAuthContext } from "../../hooks/useAuthContext";
+
+
 import { useLogout } from "../../hooks/useLogout";
 
 import "./Navbar.css";
 
+import Row from "react-bootstrap/esm/Row";
+
 function OffcanvasExample() {
   const { logout } = useLogout();
+  const { user } = useAuthContext();
+
 
   const handleLogout = () => {
     logout();
@@ -24,7 +31,16 @@ function OffcanvasExample() {
         <img className="responsive-image" src={logo} />
       </div>
       {["sm"].map((expand) => (
-        <Navbar key={expand} style={{backgroundColor: "#459c98"}} expand={expand} className="mb-3">
+
+        <Navbar
+          key={expand}
+          expand={expand}
+          className="mb-3"
+          style={{
+            backgroundColor: "#459c98",
+          }}
+        >
+
           <Container fluid>
             <Navbar.Brand
               href="#"
@@ -50,46 +66,91 @@ function OffcanvasExample() {
                   >
                     Home
                   </Nav.Link>
-                  <Nav.Link
 
+
+
+                  <Nav.Link
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Stories
                   </Nav.Link>
-                  <Nav.Link
 
+                  <Nav.Link
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Map
                   </Nav.Link>
-                  <Nav.Link
 
+                  <Nav.Link
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     DDD
                   </Nav.Link>
+
                   <Nav.Link
-                    href="/projects"
+                    href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
-                    Projects
+                    Communities
                   </Nav.Link>
+
+
                   <Nav.Link
-                    href="/events"
+                    href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
-                    Events
+                    Stories
                   </Nav.Link>
-                  <Button
-                    variant="outline-danger"
-                    className="btn-logout"
-                    onClick={handleLogout}
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
                   >
-                    Logout
-                  </Button>
+                    Map
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    DDD
+                  </Nav.Link>
+
+                  {/* Check whether the user is logged in */}
+                  {user && (
+                    <div>
+                      <span>{user.email}</span>
+                      <Button
+                        variant="danger"
+                        className="btn-logout"
+                        onClick={handleLogout}
+                      >
+                        Logout
+                      </Button>
+                    </div>
+                  )}
+                  {!user && (
+                    <div>
+                      <Row>
+                        <Nav.Link
+                          href="/login"
+                          style={{ color: "black", fontWeight: "bold" }}
+                        >
+                          Login
+                        </Nav.Link>
+                        {/* <Nav.Link
+                          href="/signup"
+                          style={{ color: "black", fontWeight: "bold" }}
+                        >
+                          Register
+                        </Nav.Link> */}
+                      </Row>
+                    </div>
+                  )}
+
                 </Nav>
               </Offcanvas.Body>
             </Navbar.Offcanvas>

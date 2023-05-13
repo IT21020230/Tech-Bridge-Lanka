@@ -44,7 +44,7 @@ const loginUser = async (req, res) => {
     //   { expiresIn: "1h" }
     // );
 
-    res.json({ userId: user.id, token: token });
+    res.json({ userId: user.id, email: user.email, token: token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -61,8 +61,9 @@ const signupUser = async (req, res) => {
       name,
       phone,
       age,
-      address,
+      province,
       city,
+      photo,
     } = req.body;
 
     // Check name or email or password is empty
@@ -109,8 +110,9 @@ const signupUser = async (req, res) => {
       name,
       phone,
       age,
-      address,
+      province,
       city,
+      photo,
     });
     await user.save();
 
@@ -169,6 +171,9 @@ module.exports = {
   getAllUsers,
   loginUser,
   signupUser,
-  addUserLocation,
   getLocations,
+  addUserLocation,
+  loginUser,
+  signupUser,
+
 };
