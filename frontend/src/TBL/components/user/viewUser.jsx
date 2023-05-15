@@ -5,116 +5,220 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import Image from "react-bootstrap/Image";
 import Modal from "react-bootstrap/Modal";
-
 import * as yup from "yup";
-import { Formik, Field, ErrorMessage } from "formik";
-import React, { useState } from "react";
-import { useSignup } from "../../hooks/useSignup";
-import { BiTrash } from "react-icons/bi";
-import { IoAddSharp } from "react-icons/io5";
-//import { useAuthContext } from "../../hooks/useAuthContext";
-
-function UpdateModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Update Your Account
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Are you sure want to update your account ?</h5>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button style={{ marginRight: "20px" }} variant="success">
-          Update
-        </Button>
-        <Button onClick={props.onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
-
-function DeleteModal(props) {
-  return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Delete Your Account
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h5>Are you sure want to permanently delete your account ?</h5>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button style={{ marginRight: "20px" }} variant="danger">
-          Delete
-        </Button>
-        <Button onClick={props.onHide}>Cancel</Button>
-      </Modal.Footer>
-    </Modal>
-  );
-}
+import { Formik } from "formik";
+import React, { useState, useEffect } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
+// import { useUpdateUser } from "../../hooks/useUpdateUser";
+import axios from "axios";
 
 function ViewUser() {
-  //const { user } = useAuthContext();
+  //const { updateUser, error, isLoading } = useUpdateUser();
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
 
-  //console.log(user.email);
+  //const ID = user.userId;
+
+  const navigate = useNavigate();
+
+  const [initialValues, setInitialValues] = useState({
+    email: "",
+    password: "",
+    name: "",
+    phone: "",
+    age: "",
+    province: "",
+    city: "",
+    photo: "",
+  });
+
+  // const [users, setUsers] = useState({
+  //   email: "",
+  //   password: "",
+  //   name: "",
+  //   phone: "",
+  //   age: "",
+  //   province: "",
+  //   city: "",
+  //   photo: "",
+  //   __v: 0,
+  //   _id: "",
+  // });
+
+  const [imageURL, setImageURL] = useState("");
+
+  //GET USER DATA
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get(
+        `http://localhost:7000/api/user/${user.userId}`
+      );
+      const { email, password, name, phone, age, province, city, photo } =
+        response.data;
+      setInitialValues({
+        email,
+        name,
+        phone,
+        age,
+        province,
+        city,
+        photo,
+      });
+
+      if (photo) {
+        setImageURL(photo);
+      } else {
+        // Set a default image URL if the API response is empty
+      }
+    }
+
+    fetchData();
+  }, []);
 
   const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
   const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
 
-  const { signup, error, isLoading } = useSignup();
+  //UPDATE USER DATA
+  const handleSubmit = async (values) => {
+    //e.preventDefault();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [age, setAge] = useState("");
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
+    const response = await fetch(
+      `http://localhost:7000/api/user/${user.userId}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+          name: values.name,
+          phone: values.phone,
+          age: values.age,
+          province: values.province,
+          city: values.city,
+          photo,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    );
+
+    const json = await response.json();
+
+    if (response.ok) {
+      console.log("User updated successfully.");
+
+      toast.success(`User updated successfully `, {
+        position: "bottom-left",
+      });
+      setTimeout(() => {
+        //navigate("/user");
+      }, 2000);
+    }
+  };
+
+  //DELETE User
+  const handleDeleteSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(
+      `http://localhost:7000/api/user/${user.userId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.log(json.error);
+    }
+
+    if (response.ok) {
+      console.log("User deleted successfully.", json);
+
+      toast.success(`User deleted successfully `, {
+        position: "bottom-left",
+      });
+      setTimeout(() => {
+        //navigate("/login");
+        logout();
+      }, 2000);
+    }
+  };
+
+  //Update modal
+  function UpdateModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Update Your Account
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Are you sure want to update your account ?</h5>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ marginRight: "20px" }}
+            variant="success"
+            onClick={handleSubmit}
+          >
+            Update
+          </Button>
+          <Button onClick={props.onHide}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  //Delete modal
+  function DeleteModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Delete Your Account
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Are you sure want to permanently delete your account ?</h5>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ marginRight: "20px" }}
+            variant="danger"
+            onClick={handleDeleteSubmit}
+          >
+            Delete
+          </Button>
+          <Button onClick={props.onHide}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
   const [photo, setPhoto] = useState("");
 
+  //file upload handler
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     console.log(file);
     const base64 = await convertToBase64(file);
     setPhoto(base64);
-  };
-
-  const handleSubmit = async (values) => {
-    console.log(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      values.province,
-      values.city
-    );
-
-    await signup(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      values.province,
-      values.city
-    );
   };
 
   const schema = yup.object().shape({
@@ -153,6 +257,8 @@ function ViewUser() {
     city: yup.string().required("Please enter the City!"),
   });
 
+  console.log(imageURL);
+
   return (
     <div
       style={{
@@ -163,24 +269,17 @@ function ViewUser() {
         padding: "50px",
       }}
     >
+      <ToastContainer />
       <div>
         <h1 className="head">My Account</h1>
       </div>
       <Formik
+        enableReinitialize
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
         onSubmit={handleSubmit}
-        initialValues={{
-          email: "",
-          password: "",
-          confirmPassword: "",
-          name: "",
-          phone: "",
-          age: "",
-          province: "",
-          city: "",
-        }}
+        initialValues={initialValues}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
@@ -194,16 +293,24 @@ function ViewUser() {
                   }}
                 >
                   <Col s={6} md={4}>
-                    <Image
-                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png"
-                      style={{ height: "250px", width: "250px" }}
-                      roundedCircle
-                    />
+                    {imageURL ? (
+                      <Image
+                        src={imageURL}
+                        style={{ height: "250px", width: "250px" }}
+                        roundedCircle
+                      />
+                    ) : (
+                      <Image
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png"
+                        style={{ height: "250px", width: "250px" }}
+                        roundedCircle
+                      />
+                    )}
                   </Col>
                 </div>
               </Row>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikName">
                 <Form.Label style={{ marginTop: "20px" }}>Name</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -225,7 +332,7 @@ function ViewUser() {
                 style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikEmail"
               >
                 <Form.Label
                   style={{
@@ -250,7 +357,7 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikPassword">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -278,7 +385,7 @@ function ViewUser() {
                 style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikConfirmPassword"
               >
                 <Form.Label
                   style={{
@@ -303,7 +410,7 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikCity">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -331,7 +438,7 @@ function ViewUser() {
                 style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikProvince"
               >
                 <Form.Label
                   style={{
@@ -356,7 +463,7 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikAge">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -384,7 +491,7 @@ function ViewUser() {
                 style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikPhone"
               >
                 <Form.Label
                   style={{
@@ -409,7 +516,7 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group as={Col} md="5" controlId="validationFormikPhoto">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -433,25 +540,20 @@ function ViewUser() {
 
             <br />
             <Button
-              disabled={isLoading}
               className="submitBTN"
-              type="submit"
               variant="outline-success"
-              onClick={() => setModalUpdateShow(true)}
+              type="submit"
             >
               Update
             </Button>
             <Button
               style={{ marginLeft: "30px" }}
-              disabled={isLoading}
               className="submitBTN"
-              type="submit"
               variant="outline-danger"
               onClick={() => setModalDeleteShow(true)}
             >
               Delete
             </Button>
-            {error && <div className="error">{error}</div>}
           </Form>
         )}
       </Formik>

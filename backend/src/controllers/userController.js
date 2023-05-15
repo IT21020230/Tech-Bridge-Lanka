@@ -125,14 +125,109 @@ const signupUser = async (req, res) => {
   }
 };
 
-//return all users
-const getAllUsers = async (req, res) => {
-  const users = await User.find({});
-  res.status(200).json(users);
+//Update the User
+const updateUser = async (req, res) => {
+  try {
+    const { email, password, name, phone, age, province, city, photo } =
+      req.body;
+
+    // Find User by ID
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    // Update User
+    user.email = email || user.email;
+    user.password = hash || user.password;
+    user.name = name || user.name;
+    user.phone = phone || user.phone;
+    user.age = age || user.age;
+    user.province = province || user.province;
+    user.city = city || user.city;
+    user.photo = photo || user.photo;
+
+    await user.save();
+
+    //send success message
+    res.json({ message: "User updated successfully" });
+
+    //If there's an error, throw error
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//Get all User
+const getAllUser = async (req, res) => {
+  try {
+    // Find User
+    const user = await User.find();
+
+    if (!user) {
+      res.status(404).send("User not found");
+    } else {
+      res.send(user);
+      console.log("***All Users got successfully***");
+    }
+
+    //If there's an error, throw error
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//Get a user by its ID
+const getUserById = async (req, res) => {
+  try {
+    // Find user by ID
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    //Get user
+    console.error("***User got successfully***");
+    return res.status(200).send(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+//Delete the user
+const deleteUser = async (req, res) => {
+  try {
+    // Find user by ID
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Delete user
+    await user.deleteOne();
+
+    //send success message
+    res.json({ message: "User deleted successfully" });
+
+    //If there's an error, throw error
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 module.exports = {
-  getAllUsers,
   loginUser,
   signupUser,
+  updateUser,
+  getAllUser,
+  getUserById,
+  deleteUser,
 };

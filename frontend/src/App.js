@@ -83,20 +83,15 @@ function App() {
             />
             <Route
               path="/signup"
-              element={!user ? <SignUp /> : <Navigate to="/login" />}
+              element={!user ? <SignUp /> : <Navigate to="/test" />}
             />
-            {/* <Route
+            <Route
               path="/viewUser"
               element={user ? <ViewUser /> : <Navigate to="/login" />}
-            /> */}
+            />
 
-            {/* <Route
-              path={process.env.PUBLIC_URL + "/viewUser"}
-              element={<ViewUser />}
-            /> */}
-
-            {/* <Route
-              path="/viewProject"
+            <Route
+              path="/viewProject/:id"
               element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
             <Route
@@ -117,12 +112,13 @@ function App() {
             />
             <Route
               path="/projects"
-              element={!user ? <Projects /> : <Navigate to="/" />} 
-            /> */}
+              element={user ? <Projects /> : <Navigate to="/login" />}
+            />
+
             {/* <Route
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
-            /> */}
+            />
 
             <Route
               path={process.env.PUBLIC_URL + "/accept-decline-blogs-page"}
@@ -142,11 +138,11 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/issues-to-accept"}
               element={<IssuesToAcceptPage />}
-            />
+            /> */}
 
             {/* Community */}
 
-            <Route
+            {/* <Route
               path={process.env.PUBLIC_URL + "/createCommunity"}
               element={<CreateCommunity />}
             />
@@ -157,37 +153,7 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
-            />
-
-            {/* Must be Removed later */}
-            <Route
-              path={process.env.PUBLIC_URL + "/viewUser"}
-              element={<ViewUser />}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/listProject"}
-              element={<ListProject />}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/viewProject/:id"}
-              element={<ViewProject />}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/projects"}
-              element={<Projects />}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/listEvent"}
-              element={<ListEvent />}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/viewEvent/:id"}
-              element={<ViewEvent />}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/events"}
-              element={<Events />}
-            />
+            /> */}
           </Routes>
         </div>
       </BrowserRouter>
