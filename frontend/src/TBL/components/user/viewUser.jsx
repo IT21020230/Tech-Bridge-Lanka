@@ -21,8 +21,6 @@ function ViewUser() {
   const { user } = useAuthContext();
   const { logout } = useLogout();
 
-  //const ID = user.userId;
-
   const navigate = useNavigate();
 
   const [initialValues, setInitialValues] = useState({
@@ -35,19 +33,6 @@ function ViewUser() {
     city: "",
     photo: "",
   });
-
-  // const [users, setUsers] = useState({
-  //   email: "",
-  //   password: "",
-  //   name: "",
-  //   phone: "",
-  //   age: "",
-  //   province: "",
-  //   city: "",
-  //   photo: "",
-  //   __v: 0,
-  //   _id: "",
-  // });
 
   const [imageURL, setImageURL] = useState("");
 
@@ -256,8 +241,6 @@ function ViewUser() {
 
     city: yup.string().required("Please enter the City!"),
   });
-
-  console.log(imageURL);
 
   return (
     <div

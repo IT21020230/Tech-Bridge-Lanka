@@ -102,7 +102,11 @@ function OffcanvasExample() {
                   {/* Check whether the user is logged in */}
                   {user && (
                     <div>
-                      <span>{user.email}</span>
+                      <span>
+                        <a href="/viewUser">
+                          <b>{user.name}</b>
+                        </a>
+                      </span>
                       <Button
                         variant="danger"
                         className="btn-logout"

@@ -95,7 +95,7 @@ function App() {
               element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
             <Route
-              path="/viewEvent"
+              path="/viewEvent/:id"
               element={user ? <ViewEvent /> : <Navigate to="/login" />}
             />
             <Route
@@ -110,10 +110,7 @@ function App() {
               path="/events"
               element={user ? <Events /> : <Navigate to="/login" />}
             />
-            <Route
-              path="/projects"
-              element={user ? <Projects /> : <Navigate to="/login" />}
-            />
+            <Route path="/projects" element={<Projects />} />
 
             {/* <Route
               path={process.env.PUBLIC_URL + "/test"}

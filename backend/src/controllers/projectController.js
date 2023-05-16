@@ -112,6 +112,26 @@ const getProjectById = async (req, res) => {
   }
 };
 
+//Get a project by community ID
+const getProjectByCommId = async (req, res) => {
+  try {
+    // Find project by ID
+    const project = await Project.find({
+      commID: req.params.commID,
+    });
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    //Get project
+    console.error("***Project got successfully***");
+    return res.status(200).send(project);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 //Delete a project
 const deleteProjects = async (req, res) => {
   try {
@@ -139,5 +159,6 @@ module.exports = {
   updateProjects,
   getAllProjects,
   getProjectById,
+  getProjectByCommId,
   deleteProjects,
 };

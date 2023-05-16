@@ -55,7 +55,7 @@ function Login() {
               <Form.Group
                 as={Col}
                 md="12"
-                controlId="validationFormikUsername"
+                controlId="validationFormikEmail"
                 style={{ width: "100%" }}
               >
                 <Form.Label
@@ -85,7 +85,7 @@ function Login() {
               <Form.Group
                 as={Col}
                 md="12"
-                controlId="validationFormikUsername"
+                controlId="validationFormikPassword"
                 style={{ width: "100%" }}
               >
                 <Form.Label

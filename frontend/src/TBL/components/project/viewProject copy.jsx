@@ -65,10 +65,10 @@ function ViewProject() {
   }, [setProjects]);
 
   const [name, setName] = useState("");
-  const [commID, setCommID] = useState("");
-  const [commName, setCommName] = useState("");
-  // const [commID, setCommID] = useState("64577ee1f64e188701af5510");
-  // const [commName, setCommName] = useState("Leo Club of SLIIT");
+  // const [commID, setCommID] = useState('');
+  // const [commName, setCommName] = useState('');
+  const [commID, setCommID] = useState("64577ee1f64e188701af5510");
+  const [commName, setCommName] = useState("Leo Club of SLIIT");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -88,44 +88,9 @@ function ViewProject() {
   };
 
   //UPDATE PROJECT DATA
-  const handleSubmit = async (values) => {
-    setModalUpdateShow(true);
-    return values;
-    //e.preventDefault();
+  const handleSubmit = async (e, values) => {
+    e.preventDefault();
 
-    // const response = await fetch("http://localhost:7000/api/projects/" + id, {
-    //   method: "PATCH",
-    //   body: JSON.stringify({
-    //     name: values.name,
-    //     description: values.description,
-    //     image: values.image,
-    //     startDate: values.startDate,
-    //     endDate: values.endDate,
-    //   }),
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    // });
-
-    // const json = await response.json();
-
-    // if (!response.ok) {
-    //   console.log(json.error);
-    // }
-
-    // if (response.ok) {
-    //   console.log("Project updated successfully.", json);
-
-    //   toast.success(`Product updated successfully `, {
-    //     position: "bottom-left",
-    //   });
-    //   setTimeout(() => {
-    //     //navigate("/projects");
-    //   }, 2000);
-    // }
-  };
-
-  const handleUpdateSubmit = async (values) => {
     const response = await fetch("http://localhost:7000/api/projects/" + id, {
       method: "PATCH",
       body: JSON.stringify({
@@ -153,8 +118,8 @@ function ViewProject() {
         position: "bottom-left",
       });
       setTimeout(() => {
-        //navigate("/projects");
-      }, 2000);
+        navigate("/projects");
+      }, 3000);
     }
   };
 
@@ -185,7 +150,6 @@ function ViewProject() {
 
   //Update modal
   function UpdateModal(props) {
-    console.log(props.values);
     return (
       <Modal
         {...props}
@@ -205,7 +169,7 @@ function ViewProject() {
           <Button
             style={{ marginRight: "20px" }}
             variant="success"
-            onClick={() => handleUpdateSubmit(props.values)}
+            onClick={handleSubmit}
           >
             Update
           </Button>
@@ -252,6 +216,9 @@ function ViewProject() {
     startDate: yup.string().required("Please enter a the start date!"),
     endDate: yup.string().required("Please enter a the end date!"),
   });
+
+  console.log("=================");
+  console.log(name);
 
   return (
     <div
@@ -480,14 +447,15 @@ function ViewProject() {
             <div style={{ marginTop: "30px" }}>
               <Button
                 className="submitBTN"
-                variant="outline-success"
                 type="submit"
-                //onClick={() => setModalUpdateShow(true)}
+                variant="outline-success"
+                onClick={() => setModalUpdateShow(true)}
               >
                 Update
               </Button>
               <Button
                 className="submitBTN"
+                type="submit"
                 variant="outline-danger"
                 onClick={() => setModalDeleteShow(true)}
                 style={{ marginLeft: "30px" }}
