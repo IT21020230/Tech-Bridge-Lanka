@@ -261,6 +261,19 @@ function FormExample() {
         registrationFile: pdfFile,
         logo: logoFile,
         coverPic: coverFile,
+      }).then((resault) => {
+        const commID = resault.data._id;
+
+        fields.map(async (data) => {
+          console.log(data.value);
+          await Axios.post(
+            "http://localhost:8080/api/communityRule/createRule",
+            {
+              commID,
+              rule: data.value,
+            }
+          );
+        });
       });
     }
   };

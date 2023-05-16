@@ -25,6 +25,7 @@ const districtRoutes = require("./src/routes/districtRoutes");
 const projectRoutes = require("./src/routes/projectRoutes");
 const eventRoutes = require("./src/routes/eventRoutes");
 const community = require("./src/routes/communityRoutes");
+const communityRule = require("./src/routes/communityRuleRoute");
 
 //file upload
 //logo uploading
@@ -43,7 +44,6 @@ const logoUploading = multer.diskStorage({
 const uploadLogo = multer({ storage: logoUploading });
 
 app.post("/logo", multer(uploadLogo).single("image"), (req, res) => {
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   console.log(req.file);
   res.send("Single file upload success");
 });
@@ -64,7 +64,6 @@ const coverUploading = multer.diskStorage({
 const uploadCover = multer({ storage: coverUploading });
 
 app.post("/cover", multer(uploadCover).single("image"), (req, res) => {
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   console.log(req.file);
   res.send("Single file upload success");
 });
@@ -84,7 +83,6 @@ const registerFileUploading = multer.diskStorage({
 const uploadRegisterFile = multer({ storage: registerFileUploading });
 
 app.post("/pdf", multer(uploadRegisterFile).single("image"), (req, res) => {
-  console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   console.log(req.file);
   res.send("Single file upload success");
 });
@@ -95,6 +93,7 @@ app.use("/api/ddd-data", districtRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/community", community);
+app.use("/api/communityRule", communityRule);
 
 // Connect to the database
 mongoose.set("strictQuery", false);
