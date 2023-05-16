@@ -9,10 +9,15 @@ const {
   updateUser,
   getUserById,
   deleteUser,
+  addUserLocation,
+  getLocations,
 } = require("../controllers/userController");
 
 //GET all users
 router.get("/", getAllUser);
+
+// POST request to store user's home location in the database
+router.patch("/home-location", addUserLocation);
 
 //Login route
 router.post("/login", loginUser);
@@ -28,5 +33,8 @@ router.get("/:id", getUserById);
 
 //Delete user route
 router.delete("/:id", deleteUser);
+
+// get all user locations
+router.get("/locations", getLocations);
 
 module.exports = router;
