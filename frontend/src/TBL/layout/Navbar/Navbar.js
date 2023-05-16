@@ -1,18 +1,14 @@
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
-
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import { useLogout } from "../../hooks/useLogout";
 
 import "./Navbar.css";
-
 import Row from "react-bootstrap/esm/Row";
 
 function OffcanvasExample() {
@@ -61,37 +57,6 @@ function OffcanvasExample() {
                   >
                     Home
                   </Nav.Link>
-                  <Nav.Link
-                    href="/projects"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Projects
-                  </Nav.Link>
-                  <Nav.Link
-                    href="/events"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Events
-                  </Nav.Link>
-                  <Nav.Link
-                    href="/login"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Login
-                  </Nav.Link>
-                  <Nav.Link
-                    href="/signup"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Register
-                  </Nav.Link>
-                  <Button
-                    variant="outline-danger"
-                    className="btn-logout"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Button>
 
                   <Nav.Link
                     href="#action1"
@@ -122,30 +87,26 @@ function OffcanvasExample() {
                   </Nav.Link>
 
                   <Nav.Link
-                    href="#action1"
+                    href="/projects"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
-                    Stories
+                    Projects
                   </Nav.Link>
-
                   <Nav.Link
-                    href="#action1"
+                    href="/events"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
-                    Map
-                  </Nav.Link>
-
-                  <Nav.Link
-                    href="#action1"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    DDD
+                    Events
                   </Nav.Link>
 
                   {/* Check whether the user is logged in */}
                   {user && (
                     <div>
-                      <span>{user.email}</span>
+                      <span>
+                        <a href="/viewUser">
+                          <b>{user.name}</b>
+                        </a>
+                      </span>
                       <Button
                         variant="danger"
                         className="btn-logout"

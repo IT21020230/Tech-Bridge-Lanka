@@ -82,6 +82,10 @@ function App() {
         <div className="pages">
           <Routes>
             <Route
+              path={process.env.PUBLIC_URL + "/test"}
+              element={<TestingUi />}
+            />
+            <Route
               path="/"
               element={user ? <TestingUi /> : <Navigate to="/login" />}
             />
@@ -91,17 +95,12 @@ function App() {
             />
             <Route
               path="/signup"
-              element={!user ? <SignUp /> : <Navigate to="/login" />}
+              element={!user ? <SignUp /> : <Navigate to="/test" />}
             />
-            {/* <Route
+            <Route
               path="/viewUser"
               element={user ? <ViewUser /> : <Navigate to="/login" />}
-            /> */}
-
-            {/* <Route
-              path={process.env.PUBLIC_URL + "/viewUser"}
-              element={<ViewUser />}
-            /> */}
+            />
 
             {/* Udesh start */}
             {/* Homepages */}
@@ -142,11 +141,11 @@ function App() {
             {/* Usesh end */}
 
             <Route
-              path="/viewProject"
+              path="/viewProject/:id"
               element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
             <Route
-              path="/viewEvent"
+              path="/viewEvent/:id"
               element={user ? <ViewEvent /> : <Navigate to="/login" />}
             />
             <Route
@@ -161,14 +160,12 @@ function App() {
               path="/events"
               element={user ? <Events /> : <Navigate to="/login" />}
             />
-            <Route
-              path="/projects"
-              element={!user ? <Projects /> : <Navigate to="/" />}
-            />
+            <Route path="/projects" element={<Projects />} />
+
             {/* <Route
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
-            /> */}
+            />
 
             <Route
               path={process.env.PUBLIC_URL + "/accept-decline-blogs-page"}
@@ -188,11 +185,11 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/issues-to-accept"}
               element={<IssuesToAcceptPage />}
-            />
+            /> */}
 
             {/* Community */}
 
-            <Route
+            {/* <Route
               path={process.env.PUBLIC_URL + "/createCommunity"}
               element={<CreateCommunity />}
             />
@@ -203,13 +200,16 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
-            />
+
+            /> */}
+
 
             <Route path={process.env.PUBLIC_URL + "/map"} element={<Map />} />
             <Route
               path={process.env.PUBLIC_URL + "/map-live"}
               element={<MapLive />}
             />
+
           </Routes>
         </div>
       </BrowserRouter>

@@ -6,69 +6,56 @@ import React, { useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import Row from "react-bootstrap/Row";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-// function ColabModal(props) {
-//   const { show, onHide, CommId, pId, pName, personId, personName } = props;
-//   console.log(show, onHide, CommId, pId, pName, personId, personName);
-//   return (
-//     <Modal
-//       show={show}
-//       onHide={onHide}
-//       size="lg"
-//       aria-labelledby="contained-modal-title-vcenter"
-//       centered
-//     >
-//       <Modal.Header closeButton>
-//         <Modal.Title id="contained-modal-title-vcenter">
-//           Collaborate for this Project
-//         </Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>
-//         <h5>Are you sure want to collaborate for this project ?</h5>
-//       </Modal.Body>
-//       <Modal.Footer>
-//         <Button
-//           style={{ marginRight: "20px" }}
-//           variant="outline-success"
-//           onClick={() =>
-//             handleContribution(CommId, pId, pName, personId, personName)
-//           }
-//         >
-//           Yes
-//         </Button>
-//         <Button onClick={props.onHide} variant="outline-primary">
-//           Cancel
-//         </Button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// }
+function ColabModal(props) {
+  const { show, onHide, CommId, pId, pName, personId, personName } = props;
+  console.log(show, onHide, CommId, pId, pName, personId, personName);
+  return (
+    <Modal
+      show={show}
+      onHide={onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Collaborate for this Project
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h5>Are you sure want to collaborate for this project ?</h5>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          style={{ marginRight: "20px" }}
+          variant="outline-success"
+          onClick={() =>
+            handleContribution(CommId, pId, pName, personId, personName)
+          }
+        >
+          Yes
+        </Button>
+        <Button onClick={props.onHide} variant="outline-primary">
+          Cancel
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
+}
 
-function handleContribution(commId, pId, pName, personId, personName) {
-  //console.log(commId, pId, pName, personId, personName);
-  axios
-    .post("http://localhost:7000/api/projectCon/", {
-      commID: commId,
-      projectId: pId,
-      projectName: pName,
-      personId: personId,
-      personName: personName,
-    })
-    .then((res) => {
-      console.log(res);
-      console.log(res.data);
-
-      if (res) {
-        console.log("Contributed to project successfully.");
-
-        toast.success(`You were added to the contribution list.`, {
-          position: "bottom-left",
-        });
-        setTimeout(() => {}, 1000);
-      }
-    });
+function handleContribution(CommId, pId, pName, personId, personName) {
+  console.log(CommId, pId, pName, personId, personName);
+  // axios
+  //   .post("http://localhost:7000/api/contributions", {
+  //     projectId: projectId,
+  //     userId: userId,
+  //     userName: userName,
+  //   })
+  //   .then((res) => {
+  //     console.log(res);
+  //     console.log(res.data);
+  //   });
 }
 
 function Projects() {
@@ -103,7 +90,6 @@ function Projects() {
         width: "60%",
       }}
     >
-      <ToastContainer />
       <div>
         <h1 className="head">Projects</h1>
       </div>
@@ -148,7 +134,8 @@ function Projects() {
                       <Button
                         variant="success"
                         onClick={() =>
-                          handleContribution(
+                          setModalColabShow(
+                            true,
                             project.commID,
                             project._id,
                             project.name,
@@ -161,7 +148,20 @@ function Projects() {
                       </Button>
                     ) : (
                       <>
-                        <Button disabled variant="success">
+                        <Button
+                          disabled
+                          variant="success"
+                          onClick={() =>
+                            setModalColabShow(
+                              true,
+                              project.commID,
+                              project._id,
+                              project.name,
+                              user.userId,
+                              user.name
+                            )
+                          }
+                        >
                           Contribute
                         </Button>
                         <br />
@@ -179,10 +179,10 @@ function Projects() {
           </>
         ))}
 
-      {/* <ColabModal
+      <ColabModal
         show={modalColabShow}
         onHide={() => setModalColabShow(false)}
-      /> */}
+      />
     </div>
   );
 }
