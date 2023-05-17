@@ -197,7 +197,7 @@ function App() {
               element={<CreateCommunity />}
             />
             <Route
-              path={process.env.PUBLIC_URL + "/community"}
+              path={process.env.PUBLIC_URL + "/community/:id"}
               element={<Community />}
             />
             <Route
