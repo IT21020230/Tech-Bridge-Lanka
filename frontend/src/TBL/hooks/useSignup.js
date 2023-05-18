@@ -15,7 +15,8 @@ export const useSignup = () => {
     age,
     province,
     city,
-    photo
+    photo,
+    role
   ) => {
     setIsLoading(true);
     setError(null);
@@ -33,6 +34,7 @@ export const useSignup = () => {
         province,
         city,
         photo,
+        role,
       }),
     });
     const json = await response.json();

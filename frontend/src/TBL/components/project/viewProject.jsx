@@ -183,9 +183,29 @@ function ViewProject() {
     }
   };
 
+  //Fetch project contributors
+  const [contributors, setContributors] = useState(null);
+  console.log(contributors);
+
+  useEffect(() => {
+    fetchContributors();
+  }, []);
+
+  const fetchContributors = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:7000/api/projectCon/${id}`
+      );
+      const data = await response.json();
+      setContributors(data);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
+  };
+
   //Update modal
   function UpdateModal(props) {
-    console.log(props.values);
+    //console.log(props.values);
     return (
       <Modal
         {...props}
@@ -475,6 +495,23 @@ function ViewProject() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
+            </Row>
+
+            <Row className="mb-3">
+              <h5>Contributors:</h5>
+              <h1></h1>
+              <h5></h5>
+              {contributors &&
+                contributors.map((contributor) => (
+                  <>
+                    <p
+                      style={{ marginTop: "-15px", marginLeft: "20px" }}
+                      key={contributor._id}
+                    >
+                      {contributor.personName}
+                    </p>
+                  </>
+                ))}
             </Row>
 
             <div style={{ marginTop: "30px" }}>

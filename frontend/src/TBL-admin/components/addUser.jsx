@@ -3,18 +3,14 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useSignup } from "../../hooks/useSignup";
+import { useSignup } from "../../TBL/hooks/useSignup";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useState } from "react";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import { Dropdown, FormControl } from "react-bootstrap";
-import DropdownMenu from "react-bootstrap/DropdownMenu";
+import { Dropdown } from "react-bootstrap";
 
-function SignUp() {
+function AddUser() {
   const { signup, error, isLoading } = useSignup();
-
-  const [fields, setFields] = useState([{ value: "" }]);
 
   const [photo, setPhoto] = useState("");
 
@@ -37,7 +33,8 @@ function SignUp() {
       values.age,
       selectedProvince,
       selectedDistrict,
-      photo
+      photo,
+      selectedUser
     );
 
     await signup(
@@ -49,7 +46,8 @@ function SignUp() {
       values.age,
       selectedProvince,
       selectedDistrict,
-      photo
+      photo,
+      selectedUser
     );
   };
 
@@ -96,6 +94,7 @@ function SignUp() {
 
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
 
   const handleDropdownDistrict = (eventKey) => {
     setSelectedDistrict(eventKey);
@@ -103,6 +102,10 @@ function SignUp() {
 
   const handleDropdownProvince = (eventKey) => {
     setSelectedProvince(eventKey);
+  };
+
+  const handleDropdownUser = (eventKey) => {
+    setSelectedUser(eventKey);
   };
 
   return (
@@ -117,7 +120,7 @@ function SignUp() {
       }}
     >
       <div>
-        <h1 className="head">User Registration</h1>
+        <h1 className="head">Create a User</h1>
       </div>
       <Formik
         validationSchema={schema}
@@ -465,20 +468,40 @@ function SignUp() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-            </Row>
 
-            <Form.Group className="mb-3">
-              <Form.Check
-                required
-                name="terms"
-                label="Agree to terms and conditions"
-                onChange={handleChange}
-                isInvalid={!!errors.terms}
-                feedback={errors.terms}
-                feedbackType="invalid"
-                id="validationFormik0"
-              />
-            </Form.Group>
+              <Form.Group
+                style={{ marginLeft: "5%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  User Role
+                </Form.Label>
+                <Dropdown onSelect={handleDropdownUser}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedUser ? selectedUser : "Select a User role"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="member">Member</Dropdown.Item>
+                    <Dropdown.Item eventKey="member">Moderator</Dropdown.Item>
+                    <Dropdown.Item eventKey="admin">Admin</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+            </Row>
 
             <Button
               disabled={isLoading}
@@ -486,15 +509,9 @@ function SignUp() {
               type="submit"
               variant="outline-primary"
             >
-              Register
+              Create User
             </Button>
-            <br />
-            <br />
-            <p>
-              Already have an account? <a href="/login">Login</a>
-              <br />
-              <br />
-            </p>
+
             {error && <div className="error">{error}</div>}
           </Form>
         )}
@@ -503,7 +520,7 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default AddUser;
 
 function convertToBase64(file) {
   return new Promise((resolve, reject) => {

@@ -1,15 +1,14 @@
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
+// Create JWT token
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, {
     expiresIn: 3 * 24 * 60 * 60,
   });
 };
-
-// get all users
-const User = require("../models/userModel");
 
 // login user
 const loginUser = async (req, res) => {
@@ -69,6 +68,7 @@ const signupUser = async (req, res) => {
       province,
       city,
       photo,
+      role,
     } = req.body;
 
     // Check name or email or password is empty
@@ -118,6 +118,7 @@ const signupUser = async (req, res) => {
       province,
       city,
       photo,
+      role,
     });
     await user.save();
 
@@ -155,6 +156,7 @@ const updateUser = async (req, res) => {
     user.province = province || user.province;
     user.city = city || user.city;
     user.photo = photo || user.photo;
+    user.role = role || user.role;
 
     await user.save();
 
