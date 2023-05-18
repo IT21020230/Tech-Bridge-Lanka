@@ -8,19 +8,22 @@ import Modal from "react-bootstrap/Modal";
 import * as yup from "yup";
 import { Formik } from "formik";
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
+// import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../TBL/hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import { useLogout } from "../../hooks/useLogout";
+import { useNavigate, useParams } from "react-router-dom";
+import { useLogout } from "../../TBL/hooks/useLogout";
 import { Dropdown } from "react-bootstrap";
 // import { useUpdateUser } from "../../hooks/useUpdateUser";
 import axios from "axios";
 
 function ViewUser() {
   //const { updateUser, error, isLoading } = useUpdateUser();
-  const { user } = useAuthContext();
-  const { logout } = useLogout();
+  // const { user } = useAuthContext();
+  //const { logout } = useLogout();
+
+  const { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -40,10 +43,8 @@ function ViewUser() {
   //GET USER DATA
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(
-        `http://localhost:7000/api/user/${user.userId}`
-      );
-      const { email, password, name, phone, age, province, city, photo } =
+      const response = await axios.get(`http://localhost:7000/api/user/${id}`);
+      const { email, password, name, phone, age, province, city, photo, role } =
         response.data;
       setInitialValues({
         email,
@@ -53,10 +54,12 @@ function ViewUser() {
         province,
         city,
         photo,
+        role,
       });
 
       setSelectedDistrict(city);
       setSelectedProvince(province);
+      setSelectedUser(role);
 
       if (photo) {
         setImageURL(photo);
@@ -75,25 +78,22 @@ function ViewUser() {
   const handleSubmit = async (values) => {
     //e.preventDefault();
 
-    const response = await fetch(
-      `http://localhost:7000/api/user/${user.userId}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-          name: values.name,
-          phone: values.phone,
-          age: values.age,
-          province: values.province,
-          city: values.city,
-          photo,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }
-    );
+    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        phone: values.phone,
+        age: values.age,
+        province: values.province,
+        city: values.city,
+        photo,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
 
     const json = await response.json();
 
@@ -113,12 +113,9 @@ function ViewUser() {
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(
-      `http://localhost:7000/api/user/${user.userId}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
+      method: "DELETE",
+    });
     const json = await response.json();
 
     if (!response.ok) {
@@ -133,7 +130,6 @@ function ViewUser() {
       });
       setTimeout(() => {
         //navigate("/login");
-        logout();
       }, 2000);
     }
   };
@@ -202,6 +198,7 @@ function ViewUser() {
 
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
 
   const handleDropdownDistrict = (eventKey) => {
     setSelectedDistrict(eventKey);
@@ -209,6 +206,10 @@ function ViewUser() {
 
   const handleDropdownProvince = (eventKey) => {
     setSelectedProvince(eventKey);
+  };
+
+  const handleDropdownUser = (eventKey) => {
+    setSelectedUser(eventKey);
   };
 
   const [photo, setPhoto] = useState("");
@@ -269,7 +270,7 @@ function ViewUser() {
     >
       <ToastContainer />
       <div>
-        <h1 className="head">My Account</h1>
+        <h1 className="head">User Account</h1>
       </div>
       <Formik
         enableReinitialize
@@ -428,7 +429,7 @@ function ViewUser() {
                     variant="primary"
                     id="dropdown-input"
                     style={{
-                      width: "100%",
+                      width: "92%",
                       backgroundColor: "white",
                       color: "black",
                     }}
@@ -493,7 +494,7 @@ function ViewUser() {
 
               {/* Province */}
               <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
+                style={{ marginLeft: "7%", width: "45%" }}
                 as={Col}
                 md="5"
                 controlId="validationFormikProvince"
@@ -510,7 +511,7 @@ function ViewUser() {
                     variant="primary"
                     id="dropdown-input"
                     style={{
-                      width: "100%",
+                      width: "92%",
                       backgroundColor: "white",
                       color: "black",
                     }}
@@ -616,6 +617,39 @@ function ViewUser() {
                     {errors.photo}
                   </Form.Control.Feedback>
                 </InputGroup>
+              </Form.Group>
+
+              <Form.Group
+                style={{ marginLeft: "10%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  User Role
+                </Form.Label>
+                <Dropdown onSelect={handleDropdownUser}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "92%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedUser ? selectedUser : "Select a User role"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "80%" }}>
+                    <Dropdown.Item eventKey="member">Member</Dropdown.Item>
+                    <Dropdown.Item eventKey="member">Moderator</Dropdown.Item>
+                    <Dropdown.Item eventKey="admin">Admin</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Form.Group>
             </Row>
 
