@@ -1,17 +1,20 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./custom.scss";
 // import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
-import { useAuthContext } from "./TBL/hooks/useAuthContext";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+
+import { Suspense, lazy } from "react";
+
 import AddPostPage from "./TBL/pages/blog/CreatePost";
 import EditPostPage from "./TBL/pages/blog/EditPost";
 import PostPage from "./TBL/pages/blog/PostPage";
 import PostsPage from "./TBL/pages/blog/IndexPage";
+import DistrictDataPage from "./TBL/pages/districtDataPage";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./custom.scss";
+import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
+
+import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
 // import { SignUp } from "./TBL/pages/user/signUp";
 // import { Login } from "./TBL/pages/user/login";
@@ -23,7 +26,6 @@ import { Suspense, lazy } from "react";
 // map pages
 const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
 const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
-import DistrictDataPage from "./TBL/pages/districtDataPage";
 
 // User Register Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
@@ -60,6 +62,9 @@ const CreateCommunity = lazy(() =>
   import("./TBL/pages/Community/createCommunitypage")
 );
 const Community = lazy(() => import("./TBL/pages/Community/communityPage"));
+const CommunityList = lazy(() =>
+  import("./TBL/pages/Community/communityListPage")
+);
 
 //Accept or Decline blogs
 const AcceptDeclineBlogsPage = lazy(() =>
@@ -85,7 +90,7 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={user ? <TestingUi /> : <Navigate to="/" />}
+              element={user ? <TestingUi /> : <Navigate to="/login" />}
             />
             <Route
               path="/login"
@@ -93,40 +98,84 @@ function App() {
             />
             <Route
               path="/signup"
-              element={!user ? <SignUp /> : <Navigate to="/" />}
+              element={!user ? <SignUp /> : <Navigate to="/login" />}
             />
-            <Route
+            {/* <Route
               path="/viewUser"
-              element={!user ? <ViewUser /> : <Navigate to="/" />}
+              element={user ? <ViewUser /> : <Navigate to="/login" />}
+            /> */}
+
+            {/* <Route
+              path={process.env.PUBLIC_URL + "/viewUser"}
+              element={<ViewUser />}
+            /> */}
+
+            {/* Udesh start */}
+            {/* Homepages */}
+            <Route
+              path={process.env.PUBLIC_URL + "/posts"}
+              element={<PostsPage />}
             />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/post/:id"}
+              element={<PostPage />}
+            />
+            {/* <Route
+            path={process.env.PUBLIC_URL + "/UserRegister"}
+            element={<UserRegisterPage />}
+          /> */}
+
+            <Route
+              path={process.env.PUBLIC_URL + "/add-post"}
+              element={<AddPostPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/edit/:id"}
+              element={<EditPostPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "dd-data"}
+              element={<DistrictDataPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/edit/:id"}
+              element={<EditPostPage />}
+            />
+
+            {/* Usesh end */}
+
             <Route
               path="/viewProject"
-              element={!user ? <ViewProject /> : <Navigate to="/" />}
+              element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
             <Route
               path="/viewEvent"
-              element={!user ? <ViewEvent /> : <Navigate to="/" />}
+              element={user ? <ViewEvent /> : <Navigate to="/login" />}
             />
             <Route
               path="/listProject"
-              element={!user ? <ListProject /> : <Navigate to="/" />}
+              element={user ? <ListProject /> : <Navigate to="/test" />}
             />
             <Route
               path="/listEvent"
-              element={!user ? <ListEvent /> : <Navigate to="/" />}
+              element={user ? <ListEvent /> : <Navigate to="/login" />}
             />
             <Route
               path="/events"
-              element={!user ? <Events /> : <Navigate to="/" />}
+              element={user ? <Events /> : <Navigate to="/login" />}
             />
             <Route
               path="/projects"
               element={!user ? <Projects /> : <Navigate to="/" />}
             />
-            <Route
+            {/* <Route
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
-            />
+            /> */}
 
             <Route
               path={process.env.PUBLIC_URL + "/accept-decline-blogs-page"}
@@ -182,6 +231,11 @@ function App() {
               path={process.env.PUBLIC_URL + "/edit/:id"}
               element={<EditPostPage />}
             />
+            <Route
+              path={process.env.PUBLIC_URL + "/communityList"}
+              element={<CommunityList />}
+            />
+
             <Route path={process.env.PUBLIC_URL + "/map"} element={<Map />} />
             <Route
               path={process.env.PUBLIC_URL + "/map-live"}
@@ -189,11 +243,10 @@ function App() {
             />
             <Route
               path={process.env.PUBLIC_URL + "dd-data"}
-              element={<DistrictDataPage />}
             />
           </Routes>
-        </div>
-      </BrowserRouter>
+          </div>
+          </BrowserRouter>
     </div>
   );
 }

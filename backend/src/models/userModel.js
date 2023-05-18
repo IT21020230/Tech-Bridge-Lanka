@@ -18,16 +18,25 @@ const userSchema = new Schema({
   },
   phone: {
     type: Number,
+    required: false,
   },
   age: {
     type: Number,
+    required: false,
   },
   province: {
     type: String,
+    required: false,
   },
   city: {
     type: String,
+    required: false,
   },
+  photo: {
+    type: String,
+    required: false,
+  },
+<<<<<<< HEAD
 <<<<<<< HEAD
   homeLocation: {
     type: { type: String },
@@ -36,6 +45,11 @@ const userSchema = new Schema({
   photo: {
     type: String,
 >>>>>>> e37b4da04d3059a70b898bb11159d4abe52e170a
+=======
+  homeLocation: {
+    type: { type: String },
+    coordinates: [Number],
+>>>>>>> 1bb55f56f4ea85999c084921c1f22b4ee1e39069
   },
 });
 

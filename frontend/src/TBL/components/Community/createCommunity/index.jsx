@@ -8,10 +8,29 @@ import * as yup from "yup";
 import { Formik, Field, ErrorMessage } from "formik";
 import { useState } from "react";
 import "./index.css";
+import Axios from "axios";
 import { BiTrash } from "react-icons/bi";
 import { IoAddSharp } from "react-icons/io5";
+import { AiOutlineSearch } from "react-icons/ai";
 function FormExample() {
   const [fields, setFields] = useState([{ value: "" }]);
+  const [pdf, setPDF] = useState("");
+  const [Logo, setLogo] = useState("");
+  const [cover, setCover] = useState("");
+  const [pdfERR, setPDFERR] = useState({});
+  const [logoERR, setLOGOERR] = useState({});
+  const [coverERR, setCoverERR] = useState({});
+  const [logoFile, setLogoFileName] = useState("");
+  const [logoFileData, setLogoFileData] = useState(null);
+  const [coverFile, setCoverFileName] = useState("");
+  const [coverFileData, setCoverFileData] = useState(null);
+  const [pdfFile, setPDFFileName] = useState("");
+  const [PDFFileData, setPDFFileData] = useState(null);
+
+  const [checkPDF, setCheckPDF] = useState(false);
+  const [checkLogo, setCheckLogo] = useState(false);
+  const [checkCover, setCheckCover] = useState(false);
+
   const handleInputChange = (index, event) => {
     const values = [...fields];
     values[index].value = event.target.value;
@@ -47,13 +66,10 @@ function FormExample() {
       .string()
       .required("Email required")
       .email("Invalid email format"),
-
     date: yup
       .date()
       .required("Location is required")
-
       .max(new Date(), "Date cannot be in the future"),
-    logo: yup.mixed().required("Please select a file"),
 
     contactNumber: yup
       .string()
@@ -62,15 +78,237 @@ function FormExample() {
         /^[0-9]{10}$/,
         "Contact number must be a 10-digit number without spaces or dashes"
       ),
-    zip: yup.string().required(),
+    // zip: yup.string().required(),
     terms: yup.bool().required().oneOf([true], "Terms must be accepted"),
-    communitySize: yup.string().required("Community size is required"),
+    memberNum: yup.string().required("Community size is required"),
   });
-  const communitySizeOptions = [
-    { value: "small", label: "Small (0-20)" },
-    { value: "medium", label: "Medium (0-50)" },
-    { value: "large", label: "Large(0-100)" },
-  ];
+
+  const logoChangeHandler = (e) => {
+    const file = e.target.files[0];
+    const imageERR = {};
+
+    if (file) {
+      const allowedExtensions = ["jpg", "jpeg", "png", "gif"];
+
+      const extension = file.name.split(".").pop().toLowerCase();
+      const isValidExtension = allowedExtensions.includes(extension);
+
+      if (isValidExtension) {
+        imageERR.imageshort = "";
+        setLogoFileData(file);
+        setLogoFileName(file.name);
+        setCheckLogo(true);
+      } else {
+        imageERR.imageshort =
+          "Please select an image file (JPG, JPEG, PNG, GIF)!";
+        setLogoFileData(null);
+        setLogoFileName("");
+        setCheckLogo(false);
+      }
+    } else {
+      imageERR.imageshort = "Please select a file!";
+      setLogoFileData(null);
+      setLogoFileName("");
+      setCheckLogo(false);
+    }
+
+    setLOGOERR(imageERR);
+  };
+  const coverChangeHandler = (e) => {
+    const file = e.target.files[0];
+    const coverERR = {};
+
+    if (file) {
+      const allowedExtensions = ["jpg", "jpeg", "png", "gif"]; // Add any additional allowed extensions if needed
+      const extension = file.name.split(".").pop().toLowerCase();
+
+      if (allowedExtensions.includes(extension)) {
+        coverERR.cover = "";
+        setCoverFileData(file);
+        setCoverFileName(file.name);
+        setCheckCover(true);
+      } else {
+        coverERR.cover = "Please select an image file (JPG, JPEG, PNG, GIF)!";
+        setCoverFileData(null);
+        setCoverFileName("");
+        setCheckCover(false);
+      }
+    } else {
+      coverERR.cover = "Please select a file!";
+      setCoverFileData(null);
+      setCoverFileName("");
+      setCheckCover(false);
+    }
+
+    setCoverERR(coverERR);
+  };
+
+  const pdfChangeHandler = (e) => {
+    setPDFFileData(e.target.files[0]);
+    setPDFFileName(e.target.files[0].name);
+
+    const file = e.target.files[0];
+    const pdfERR = {};
+    if (file) {
+      if (
+        file.type === "application/pdf" ||
+        file.name.toLowerCase().endsWith(".pdf")
+      ) {
+        pdfERR.pdfshort = "";
+        setPDFERR(pdfERR);
+        setCheckPDF(true);
+      } else {
+        pdfERR.pdfshort = "please enter pdf type file!";
+        setPDFERR(pdfERR);
+        setCheckPDF(false);
+      }
+    } else {
+      pdfERR.pdfshort = "Please select a file!";
+      setPDFERR(pdfERR);
+      setCheckPDF(false);
+    }
+  };
+
+  const handleFormSubmit = async (values) => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    const commName = values.communityName;
+    const location = values.Location;
+    const contactNumber = values.contactNumber;
+    const email = values.email;
+    const startedDate = values.date;
+    const size = values.memberNum;
+    const registrationFile = pdf;
+    const logo = Logo;
+    const coverPic = cover;
+    console.log(checkPDF);
+    console.log(checkLogo);
+    console.log(checkCover);
+    if (checkPDF && checkLogo && checkCover) {
+      console.log(commName);
+      console.log(location);
+      console.log(contactNumber);
+      console.log(email);
+      console.log(startedDate);
+      console.log(size);
+      console.log(registrationFile);
+      // console.log(logo);
+      // console.log(coverPic);
+
+      const data = new FormData();
+
+      data.append("image", logoFileData);
+      console.log("BBBBBBBBBBBB");
+      console.log(logoFileData);
+      await fetch("http://localhost:8080/logo", {
+        method: "POST",
+        body: data,
+      })
+        .then((result) => {
+          console.log(result);
+          console.log("File sent successful");
+          console.log(logoFileData);
+          // setfileName("");
+          // setFileData(null);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+
+      const data2 = new FormData();
+
+      data2.append("image", coverFileData);
+      await fetch("http://localhost:8080/cover", {
+        method: "POST",
+        body: data2,
+      })
+        .then((result) => {
+          console.log(result);
+          console.log("File sent successful");
+          console.log(logoFileData);
+          // setfileName("");
+          // setFileData(null);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+
+      const data3 = new FormData();
+
+      data3.append("image", PDFFileData);
+
+      await fetch("http://localhost:8080/pdf", {
+        method: "POST",
+        body: data3,
+      })
+        .then((result) => {
+          console.log(result);
+          console.log("File sent successful");
+          console.log(logoFileData);
+          // setfileName("");
+          // setFileData(null);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+
+      await Axios.post("http://localhost:8080/api/community/createCommunity", {
+        commName,
+        location,
+        contactNumber,
+        email,
+        startedDate,
+        size,
+        registrationFile: pdfFile,
+        logo: logoFile,
+        coverPic: coverFile,
+      }).then((resault) => {
+        const commID = resault.data._id;
+
+        fields.map(async (data) => {
+          console.log(data.value);
+          await Axios.post(
+            "http://localhost:8080/api/communityRule/createRule",
+            {
+              commID,
+              rule: data.value,
+            }
+          );
+        });
+      });
+    }
+  };
+
+  const handlePDFUpload = async (e) => {
+    const file = e.target.files[0];
+    const pdfERR = {};
+    if (
+      file.type === "application/pdf" ||
+      file.name.toLowerCase().endsWith(".pdf")
+    ) {
+      pdfERR.pdfshort = "";
+      setPDFERR(pdfERR);
+    } else {
+      pdfERR.pdfshort = "please enter pdf type file!";
+      setPDFERR(pdfERR);
+    }
+
+    console.log(file);
+    const base64 = await convertToBase64(file);
+    setPDF(base64);
+  };
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertToBase64(file);
+    setLogo(base64);
+  };
+  const handleCoverUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertToBase64(file);
+    setCover(base64);
+  };
+
   return (
     <div
       style={{
@@ -88,7 +326,7 @@ function FormExample() {
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
-        onSubmit={console.log}
+        onSubmit={handleFormSubmit}
         initialValues={{
           communityName: "",
           Location: "",
@@ -114,7 +352,6 @@ function FormExample() {
                     name="communityName"
                     value={values.communityName}
                     onChange={handleChange}
-                    isValid={touched.communityName && !errors.communityName}
                     isInvalid={!!errors.communityName}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -138,7 +375,6 @@ function FormExample() {
                     name="Location"
                     value={values.Location}
                     onChange={handleChange}
-                    isValid={touched.Location && !errors.Location}
                     isInvalid={!!errors.Location}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -162,7 +398,6 @@ function FormExample() {
                     name="contactNumber"
                     value={values.contactNumber}
                     onChange={handleChange}
-                    isValid={touched.contactNumber && !errors.contactNumber}
                     isInvalid={!!errors.contactNumber}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -186,7 +421,6 @@ function FormExample() {
                     name="email"
                     value={values.email}
                     onChange={handleChange}
-                    isValid={touched.email && !errors.email}
                     isInvalid={!!errors.email}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -209,7 +443,6 @@ function FormExample() {
                     name="date"
                     value={values.date}
                     onChange={handleChange}
-                    isValid={touched.date && !errors.date}
                     isInvalid={!!errors.date}
                   />
                   <Form.Control.Feedback type="invalid">
@@ -225,25 +458,24 @@ function FormExample() {
               >
                 <Form.Label
                   style={{
-                    marginTop: "60px",
+                    marginTop: "20px",
                   }}
                 >
-                  Community Size
+                  Member count
                 </Form.Label>
-                <Field
-                  as={Form.Control}
-                  name="communitySize"
-                  component="select"
-                  isValid={touched.communitySize && !errors.communitySize}
-                  isInvalid={!!errors.communitySize}
-                >
-                  <option value=""></option>
-                  {communitySizeOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </Field>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="text"
+                    aria-describedby="inputGroupPrepend"
+                    name="memberNum"
+                    value={values.memberNum}
+                    onChange={handleChange}
+                    isInvalid={!!errors.memberNum}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.memberNum}
+                  </Form.Control.Feedback>
+                </InputGroup>
                 <ErrorMessage
                   name="communitySize"
                   component={Form.Control.Feedback}
@@ -265,14 +497,18 @@ function FormExample() {
                     aria-describedby="inputGroupPrepend"
                     name="registerFile"
                     value={values.registerFile}
-                    onChange={handleChange}
-                    isValid={touched.registerFile && !errors.registerFile}
+                    onChange={pdfChangeHandler}
                     isInvalid={!!errors.registerFile}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.registerFile}
                   </Form.Control.Feedback>
                 </InputGroup>
+                <label>
+                  {Object.keys(pdfERR).map((key) => {
+                    return <div style={{ color: "red" }}>{pdfERR[key]}</div>;
+                  })}{" "}
+                </label>
               </Form.Group>
 
               <Form.Group as={Col} md="5" controlId="validationFormikUsername">
@@ -289,14 +525,19 @@ function FormExample() {
                     aria-describedby="inputGroupPrepend"
                     name="logo"
                     value={values.logo}
-                    onChange={handleChange}
-                    isValid={touched.logo && !errors.logo}
-                    isInvalid={!!errors.logo}
+                    onChange={logoChangeHandler}
+                    // isValid={touched.logo && !errors.logo}
+                    // isInvalid={!!errors.logo}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.logo}
                   </Form.Control.Feedback>
                 </InputGroup>
+                <label>
+                  {Object.keys(logoERR).map((key) => {
+                    return <div style={{ color: "red" }}>{logoERR[key]}</div>;
+                  })}{" "}
+                </label>
               </Form.Group>
 
               <Form.Group as={Col} md="5" controlId="validationFormikUsername">
@@ -311,16 +552,20 @@ function FormExample() {
                   <Form.Control
                     type="file"
                     aria-describedby="inputGroupPrepend"
-                    name="logo"
-                    value={values.logo}
-                    onChange={handleChange}
-                    isValid={touched.logo && !errors.logo}
-                    isInvalid={!!errors.logo}
+                    name="cover"
+                    value={values.cover}
+                    onChange={coverChangeHandler}
+                    isInvalid={!!errors.cover}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {errors.logo}
+                    {errors.cover}
                   </Form.Control.Feedback>
                 </InputGroup>
+                <label>
+                  {Object.keys(coverERR).map((key) => {
+                    return <div style={{ color: "red" }}>{coverERR[key]}</div>;
+                  })}{" "}
+                </label>
               </Form.Group>
 
               <Form.Label
@@ -386,3 +631,16 @@ function FormExample() {
 }
 
 export default FormExample;
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}

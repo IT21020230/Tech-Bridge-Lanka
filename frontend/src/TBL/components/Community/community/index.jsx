@@ -818,7 +818,7 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p02} />
                         </Grid>
                         <Grid item xs={8}>
                           <p className="oneName">S.N.W Gunasekara</p>
@@ -841,7 +841,7 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
                           <p className="oneName">W.A Alwis</p>
@@ -864,7 +864,7 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
                           <p className="oneName">Jerms Proyantha</p>
@@ -887,7 +887,7 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
                           <p className="oneName">A.S Gunarathna</p>
@@ -910,7 +910,7 @@ export default function () {
                     <div className="oneMember">
                       <Grid container spacing={0}>
                         <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
+                          <img className="memberList1" src={p03} />
                         </Grid>
                         <Grid item xs={8}>
                           <p className="oneName">W.P Kavish</p>

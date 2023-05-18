@@ -8,6 +8,10 @@ const createToken = (_id) => {
   });
 };
 
+<<<<<<< HEAD
+=======
+// get all users
+>>>>>>> 1bb55f56f4ea85999c084921c1f22b4ee1e39069
 const User = require("../models/userModel");
 
 // login user
@@ -43,7 +47,7 @@ const loginUser = async (req, res) => {
     //   { expiresIn: "1h" }
     // );
 
-    res.json({ userId: user.id, token: token });
+    res.json({ userId: user.id, email: user.email, token: token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
@@ -170,6 +174,9 @@ module.exports = {
   getAllUsers,
   loginUser,
   signupUser,
-  addUserLocation,
   getLocations,
+  addUserLocation,
+  loginUser,
+  signupUser,
+
 };

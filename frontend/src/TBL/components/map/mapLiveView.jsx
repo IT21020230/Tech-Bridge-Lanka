@@ -11,6 +11,12 @@ import Point from "ol/geom/Point";
 import { fromLonLat } from "ol/proj";
 import { Icon, Style } from "ol/style";
 
+import Navbar from "../../layout/Navbar/Navbar";
+import Footer from "../../layout/Footer/Footer";
+import Sidebar from "../../layout/Slidebar/Slidebar";
+import { Grid, Card } from "@mui/material";
+import "../index.css";
+
 const OpenLayersMap = () => {
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,7 +81,7 @@ const OpenLayersMap = () => {
       const iconStyle = new Style({
         image: new Icon({
           src: "https://openlayers.org/en/latest/examples/data/icon.png",
-          scale: 0.20,
+          scale: 0.6,
         }),
       });
 
@@ -98,7 +104,23 @@ const OpenLayersMap = () => {
     };
   }, [locations]);
 
-  return <div id="map" style={{ width: "800px", height: "800px" }}></div>;
+  return (
+    <main>
+      <Navbar />
+      <div className="content">
+        <Grid container spacing={0}>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6}>
+            <div style={{}}>
+              <div id="map" style={{ width: "800px", height: "800px" }}></div>
+            </div>
+          </Grid>
+          <Grid item xs={3}></Grid>
+        </Grid>
+      </div>
+      <Footer />
+    </main>
+  );
 };
 
 export default OpenLayersMap;

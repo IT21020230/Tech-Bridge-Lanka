@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Editor from "../../components/Editor";
 
+import Navbar from "../../layout/Navbar/Navbar";
+import Footer from "../../layout/Footer/Footer";
+import Sidebar from "../../layout/Slidebar/Slidebar";
+import { Grid, Card } from "@mui/material";
+import "../index.css";
+
 export default function EditPost() {
   const { id } = useParams();
   const [title, setTitle] = useState("");
@@ -48,28 +54,60 @@ export default function EditPost() {
   }
 
   return (
-    <form onSubmit={updatePost}>
-      <input
-        type="title"
-        placeholder={"Title"}
-        value={title}
-        onChange={(ev) => setTitle(ev.target.value)}
-      />
-      <input
-        type="summary"
-        placeholder={"Summary"}
-        value={summary}
-        onChange={(ev) => setSummary(ev.target.value)}
-      />
-      <input
-        type="text"
-        placeholder={"Community"}
-        value={community}
-        onChange={(ev) => setCommunity(ev.target.value)}
-      />
-      <input type="file" onChange={(ev) => setFiles(ev.target.files)} />
-      <Editor onChange={setContent} value={content} />
-      <button style={{ marginTop: "5px" }}>Update post</button>
-    </form>
+    <main>
+      <Navbar />
+      <div className="content">
+        <Grid container spacing={0}>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={6}>
+            <div style={{}}>
+              <h1>Create Post</h1>
+              <form onSubmit={updatePost}>
+                <input
+                  type="title"
+                  placeholder={"Title"}
+                  value={title}
+                  onChange={(ev) => setTitle(ev.target.value)}
+                />
+                <br /> <br />
+                <input
+                  type="summary"
+                  placeholder={"Summary"}
+                  value={summary}
+                  onChange={(ev) => setSummary(ev.target.value)}
+                />
+                <br /> <br />
+                <input
+                  type="text"
+                  placeholder={"Community"}
+                  value={community}
+                  onChange={(ev) => setCommunity(ev.target.value)}
+                />
+                <br /> <br />
+                <input
+                  type="file"
+                  onChange={(ev) => setFiles(ev.target.files)}
+                />
+                <br />
+                <br />
+                <Editor value={content} onChange={setContent} />
+                <button
+                  style={{
+                    marginTop: "10px",
+                    border: "0px",
+                    backgroundColor: "#459c98",
+                    padding: "10px",
+                  }}
+                >
+                  Update post
+                </button>
+              </form>
+            </div>
+          </Grid>
+          <Grid item xs={3}></Grid>
+        </Grid>
+      </div>
+      <Footer />
+    </main>
   );
 }

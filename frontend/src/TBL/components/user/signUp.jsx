@@ -3,17 +3,15 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useSignup } from '../../hooks/useSignup';
-import * as formik from "formik";
+import { useSignup } from "../../hooks/useSignup";
 import * as yup from "yup";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik } from "formik";
 import { useState } from "react";
 
-import { BiTrash } from "react-icons/bi";
-import { IoAddSharp } from "react-icons/io5";
-
 function SignUp() {
+  const { signup, error, isLoading } = useSignup();
 
+<<<<<<< HEAD
   const {signup, error, isLoading} = useSignup()
 
   const [email, setEmail] = useState('');
@@ -26,46 +24,57 @@ function SignUp() {
   const [city, setCity] = useState('');
 
 <<<<<<< HEAD
+=======
+>>>>>>> 1bb55f56f4ea85999c084921c1f22b4ee1e39069
   const [fields, setFields] = useState([{ value: "" }]);
 
-  const handleInputChange = (index, event) => {
-    const values = [...fields];
-    values[index].value = event.target.value;
-    setFields(values);
+  const [photo, setPhoto] = useState("");
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertToBase64(file);
+    setPhoto(base64);
   };
 
-  const handleAddField = () => {
-    const values = [...fields];
-    values.push({ value: "" });
-    setFields(values);
+  const handleSubmit = async (values) => {
+    //e.preventDefault();
+
+    console.log(
+      values.email,
+      values.password,
+      values.confirmPassword,
+      values.name,
+      values.phone,
+      values.age,
+      values.province,
+      values.city,
+      photo
+    );
+
+    await signup(
+      values.email,
+      values.password,
+      values.confirmPassword,
+      values.name,
+      values.phone,
+      values.age,
+      values.province,
+      values.city,
+      photo
+    );
   };
-
-  const handleRemoveField = (index) => {
-    const values = [...fields];
-    values.splice(index, 1);
-    setFields(values);
-  };
-
-  const handleSubmit = async (e, values) => {
-    e.preventDefault()
-
-    console.log(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
-
-    await signup(values.email, values.password, values.confirmPassword, values.name, values.phone, values.age, values.province, values.city)
-  };
-
-  const { Formik } = formik;
 
   const schema = yup.object().shape({
-
     email: yup
-    .string()
-    .required("Please enter an Email!")
-    .email("Please enter a valid Email!"),
+      .string()
+      .required("Please enter an Email!")
+      .email("Please enter a valid Email!"),
 
     password: yup
       .string()
       .required("Please enter a Password!")
+<<<<<<< HEAD
       .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/, "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"),
 =======
   const handleSubmit = async (e) => {
@@ -76,71 +85,80 @@ function SignUp() {
         console.log('User registered successfully');
 >>>>>>> feature/udesh/current-location
     
+=======
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
+        "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"
+      ),
+
+>>>>>>> 1bb55f56f4ea85999c084921c1f22b4ee1e39069
     confirmPassword: yup
       .string()
       .required("Please enter the Password again!")
-      .matches(password, "Confirm Password should match with Password!"),
+      .oneOf([yup.ref("password"), ""], "Passwords must match"),
 
     phone: yup
       .string()
       .required("Please enter a Phone number!")
-      .matches(/^[0-9]{10}$/, "Contact number must be a 10-digit number without spaces or dashes"),
-    
-    name: yup
-      .string()
-      .required("Please enter the Name!"),
+      .matches(
+        /^[0-9]{10}$/,
+        "Contact number must be a 10-digit number without spaces or dashes"
+      ),
 
-    age: yup
-      .string()
-      .required("Please enter the Age!"),
+    name: yup.string().required("Please enter the Name!"),
 
-    province: yup
-      .string()
-      .required("Please enter the Province!"),
-      
-    city: yup
-      .string()
-      .required("Please enter the City!")
-    });
+    age: yup.string().required("Please enter the Age!"),
+
+    province: yup.string().required("Please enter the Province!"),
+
+    city: yup.string().required("Please enter the City!"),
+
+    // terms: yup
+    //   .bool()
+    //   .required()
+    //   .oneOf([true], "Terms and conditions must be accepted"),
+  });
 
   return (
     <div
       style={{
         backgroundColor: "#b0dae9",
+        marginTop: "20px",
         marginLeft: "13%",
         marginRight: "13%",
-        marginBottom: "17px",
+        marginBottom: "20px",
         padding: "50px",
-        
       }}
     >
       <div>
         <h1 className="head">User Registration</h1>
       </div>
-      <Formik 
+      <Formik
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
         onSubmit={handleSubmit}
         initialValues={{
           email: "",
-          password: "", 
-          confirmPassword: "", 
-          name: "", 
-          phone: "", 
-          age: "", 
-          province: "", 
-          city: ""
+          password: "",
+          confirmPassword: "",
+          name: "",
+          phone: "",
+          age: "",
+          province: "",
+          city: "",
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
-              
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">               
-                <Form.Label style={{ marginTop: "20px" }}>
-                  Name
-                </Form.Label>
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "45%" }}
+              >
+                <Form.Label style={{ marginTop: "20px" }}>Name</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="text"
@@ -157,11 +175,15 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group
+                style={{ marginLeft: "5%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
-                    
                   }}
                 >
                   Email
@@ -182,7 +204,12 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "45%" }}
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -206,7 +233,12 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group
+                style={{ marginLeft: "5%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -230,7 +262,12 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "45%" }}
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -254,7 +291,12 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group
+                style={{ marginLeft: "5%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -278,7 +320,12 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "45%" }}
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -302,61 +349,60 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group style={{marginLeft: "10%"}} as={Col} md="5" controlId="validationFormikUsername">
+              <Form.Group
+                style={{ marginLeft: "5%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
                   }}
                 >
-                  Upload Profile Photo
+                  Phone
+                </Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    type="number"
+                    aria-describedby="inputGroupPrepend"
+                    name="phone"
+                    value={values.phone}
+                    onChange={handleChange}
+                    isValid={touched.phone && !errors.phone}
+                    isInvalid={!!errors.phone}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.phone}
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "45%" }}
+              >
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Upload a Profile Photo
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="file"
                     aria-describedby="inputGroupPrepend"
-                    name="logo"
-                    value={values.photo}
-                    onChange={handleChange}
-                    isValid={touched.photo && !errors.photo}
-                    isInvalid={!!errors.photo}
+                    name="photo"
+                    onChange={(e) => handleFileUpload(e)}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.photo}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
-
-              {/* {fields.map((field, index) => (
-                <Form.Group
-                  key={index}
-                  as={Col}
-                  md="10"
-                  controlId="validationFormikCommunitySize"
-                  className="ruleContainer"
-                >
-                  <Form.Control
-                    as="textarea"
-                    md="5"
-                    value={field.value}
-                    onChange={(event) => handleInputChange(index, event)}
-                    required
-                    className="ruleArea"
-                  />
-                  {index === fields.length - 1 && (
-                    <Button onClick={handleAddField} className="btn2">
-                      <IoAddSharp />
-                    </Button>
-                  )}
-                  {index > 0 && (
-                    <Button
-                      onClick={() => handleRemoveField(index)}
-                      className="btn"
-                    >
-                      <BiTrash />
-                    </Button>
-                  )}
-                </Form.Group>
-              ))} */}
             </Row>
 
             <Form.Group className="mb-3">
@@ -371,16 +417,41 @@ function SignUp() {
                 id="validationFormik0"
               />
             </Form.Group>
-            <Button disabled={isLoading} className="submitBTN" type="submit" variant="outline-primary">
+
+            <Button
+              disabled={isLoading}
+              className="submitBTN"
+              type="submit"
+              variant="outline-primary"
+            >
               Register
             </Button>
-            {error && <div className='error'>{error}</div>}
+            <br />
+            <br />
+            <p>
+              Already have an account? <a href="/login">Login</a>
+              <br />
+              <br />
+            </p>
+            {error && <div className="error">{error}</div>}
           </Form>
         )}
       </Formik>
-
     </div>
   );
 }
 
 export default SignUp;
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
