@@ -9,9 +9,6 @@ import { Formik } from "formik";
 import { useState } from "react";
 
 function SignUp() {
-  const { signup, error, isLoading } = useSignup();
-
-<<<<<<< HEAD
   const {signup, error, isLoading} = useSignup()
 
   const [email, setEmail] = useState('');
@@ -23,9 +20,6 @@ function SignUp() {
   const [province, setProvince] = useState('');
   const [city, setCity] = useState('');
 
-<<<<<<< HEAD
-=======
->>>>>>> 1bb55f56f4ea85999c084921c1f22b4ee1e39069
   const [fields, setFields] = useState([{ value: "" }]);
 
   const [photo, setPhoto] = useState("");

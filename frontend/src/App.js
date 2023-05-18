@@ -20,8 +20,6 @@ import { useAuthContext } from "./TBL/hooks/useAuthContext";
 // import { Login } from "./TBL/pages/user/login";
 // import { TestingUi } from "./TBL/pages/TestingUI/testingUI";
 
-// Signup Page
-import { Suspense, lazy } from "react";
 
 // map pages
 const Map = lazy(() => import("./TBL/pages/map/map.jsx"));

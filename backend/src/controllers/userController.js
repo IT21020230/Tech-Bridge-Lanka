@@ -8,10 +8,6 @@ const createToken = (_id) => {
   });
 };
 
-<<<<<<< HEAD
-=======
-// get all users
->>>>>>> 1bb55f56f4ea85999c084921c1f22b4ee1e39069
 const User = require("../models/userModel");
 
 // login user
@@ -162,11 +158,11 @@ const addUserLocation = async (req, res) => {
 const getLocations = async (req, res) => {
   try {
     const users = await User.find({ homeLocation: { $ne: null } }); // find all users with a non-null homeLocation field
-    const locations = users.map(user => user.homeLocation.coordinates); // extract the coordinates from each user's homeLocation field
+    const locations = users.map((user) => user.homeLocation.coordinates); // extract the coordinates from each user's homeLocation field
     res.json(locations); // send the list of coordinates as a JSON response
   } catch (err) {
     console.error(err);
-    res.status(500).send('Internal server error');
+    res.status(500).send("Internal server error");
   }
 };
 
@@ -178,5 +174,4 @@ module.exports = {
   addUserLocation,
   loginUser,
   signupUser,
-
 };
