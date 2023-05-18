@@ -4,9 +4,9 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../../TBL/hooks/useAuthContext";
 
-import { useLogout } from "../../hooks/useLogout";
+import { useLogout } from "../../../TBL/hooks/useLogout";
 
 import "./Navbar.css";
 import Row from "react-bootstrap/esm/Row";
@@ -14,8 +14,6 @@ import Row from "react-bootstrap/esm/Row";
 function OffcanvasExample() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
-
-  //const userRole = user.role;
 
   const handleLogout = () => {
     logout();

@@ -5,6 +5,7 @@ const {
   updateProjects,
   getAllProjects,
   getProjectById,
+  getProjectByCommId,
   deleteProjects,
 } = require("../controllers/projectController");
 
@@ -21,6 +22,9 @@ router.get("/", getAllProjects);
 
 //Get a project by its ID
 router.get("/:id", getProjectById);
+
+//Get a project by comm ID
+router.get("/commID/:commID", getProjectByCommId);
 
 //Delete a project
 router.delete("/:id", deleteProjects);

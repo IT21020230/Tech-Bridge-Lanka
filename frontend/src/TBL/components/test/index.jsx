@@ -25,8 +25,8 @@ const App = () => {
 
   return (
     <div>
-      <h1>PDF Viewer</h1>
-      <input type="file" accept=".pdf" onChange={handleFileChange} />
+      <h1>HOME PAGE</h1>
+      {/* <input type="file" accept=".pdf" onChange={handleFileChange} />
       {pdfData && (
         <div>
           <div>
@@ -40,7 +40,7 @@ const App = () => {
           </div>
           <button onClick={handleDownload}>Download</button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -1,12 +1,20 @@
 import { lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./custom.scss";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
 // import { SignUp } from "./TBL/pages/user/signUp";
 // import { Login } from "./TBL/pages/user/login";
 // import { TestingUi } from "./TBL/pages/TestingUI/testingUI";
+
+//Add user
+const AddUser = lazy(() => import("./TBL-admin/pages/addUser"));
+
+//List user
+const ListUser = lazy(() => import("./TBL-admin/pages/listUser"));
+
+//Info user
+const InfoUser = lazy(() => import("./TBL-admin/pages/infoUser"));
 
 // Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
@@ -70,6 +78,10 @@ function App() {
         <div className="pages">
           <Routes>
             <Route
+              path={process.env.PUBLIC_URL + "/test"}
+              element={<TestingUi />}
+            />
+            <Route
               path="/"
               element={user ? <TestingUi /> : <Navigate to="/login" />}
             />
@@ -79,24 +91,31 @@ function App() {
             />
             <Route
               path="/signup"
-              element={!user ? <SignUp /> : <Navigate to="/login" />}
+              element={!user ? <SignUp /> : <Navigate to="/test" />}
             />
-            {/* <Route
+            <Route
+              path="/addUser"
+              element={user ? <AddUser /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/listUser"
+              element={user ? <ListUser /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/infoUser/:id"
+              element={user ? <InfoUser /> : <Navigate to="/login" />}
+            />
+            <Route
               path="/viewUser"
               element={user ? <ViewUser /> : <Navigate to="/login" />}
-            /> */}
-
-            {/* <Route
-              path={process.env.PUBLIC_URL + "/viewUser"}
-              element={<ViewUser />}
-            /> */}
+            />
 
             <Route
-              path="/viewProject"
+              path="/viewProject/:id"
               element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
             <Route
-              path="/viewEvent"
+              path="/viewEvent/:id"
               element={user ? <ViewEvent /> : <Navigate to="/login" />}
             />
             <Route
@@ -111,14 +130,12 @@ function App() {
               path="/events"
               element={user ? <Events /> : <Navigate to="/login" />}
             />
-            <Route
-              path="/projects"
-              element={!user ? <Projects /> : <Navigate to="/" />}
-            />
+            <Route path="/projects" element={<Projects />} />
+
             {/* <Route
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
-            /> */}
+            />
 
             <Route
               path={process.env.PUBLIC_URL + "/accept-decline-blogs-page"}
@@ -138,11 +155,11 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/issues-to-accept"}
               element={<IssuesToAcceptPage />}
-            />
+            /> */}
 
             {/* Community */}
 
-            <Route
+            {/* <Route
               path={process.env.PUBLIC_URL + "/createCommunity"}
               element={<CreateCommunity />}
             />
@@ -153,7 +170,7 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
-            />
+            /> */}
           </Routes>
         </div>
       </BrowserRouter>

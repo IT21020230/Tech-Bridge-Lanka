@@ -111,6 +111,26 @@ const getEventById = async (req, res) => {
   }
 };
 
+//Get a event by comm ID
+const getEventByCommId = async (req, res) => {
+  try {
+    // Find event by ID
+    const event = await Event.find({
+      commID: req.params.commID,
+    });
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    //Get event
+    console.error("***Event got successfully***");
+    return res.status(200).send(event);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 //Delete a event
 const deleteEvents = async (req, res) => {
   try {
@@ -138,5 +158,6 @@ module.exports = {
   updateEvents,
   getAllEvents,
   getEventById,
+  getEventByCommId,
   deleteEvents,
 };

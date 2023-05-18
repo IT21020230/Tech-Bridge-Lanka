@@ -3,48 +3,27 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useSignup } from "../../hooks/useSignup";
-import * as formik from "formik";
+import { useSignup } from "../../TBL/hooks/useSignup";
 import * as yup from "yup";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik } from "formik";
 import { useState } from "react";
+import { Dropdown } from "react-bootstrap";
 
-import { BiTrash } from "react-icons/bi";
-import { IoAddSharp } from "react-icons/io5";
-
-function SignUp() {
+function AddUser() {
   const { signup, error, isLoading } = useSignup();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [age, setAge] = useState("");
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
+  const [photo, setPhoto] = useState("");
 
-  const [fields, setFields] = useState([{ value: "" }]);
-
-  const handleInputChange = (index, event) => {
-    const values = [...fields];
-    values[index].value = event.target.value;
-    setFields(values);
-  };
-
-  const handleAddField = () => {
-    const values = [...fields];
-    values.push({ value: "" });
-    setFields(values);
-  };
-
-  const handleRemoveField = (index) => {
-    const values = [...fields];
-    values.splice(index, 1);
-    setFields(values);
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertToBase64(file);
+    setPhoto(base64);
   };
 
   const handleSubmit = async (values) => {
+    //e.preventDefault();
+
     console.log(
       values.email,
       values.password,
@@ -52,23 +31,25 @@ function SignUp() {
       values.name,
       values.phone,
       values.age,
-      values.province,
-      values.city
+      selectedProvince,
+      selectedDistrict,
+      photo,
+      selectedUser
     );
 
-    // await signup(
-    //   values.email,
-    //   values.password,
-    //   values.confirmPassword,
-    //   values.name,
-    //   values.phone,
-    //   values.age,
-    //   values.province,
-    //   values.city
-    // );
+    await signup(
+      values.email,
+      values.password,
+      values.confirmPassword,
+      values.name,
+      values.phone,
+      values.age,
+      selectedProvince,
+      selectedDistrict,
+      photo,
+      selectedUser
+    );
   };
-
-  const { Formik } = formik;
 
   const schema = yup.object().shape({
     email: yup
@@ -87,29 +68,45 @@ function SignUp() {
     confirmPassword: yup
       .string()
       .required("Please enter the Password again!")
-      .matches(password, "Confirm Password should match with Password!"),
+      .oneOf([yup.ref("password"), ""], "Passwords must match"),
 
     phone: yup
       .string()
       .required("Please enter a Phone number!")
       .matches(
-        /^[0-9]{10}$/,
-        "Contact number must be a 10-digit number without spaces or dashes"
+        /^\d{11}$/,
+        "Contact number must be a 11-digit number with country code!"
       ),
 
     name: yup.string().required("Please enter the Name!"),
 
     age: yup.string().required("Please enter the Age!"),
 
-    province: yup.string().required("Please enter the Province!"),
+    //province: yup.string().required("Please enter the Province!"),
 
-    city: yup.string().required("Please enter the City!"),
+    //city: yup.string().required("Please enter the City!"),
 
     // terms: yup
     //   .bool()
     //   .required()
     //   .oneOf([true], "Terms and conditions must be accepted"),
   });
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
+
+  const handleDropdownDistrict = (eventKey) => {
+    setSelectedDistrict(eventKey);
+  };
+
+  const handleDropdownProvince = (eventKey) => {
+    setSelectedProvince(eventKey);
+  };
+
+  const handleDropdownUser = (eventKey) => {
+    setSelectedUser(eventKey);
+  };
 
   return (
     <div
@@ -123,13 +120,13 @@ function SignUp() {
       }}
     >
       <div>
-        <h1 className="head">User Registration</h1>
+        <h1 className="head">Create a User</h1>
       </div>
       <Formik
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
-        onSubmit={console.log}
+        onSubmit={handleSubmit}
         initialValues={{
           email: "",
           password: "",
@@ -265,64 +262,6 @@ function SignUp() {
                     marginTop: "20px",
                   }}
                 >
-                  City
-                </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    aria-describedby="inputGroupPrepend"
-                    name="city"
-                    value={values.city}
-                    onChange={handleChange}
-                    isValid={touched.city && !errors.city}
-                    isInvalid={!!errors.city}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.city}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
-
-              <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-              >
-                <Form.Label
-                  style={{
-                    marginTop: "20px",
-                  }}
-                >
-                  Province
-                </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    aria-describedby="inputGroupPrepend"
-                    name="province"
-                    value={values.province}
-                    onChange={handleChange}
-                    isValid={touched.province && !errors.province}
-                    isInvalid={!!errors.province}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.province}
-                  </Form.Control.Feedback>
-                </InputGroup>
-              </Form.Group>
-
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
-                <Form.Label
-                  style={{
-                    marginTop: "20px",
-                  }}
-                >
                   Age
                 </Form.Label>
                 <InputGroup hasValidation>
@@ -381,37 +320,188 @@ function SignUp() {
                     marginTop: "20px",
                   }}
                 >
+                  District
+                </Form.Label>
+
+                <Dropdown onSelect={handleDropdownDistrict}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedDistrict ? selectedDistrict : "Select a District"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+                      <Dropdown.Item eventKey="Colombo">Colombo</Dropdown.Item>
+                      <Dropdown.Item eventKey="Gampaha">Gampaha</Dropdown.Item>
+                      <Dropdown.Item eventKey="Kalutara">
+                        Kalutara
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kandy">Kandy</Dropdown.Item>
+                      <Dropdown.Item eventKey="Matale">Matale</Dropdown.Item>
+                      <Dropdown.Item eventKey="Nuwara Eliya">
+                        Nuwara Eliya
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Galle">Galle</Dropdown.Item>
+                      <Dropdown.Item eventKey="Hambantota">
+                        Hambantota
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Jaffna">Jaffna</Dropdown.Item>
+                      <Dropdown.Item eventKey="Mannar">Mannar</Dropdown.Item>
+                      <Dropdown.Item eventKey="Vavuniya">
+                        Vavuniya
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Mullaitivu">
+                        Mullaitivu
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Batticaloa">
+                        Batticaloa
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Ampara">Ampara</Dropdown.Item>
+                      <Dropdown.Item eventKey="Trincomalee">
+                        Trincomalee
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kurunegala">
+                        Kurunegala
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Puttalam">
+                        Puttalam
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Anuradhapura">
+                        Anuradhapura
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Polonnaruwa">
+                        Polonnaruwa
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Badulla">Badulla</Dropdown.Item>
+                      <Dropdown.Item eventKey="Monaragala">
+                        Monaragala
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Ratnapura">
+                        Ratnapura
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kegalle">Kegalle</Dropdown.Item>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+
+              <Form.Group
+                style={{ marginLeft: "5%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  Province
+                </Form.Label>
+                <Dropdown onSelect={handleDropdownProvince}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedProvince ? selectedProvince : "Select a Province"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="Northern">
+                      Northern Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="North Western">
+                      North Western Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="North Central">
+                      North Central Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Central">
+                      Central Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Sabaragamuwa">
+                      Sabaragamuwa Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Eastern">
+                      Eastern Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Uva">Uva Province</Dropdown.Item>
+                    <Dropdown.Item eventKey="Southern">
+                      Southern Province
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+                style={{ width: "45%" }}
+              >
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
                   Upload a Profile Photo
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="file"
                     aria-describedby="inputGroupPrepend"
-                    name="logo"
-                    value={values.photo}
-                    onChange={handleChange}
-                    isValid={touched.photo && !errors.photo}
-                    isInvalid={!!errors.photo}
+                    name="photo"
+                    onChange={(e) => handleFileUpload(e)}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.photo}
                   </Form.Control.Feedback>
                 </InputGroup>
               </Form.Group>
+              {/* User Roles */}
+              <Form.Group
+                style={{ marginLeft: "5%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  User Role
+                </Form.Label>
+                <Dropdown onSelect={handleDropdownUser}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedUser ? selectedUser : "Select a User role"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="member">Member</Dropdown.Item>
+                    <Dropdown.Item eventKey="member">Moderator</Dropdown.Item>
+                    <Dropdown.Item eventKey="admin">Admin</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
             </Row>
-
-            <Form.Group className="mb-3">
-              <Form.Check
-                required
-                name="terms"
-                label="Agree to terms and conditions"
-                onChange={handleChange}
-                isInvalid={!!errors.terms}
-                feedback={errors.terms}
-                feedbackType="invalid"
-                id="validationFormik0"
-              />
-            </Form.Group>
 
             <Button
               disabled={isLoading}
@@ -419,15 +509,9 @@ function SignUp() {
               type="submit"
               variant="outline-primary"
             >
-              Register
+              Create User
             </Button>
-            <br />
-            <br />
-            <p>
-              Already have an account? <a href="/login">Login</a>
-              <br />
-              <br />
-            </p>
+
             {error && <div className="error">{error}</div>}
           </Form>
         )}
@@ -436,4 +520,17 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default AddUser;
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
