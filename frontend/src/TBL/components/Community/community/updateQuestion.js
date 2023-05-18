@@ -17,18 +17,25 @@ import Model from "react-modal";
 
 import axios from "axios";
 
-const UpdateRule = ({ isOpen, onRequestClose, comData, comRule, id }) => {
+const UpdateRule = ({
+  isOpen,
+  onRequestClose,
+  comQuestionData,
+  comQuestionID,
+  id,
+}) => {
   console.log("AAAAAAAAAAAAAAAAAAAAA");
-  console.log(comData);
-  console.log(comRule);
+  console.log(comQuestionID);
+  console.log(comQuestionData);
   console.log("BBBBBBBBBBBBBBBA");
-  const [rule, setRule] = useState([]);
 
-  const sendData = async () => {
+  const [question, setQuestion] = useState([]);
+
+  const sendQuestionData = async () => {
     await axios.patch(
-      `http://localhost:8080/api/communityRule/updateRule/${comData}`,
+      `http://localhost:8080/api/communityQuestion/updateQuestion/${comQuestionID}`,
       {
-        rule,
+        question,
       }
     );
 
@@ -56,19 +63,19 @@ const UpdateRule = ({ isOpen, onRequestClose, comData, comRule, id }) => {
     >
       <div style={{ marginBottom: "10px" }}>
         <h3>
-          <b>Edite your rule</b>
+          <b>Edite your question</b>
         </h3>
       </div>{" "}
       <div>
         {" "}
         <form>
           <textarea
-            defaultValue={comRule}
+            defaultValue={comQuestionData}
             id="myTextArea"
             rows="4"
             cols="40"
             placeholder="Enter your text here..."
-            onChange={(e) => setRule(e.target.value)}
+            onChange={(e) => setQuestion(e.target.value)}
           ></textarea>
         </form>
       </div>
@@ -76,7 +83,7 @@ const UpdateRule = ({ isOpen, onRequestClose, comData, comRule, id }) => {
         <button
           className="acceptMember"
           onClick={(e) => {
-            sendData();
+            sendQuestionData();
           }}
         >
           Update details

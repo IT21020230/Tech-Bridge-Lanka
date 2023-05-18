@@ -20,6 +20,15 @@ const getAllRules = async (req, res) => {
   res.send(communityrule);
 };
 
+//get single rule
+
+const getSingleRules = async (req, res) => {
+  const arr = [];
+  const communityrule = await CommunityRule.findById(req.params.id);
+  arr.push(communityrule);
+  res.send(arr);
+};
+
 //delete set of rules
 
 const deleteRuleSet = async (req, res) => {
@@ -70,4 +79,5 @@ module.exports = {
   getAllRules,
   deleteRule,
   updateRule,
+  getSingleRules,
 };

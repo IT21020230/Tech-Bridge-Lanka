@@ -27,6 +27,7 @@ const eventRoutes = require("./src/routes/eventRoutes");
 const community = require("./src/routes/communityRoutes");
 const communityRule = require("./src/routes/communityRuleRoute");
 const communityMember = require("./src/routes/communityMemberRoutes");
+const communityQuestion = require("./src/routes/communityQuestionRoute");
 
 //file upload
 //logo uploading
@@ -96,6 +97,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/community", community);
 app.use("/api/communityRule", communityRule);
 app.use("/api/communityMember", communityMember);
+app.use("/api/communityQuestion", communityQuestion);
 
 // Connect to the database
 mongoose.set("strictQuery", false);

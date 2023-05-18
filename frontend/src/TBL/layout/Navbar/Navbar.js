@@ -1,9 +1,7 @@
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
 
@@ -18,6 +16,8 @@ import Row from "react-bootstrap/esm/Row";
 function OffcanvasExample() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
+
+  //const userRole = user.role;
 
   const handleLogout = () => {
     logout();
@@ -55,12 +55,28 @@ function OffcanvasExample() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
+                  {/* <h4 style={{ textAlign: "left" }}>ADMIN</h4> */}
                   <Nav.Link
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Home
                   </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Stories
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Communities
+                  </Nav.Link>
+
                   <Nav.Link
                     href="/projects"
                     style={{ color: "black", fontWeight: "bold" }}
@@ -73,32 +89,6 @@ function OffcanvasExample() {
                   >
                     Events
                   </Nav.Link>
-                  <Nav.Link
-                    href="/login"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Login
-                  </Nav.Link>
-                  <Nav.Link
-                    href="/signup"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Register
-                  </Nav.Link>
-                  <Button
-                    variant="outline-danger"
-                    className="btn-logout"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Button>
-
-                  <Nav.Link
-                    href="#action1"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Stories
-                  </Nav.Link>
 
                   <Nav.Link
                     href="#action1"
@@ -115,37 +105,20 @@ function OffcanvasExample() {
                   </Nav.Link>
 
                   <Nav.Link
-                    href="#action1"
+                    href="/listUser"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
-                    Communities
-                  </Nav.Link>
-
-                  <Nav.Link
-                    href="#action1"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Stories
-                  </Nav.Link>
-
-                  <Nav.Link
-                    href="#action1"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Map
-                  </Nav.Link>
-
-                  <Nav.Link
-                    href="#action1"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    DDD
+                    Users
                   </Nav.Link>
 
                   {/* Check whether the user is logged in */}
                   {user && (
                     <div>
-                      <span>{user.email}</span>
+                      <span>
+                        <a href="/viewUser">
+                          <b>{user.name}</b>
+                        </a>
+                      </span>
                       <Button
                         variant="danger"
                         className="btn-logout"
@@ -164,12 +137,6 @@ function OffcanvasExample() {
                         >
                           Login
                         </Nav.Link>
-                        {/* <Nav.Link
-                          href="/signup"
-                          style={{ color: "black", fontWeight: "bold" }}
-                        >
-                          Register
-                        </Nav.Link> */}
                       </Row>
                     </div>
                   )}

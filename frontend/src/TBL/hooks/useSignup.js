@@ -16,12 +16,11 @@ export const useSignup = () => {
     province,
     city,
     photo
-
   ) => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch("http://localhost:7000/api/user/signup", {
+    const response = await fetch("http://localhost:8000/api/user/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -34,7 +33,6 @@ export const useSignup = () => {
         province,
         city,
         photo,
-
       }),
     });
     const json = await response.json();

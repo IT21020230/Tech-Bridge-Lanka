@@ -44,20 +44,31 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import UpdateModal from "./updateModal";
 import UpdateRuleModal from "./updateRule";
+import UpdateQuestionModal from "./updateQuestion";
+import UserQuestionModal from "./userQuestionForm";
 
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import axios from "axios";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 export default function () {
   const [visible, setVisible] = useState(false);
   const [Form1, setForm1] = useState(false);
   const [Form2, setForm2] = useState(false);
+  const [Form3, setForm3] = useState(false);
   const [updateForm, setUpdateForm] = useState(false);
   const [comData, setComData] = useState([]);
   const [comRules, setComRules] = useState([]);
+  const [comQuestions, setComQuestions] = useState([]);
   const [tab, setTab] = useState("home");
   const [rule, setRule] = useState("");
+  const [question, setComQuestion] = useState("");
+
+  const { user } = useAuthContext();
+
+  const UID = user.userId;
+
   console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
   console.log(comData);
   const { id } = useParams();
@@ -91,6 +102,14 @@ export default function () {
       .get(`http://localhost:8080/api/communityRule/getAllRules/${id}`)
       .then((response) => {
         setComRules(response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/communityQuestion/getAllQuestion/${id}`)
+      .then((response) => {
+        setComQuestions(response.data);
       });
   }, []);
   const { Formik } = formik;
@@ -127,28 +146,63 @@ export default function () {
   });
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
   const [updateRuleFormOpen, setUpdateRuleFormOpen] = useState(false);
+  const [updateQuestionFormOpen, setUpdateQuestionFormOpen] = useState(false);
   const [ruleId, setRuleID] = useState();
+  const [ruleOne, setRuleOne] = useState();
+
+  const [questionId, setQuestionID] = useState();
+  const [questionOne, setQuestionOne] = useState();
 
   const handleOpenModal = () => {
     setUpdateFormOpen(true);
+  };
+
+  const handleCloseModal2 = () => {
+    setVisible(false);
   };
 
   const handleCloseModal = () => {
     setUpdateFormOpen(false);
   };
 
-  const handleOpenRuleModal = (id) => {
+  const handleOpenRuleModal = (id, rule) => {
     setUpdateRuleFormOpen(true);
     setRuleID(id);
+    setRuleOne(rule);
   };
 
   const handleCloseRuleModal = () => {
     setUpdateRuleFormOpen(false);
+    setRuleID("");
+    // window.location.href = `/community/${id}`;
+  };
+
+  const handleOpenQuestionModal = (id, question) => {
+    console.log(
+      "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
+    );
+    console.log(question);
+    setUpdateQuestionFormOpen(true);
+    setQuestionID(id);
+    setQuestionOne(question);
+  };
+
+  const handleCloseQuestionModal = () => {
+    setUpdateQuestionFormOpen(false);
+    setQuestionID("");
+    // window.location.href = `/community/${id}`;
   };
 
   const delteRule = async (Ruleid) => {
     await axios.delete(
       `http://localhost:8080/api/communityRule/deleteRule/${Ruleid}`
+    );
+    window.location.href = `/community/${id}`;
+  };
+
+  const delteQuestion = async (Questionid) => {
+    await axios.delete(
+      `http://localhost:8080/api/communityQuestion/deleteQuestion/${Questionid}`
     );
     window.location.href = `/community/${id}`;
   };
@@ -159,6 +213,16 @@ export default function () {
     });
     window.location.href = `/community/${id}`;
   };
+  const sendQuestinData = async (id) => {
+    await axios.post(
+      "http://localhost:8080/api/communityQuestion/createQuestion",
+      {
+        commID: id,
+        question,
+      }
+    );
+    window.location.href = `/community/${id}`;
+  };
   return (
     <div style={{ backgroundColor: "#F0F2F5" }}>
       <UpdateModal
@@ -166,11 +230,14 @@ export default function () {
         onRequestClose={handleCloseModal}
         comData={id}
       />
-      <UpdateRuleModal
-        isOpen={updateRuleFormOpen}
-        onRequestClose={handleCloseRuleModal}
-        comData={ruleId}
+
+      <UserQuestionModal
+        isOpen={visible}
+        onRequestClose={handleCloseModal2}
+        communityID={id}
+        userID="{UID}"
       />
+
       <Model
         isOpen={Form2}
         onRequestClose={() => setForm2(false)}
@@ -209,8 +276,8 @@ export default function () {
         </Box>
       </Model>
       <Model
-        isOpen={visible}
-        onRequestClose={() => setVisible(false)}
+        isOpen={Form3}
+        onRequestClose={() => setForm3(false)}
         style={{
           overlay: {
             backdropFilter: "blur(5px)",
@@ -226,148 +293,26 @@ export default function () {
           },
         }}
       >
+        <lable>Enter the Question</lable>
+        <textarea
+          id="myTextArea"
+          rows="4"
+          cols="40"
+          placeholder="Enter your text here..."
+          onChange={(e) => setComQuestion(e.target.value)}
+        />
         <Box m="20px">
-          {" "}
-          <div
-            style={{
-              backgroundColor: "#E8E8E8",
-              marginLeft: "200px",
-              marginRight: "200px",
-
-              padding: "50px",
+          <button
+            className="acceptMember"
+            onClick={() => {
+              sendQuestinData(id);
             }}
           >
-            <div>
-              <h1 className="head">Question Form</h1>
-            </div>
-            <Formik
-              validationSchema={schema}
-              validateOnChange={false} // Disable validation on change
-              validateOnBlur={true} // Enable validation on blur
-              onSubmit={console.log}
-              initialValues={{
-                communityName: "",
-
-                terms: false,
-              }}
-            >
-              {({ handleSubmit, handleChange, values, touched, errors }) => (
-                <Form noValidate onSubmit={handleSubmit}>
-                  <Row className="mb-3">
-                    <Form.Group
-                      as={Col}
-                      md="5"
-                      controlId="validationFormikUsername"
-                    >
-                      <Form.Label style={{ marginTop: "20px" }}>
-                        1 . How diverse and inclusive is the community and Do
-                        you actively promote inclusivity and equality?
-                      </Form.Label>
-                      <InputGroup hasValidation>
-                        <Form.Control
-                          type="text"
-                          aria-describedby="inputGroupPrepend"
-                          name="communityName"
-                          value={values.communityName}
-                          onChange={handleChange}
-                          isValid={
-                            touched.communityName && !errors.communityName
-                          }
-                          isInvalid={!!errors.communityName}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.communityName}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </Form.Group>
-                    <Form.Group
-                      as={Col}
-                      md="5"
-                      controlId="validationFormikUsername"
-                    >
-                      <Form.Label style={{ marginTop: "20px" }}>
-                        2. What resources or support systems are available
-                        within the community for members?
-                      </Form.Label>
-                      <InputGroup hasValidation>
-                        <Form.Control
-                          type="text"
-                          aria-describedby="inputGroupPrepend"
-                          name="communityName"
-                          value={values.communityName}
-                          onChange={handleChange}
-                          isValid={
-                            touched.communityName && !errors.communityName
-                          }
-                          isInvalid={!!errors.communityName}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.communityName}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </Form.Group>
-                    <Form.Group
-                      as={Col}
-                      md="5"
-                      controlId="validationFormikUsername"
-                    >
-                      <Form.Label style={{ marginTop: "20px" }}>
-                        3. Can you share testimonials or stories from current
-                        members about their experiences in the community?
-                      </Form.Label>
-                      <InputGroup hasValidation>
-                        <Form.Control
-                          type="text"
-                          aria-describedby="inputGroupPrepend"
-                          name="communityName"
-                          value={values.communityName}
-                          onChange={handleChange}
-                          isValid={
-                            touched.communityName && !errors.communityName
-                          }
-                          isInvalid={!!errors.communityName}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.communityName}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </Form.Group>
-                    <Form.Group
-                      as={Col}
-                      md="5"
-                      controlId="validationFormikUsername"
-                    >
-                      <Form.Label style={{ marginTop: "20px" }}>
-                        4. What are some of the challenges or obstacles the
-                        community has faced, and how have you overcome them?
-                      </Form.Label>
-                      <InputGroup hasValidation>
-                        <Form.Control
-                          type="text"
-                          aria-describedby="inputGroupPrepend"
-                          name="communityName"
-                          value={values.communityName}
-                          onChange={handleChange}
-                          isValid={
-                            touched.communityName && !errors.communityName
-                          }
-                          isInvalid={!!errors.communityName}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                          {errors.communityName}
-                        </Form.Control.Feedback>
-                      </InputGroup>
-                    </Form.Group>
-                  </Row>
-                  <Button className="submitBTN" type="submit">
-                    Submit form
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          </div>
+            Submit
+          </button>
         </Box>
       </Model>
+
       <Model
         isOpen={Form1}
         onRequestClose={() => setForm1(false)}
@@ -826,10 +771,17 @@ export default function () {
                                 {data.rule}
                                 <br />
                                 <div></div>
+                                <UpdateRuleModal
+                                  isOpen={updateRuleFormOpen}
+                                  onRequestClose={handleCloseRuleModal}
+                                  comData={ruleId}
+                                  comRule={ruleOne}
+                                  id={id}
+                                />
                                 <button
                                   className="editBtn"
                                   onClick={() => {
-                                    handleOpenRuleModal(data._id);
+                                    handleOpenRuleModal(data._id, data.rule);
                                   }}
                                 >
                                   <AiOutlineEdit />
@@ -1036,70 +988,66 @@ export default function () {
               </div>
             </Tab>
             <Tab eventKey="Question Form" title="Question Form">
-              <Grid container spacing={0}>
-                <Grid item xs={12}>
-                  <div className="rules">
-                    <h2>
-                      <u>
-                        <b>Question form </b>
-                      </u>
-                    </h2>
-                    <div className="rulesList">
-                      <ol>
-                        <li>
-                          How diverse and inclusive is the community? Do you
-                          actively promote inclusivity and equality?
-                          <br />
-                          <div></div>
-                          <button className="editBtn">
-                            <AiOutlineEdit />
-                          </button>
-                          <button className="delteBtn">
-                            <IoTrash />
-                          </button>
-                        </li>
-                        <li>
-                          What resources or support systems are available within
-                          the community for members?
-                          <br />
-                          <div></div>
-                          <button className="editBtn">
-                            <AiOutlineEdit />
-                          </button>
-                          <button className="delteBtn">
-                            <IoTrash />
-                          </button>
-                        </li>
-                        <li>
-                          Can you share testimonials or stories from current
-                          members about their experiences in the community?
-                          <br />
-                          <div></div>
-                          <button className="editBtn">
-                            <AiOutlineEdit />
-                          </button>
-                          <button className="delteBtn">
-                            <IoTrash />
-                          </button>
-                        </li>
-                        <li>
-                          What are some of the challenges or obstacles the
-                          community has faced, and how have you overcome them?
-                          <br />
-                          <div></div>
-                          <button className="editBtn">
-                            <AiOutlineEdit />
-                          </button>
-                          <button className="delteBtn">
-                            <IoTrash />
-                          </button>
-                        </li>
-                      </ol>
-                      <button className="addRuleBtn">Add new Question</button>
+              <div>
+                <Grid container spacing={0}>
+                  <Grid item xs={12}>
+                    <div className="rules">
+                      <h2>
+                        <u>
+                          <b>Question form </b>
+                        </u>
+                      </h2>
+                      <div className="rulesList">
+                        <ol>
+                          {comQuestions.map((data) => {
+                            return (
+                              <div>
+                                <li>
+                                  {data.question}
+                                  <br />
+                                  <div></div>
+                                  <UpdateQuestionModal
+                                    isOpen={updateQuestionFormOpen}
+                                    onRequestClose={handleCloseQuestionModal}
+                                    comQuestionData={questionOne}
+                                    comQuestionID={questionId}
+                                    id={id}
+                                  />
+                                  <button
+                                    className="editBtn"
+                                    onClick={() => {
+                                      handleOpenQuestionModal(
+                                        data._id,
+                                        data.question
+                                      );
+                                    }}
+                                  >
+                                    <AiOutlineEdit />
+                                  </button>
+                                  <button
+                                    className="delteBtn"
+                                    onClick={() => {
+                                      delteQuestion(data._id);
+                                    }}
+                                  >
+                                    <IoTrash />
+                                  </button>
+                                </li>
+                              </div>
+                            );
+                          })}
+                        </ol>
+                        <button
+                          className="addRuleBtn"
+                          onClick={() => setForm3(true)}
+                        >
+                          Add new Question
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </Grid>
                 </Grid>
-              </Grid>
+              </div>
             </Tab>
             <Tab eventKey="Member Requst" title="Member request">
               <div className="CommunityMember">
