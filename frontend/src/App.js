@@ -1,6 +1,5 @@
 import { lazy } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./custom.scss";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
