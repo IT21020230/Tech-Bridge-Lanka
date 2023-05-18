@@ -67,7 +67,7 @@ export default function () {
 
   const { user } = useAuthContext();
 
-  const UID = user.userId;
+  // const UID = user.userId;
 
   console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
   console.log(comData);

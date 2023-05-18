@@ -18,6 +18,17 @@ import Model from "react-modal";
 import axios from "axios";
 
 const QuestionForm = ({ isOpen, onRequestClose, communityID, userID }) => {
+  const [question, setQuestion] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:8080/api/communityQuestion/getAllQuestion/${communityID}`
+      )
+      .then((response) => {
+        setQuestion(response.data);
+      });
+  }, []);
   return (
     <Model
       isOpen={isOpen}
@@ -51,9 +62,14 @@ const QuestionForm = ({ isOpen, onRequestClose, communityID, userID }) => {
           <div>
             <h1 className="head">Question Form</h1>
           </div>
-          {/* {comQuestions.map((data) => {
-            <label>{data.question}</label>;
-          })} */}
+          {question.map((data) => {
+            return (
+              <div>
+                <label>{data.question}</label>
+                <input type="text" />
+              </div>
+            );
+          })}
           <Button className="submitBTN" type="submit">
             Submit form
           </Button>
