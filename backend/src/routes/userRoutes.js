@@ -16,9 +16,6 @@ const {
 //GET all users
 router.get("/", getAllUser);
 
-// POST request to store user's home location in the database
-router.patch("/home-location", addUserLocation);
-
 //Login route
 router.post("/login", loginUser);
 
@@ -36,5 +33,8 @@ router.delete("/:id", deleteUser);
 
 // get all user locations
 router.get("/locations", getLocations);
+
+// POST request to store user's home location in the database
+router.patch("/home-location", addUserLocation);
 
 module.exports = router;
