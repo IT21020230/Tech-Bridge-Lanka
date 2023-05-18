@@ -20,7 +20,7 @@ export const useUpdateUser = () => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch(`http://localhost:7000/api/user/${ID}`, {
+    const response = await fetch(`http://localhost:8000/api/user/${ID}`, {
       method: "PATCH",
       body: JSON.stringify({
         email,
