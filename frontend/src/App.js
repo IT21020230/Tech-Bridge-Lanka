@@ -1,11 +1,12 @@
-import { lazy } from "react";
+import { Suspense, lazy } from "react";
+import AddPostPage from "./TBL/pages/blog/CreatePost";
+import EditPostPage from "./TBL/pages/blog/EditPost";
+import PostPage from "./TBL/pages/blog/PostPage";
+import PostsPage from "./TBL/pages/blog/IndexPage";
+import DistrictDataPage from "./TBL/pages/districtDataPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
-
-// import { SignUp } from "./TBL/pages/user/signUp";
-// import { Login } from "./TBL/pages/user/login";
-// import { TestingUi } from "./TBL/pages/TestingUI/testingUI";
 
 //Add user
 const AddUser = lazy(() => import("./TBL-admin/pages/addUser"));
@@ -15,6 +16,10 @@ const ListUser = lazy(() => import("./TBL-admin/pages/listUser"));
 
 //Info user
 const InfoUser = lazy(() => import("./TBL-admin/pages/infoUser"));
+
+// map pages
+const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
+const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
 
 // Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
@@ -110,6 +115,44 @@ function App() {
               element={user ? <ViewUser /> : <Navigate to="/login" />}
             />
 
+            {/* Udesh start */}
+            {/* Homepages */}
+            <Route
+              path={process.env.PUBLIC_URL + "/posts"}
+              element={<PostsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/post/:id"}
+              element={<PostPage />}
+            />
+            {/* <Route
+            path={process.env.PUBLIC_URL + "/UserRegister"}
+            element={<UserRegisterPage />}
+          /> */}
+
+            <Route
+              path={process.env.PUBLIC_URL + "/add-post"}
+              element={<AddPostPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/edit/:id"}
+              element={<EditPostPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "dd-data"}
+              element={<DistrictDataPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/edit/:id"}
+              element={<EditPostPage />}
+            />
+
+            {/* Usesh end */}
+
             <Route
               path="/viewProject/:id"
               element={user ? <ViewProject /> : <Navigate to="/login" />}
@@ -132,7 +175,7 @@ function App() {
             />
             <Route path="/projects" element={<Projects />} />
 
-            {/* <Route
+            <Route
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
             />
@@ -155,11 +198,11 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/issues-to-accept"}
               element={<IssuesToAcceptPage />}
-            /> */}
+            />
 
             {/* Community */}
 
-            {/* <Route
+            <Route
               path={process.env.PUBLIC_URL + "/createCommunity"}
               element={<CreateCommunity />}
             />
@@ -170,7 +213,13 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
-            /> */}
+            />
+
+            <Route path={process.env.PUBLIC_URL + "/map"} element={<Map />} />
+            <Route
+              path={process.env.PUBLIC_URL + "/map-live"}
+              element={<MapLive />}
+            />
           </Routes>
         </div>
       </BrowserRouter>

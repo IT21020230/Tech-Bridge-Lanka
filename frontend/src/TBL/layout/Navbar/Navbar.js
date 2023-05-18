@@ -4,11 +4,13 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../../assets/TBLlogo.png";
+
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 import { useLogout } from "../../hooks/useLogout";
 
 import "./Navbar.css";
+
 import Row from "react-bootstrap/esm/Row";
 
 function OffcanvasExample() {
@@ -86,6 +88,20 @@ function OffcanvasExample() {
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Events
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Map
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="#action1"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    DDD
                   </Nav.Link>
 
                   <Nav.Link

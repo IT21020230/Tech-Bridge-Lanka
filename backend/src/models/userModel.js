@@ -41,6 +41,13 @@ const userSchema = new Schema({
     required: true,
     default: "member",
   },
+  homeLocation: {
+    type: { type: String },
+    coordinates: [Number],
+  },
 });
 
+userSchema.index({ homeLocation: "2dsphere" });
+
+// export user model
 module.exports = mongoose.model("User", userSchema);
