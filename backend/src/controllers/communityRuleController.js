@@ -3,13 +3,30 @@ const mongoose = require("mongoose");
 
 //Create a community rules
 const createCommunityRule = async (req, res) => {
-  const communityRule = new CommunityRule({
+  const communityrule = new CommunityRule({
     commID: req.body.commID,
     rule: req.body.rule,
   });
 
-  await communityRule.save();
-  res.send(communityRule);
+  await communityrule.save();
+  res.send(communityrule);
+};
+
+//get community Rules
+const getAllRules = async (req, res) => {
+  const communityrule = await CommunityRule.find({
+    commID: req.params.id,
+  });
+  res.send(communityrule);
+};
+
+//get single rule
+
+const getSingleRules = async (req, res) => {
+  const arr = [];
+  const communityrule = await CommunityRule.findById(req.params.id);
+  arr.push(communityrule);
+  res.send(arr);
 };
 
 //delete set of rules
@@ -36,7 +53,31 @@ const deleteRuleSet = async (req, res) => {
   }
 };
 
+const deleteRule = async (req, res) => {
+  const communityrule = await CommunityRule.findByIdAndDelete(req.params.id);
+  res.send(communityrule);
+};
+
+const updateRule = async (req, res) => {
+  const communityRule = await CommunityRule.findById(req.params.id);
+
+  if (communityRule) {
+    communityRule.rule = req.body.rule;
+
+    const communityRuleUp = await communityRule.save();
+
+    res.json(communityRuleUp);
+  } else {
+    res.status(404);
+    throw new Error("community rule not found");
+  }
+};
+
 module.exports = {
   createCommunityRule,
   deleteRuleSet,
+  getAllRules,
+  deleteRule,
+  updateRule,
+  getSingleRules,
 };

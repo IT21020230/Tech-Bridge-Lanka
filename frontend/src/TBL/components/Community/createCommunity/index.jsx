@@ -30,7 +30,7 @@ function FormExample() {
   const [checkPDF, setCheckPDF] = useState(false);
   const [checkLogo, setCheckLogo] = useState(false);
   const [checkCover, setCheckCover] = useState(false);
-
+  const [userID, setUserID] = useState("ABC123");
   const handleInputChange = (index, event) => {
     const values = [...fields];
     values[index].value = event.target.value;
@@ -261,6 +261,7 @@ function FormExample() {
         registrationFile: pdfFile,
         logo: logoFile,
         coverPic: coverFile,
+        createdBy: userID,
       }).then((resault) => {
         const commID = resault.data._id;
 
@@ -275,6 +276,16 @@ function FormExample() {
           );
         });
       });
+      await Axios.post(
+        "http://localhost:8080/api/communityMember/createCommunityMember",
+        {
+          userID: "ABC",
+          name: "sdasd",
+          pic: "sdasd",
+          comId: "sdasd",
+          role: "SDsd",
+        }
+      );
     }
   };
 

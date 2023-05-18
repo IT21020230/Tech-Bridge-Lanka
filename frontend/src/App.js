@@ -207,10 +207,12 @@ function App() {
               path={process.env.PUBLIC_URL + "/createCommunity"}
               element={<CreateCommunity />}
             />
+
             <Route
-              path={process.env.PUBLIC_URL + "/community"}
-              element={<Community />}
+              path="/community/:id"
+              element={user ? <Community /> : <Navigate to="/login" />}
             />
+
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}

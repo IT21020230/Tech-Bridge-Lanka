@@ -18,6 +18,9 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
+
+
+
 //file upload
 //logo uploading
 const logoUploading = multer.diskStorage({
@@ -102,6 +105,8 @@ const projectRoutes = require("./src/routes/projectRoutes");
 const eventRoutes = require("./src/routes/eventRoutes");
 const community = require("./src/routes/communityRoutes");
 const communityRule = require("./src/routes/communityRuleRoute");
+const communityMember = require("./src/routes/communityMemberRoutes");
+const communityQuestion = require("./src/routes/communityQuestionRoute");
 const projectConRoutes = require("./src/routes/projectConRoutes");
 
 // define routes
@@ -113,3 +118,7 @@ app.use("/api/events", eventRoutes);
 app.use("/api/community", community);
 app.use("/api/communityRule", communityRule);
 app.use("/api/projectCon", projectConRoutes);
+app.use("/api/community", community);
+app.use("/api/communityRule", communityRule);
+app.use("/api/communityMember", communityMember);
+app.use("/api/communityQuestion", communityQuestion);

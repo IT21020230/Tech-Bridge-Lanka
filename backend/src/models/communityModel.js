@@ -5,38 +5,53 @@ const Schema = mongoose.Schema;
 const commuinitySchema = new Schema({
   commName: {
     type: String,
-    required: true,
   },
   location: {
     type: String,
-    required: true,
   },
   contactNumber: {
     type: String,
-    required: true,
   },
   email: {
     type: String,
-    required: true,
   },
   startedDate: {
     type: String,
   },
   size: {
     type: String,
-    required: true,
   },
   registrationFile: {
     type: String,
-    required: true,
   },
   logo: {
     type: String,
-    required: true,
   },
   coverPic: {
     type: String,
-    required: true,
+  },
+  vission: {
+    type: String,
+  },
+
+  Mission: {
+    type: String,
+  },
+  faceBookLink: {
+    type: String,
+  },
+  instergrameLink: {
+    type: String,
+  },
+  whatsappLink: {
+    type: String,
+  },
+
+  status: {
+    type: String,
+  },
+  createdBy: {
+    type: String,
   },
 });
 
