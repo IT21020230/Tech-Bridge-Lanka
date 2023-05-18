@@ -7,7 +7,7 @@ import PostsPage from "./TBL/pages/blog/IndexPage";
 import DistrictDataPage from "./TBL/pages/districtDataPage";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./custom.scss";
+
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
