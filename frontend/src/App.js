@@ -13,6 +13,9 @@ const AddUser = lazy(() => import("./TBL-admin/pages/addUser"));
 //List user
 const ListUser = lazy(() => import("./TBL-admin/pages/listUser"));
 
+//Info user
+const InfoUser = lazy(() => import("./TBL-admin/pages/infoUser"));
+
 // Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
 
@@ -97,6 +100,10 @@ function App() {
             <Route
               path="/listUser"
               element={user ? <ListUser /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/infoUser/:id"
+              element={user ? <InfoUser /> : <Navigate to="/login" />}
             />
             <Route
               path="/viewUser"

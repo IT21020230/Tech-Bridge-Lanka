@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useLogout } from "../../hooks/useLogout";
+import { Dropdown } from "react-bootstrap";
 // import { useUpdateUser } from "../../hooks/useUpdateUser";
 import axios from "axios";
 
@@ -53,6 +54,9 @@ function ViewUser() {
         city,
         photo,
       });
+
+      setSelectedDistrict(city);
+      setSelectedProvince(province);
 
       if (photo) {
         setImageURL(photo);
@@ -195,6 +199,17 @@ function ViewUser() {
       </Modal>
     );
   }
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState("");
+
+  const handleDropdownDistrict = (eventKey) => {
+    setSelectedDistrict(eventKey);
+  };
+
+  const handleDropdownProvince = (eventKey) => {
+    setSelectedProvince(eventKey);
+  };
 
   const [photo, setPhoto] = useState("");
 
@@ -393,32 +408,92 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikCity">
+              {/* District */}
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikDistrict"
+                style={{ width: "45%" }}
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
                   }}
                 >
-                  City
+                  District
                 </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    aria-describedby="inputGroupPrepend"
-                    name="city"
-                    value={values.city}
-                    onChange={handleChange}
-                    isValid={touched.city && !errors.city}
-                    isInvalid={!!errors.city}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.city}
-                  </Form.Control.Feedback>
-                </InputGroup>
+
+                <Dropdown onSelect={handleDropdownDistrict}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedDistrict ? selectedDistrict : "Select a District"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+                      <Dropdown.Item eventKey="Colombo">Colombo</Dropdown.Item>
+                      <Dropdown.Item eventKey="Gampaha">Gampaha</Dropdown.Item>
+                      <Dropdown.Item eventKey="Kalutara">
+                        Kalutara
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kandy">Kandy</Dropdown.Item>
+                      <Dropdown.Item eventKey="Matale">Matale</Dropdown.Item>
+                      <Dropdown.Item eventKey="Nuwara Eliya">
+                        Nuwara Eliya
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Galle">Galle</Dropdown.Item>
+                      <Dropdown.Item eventKey="Hambantota">
+                        Hambantota
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Jaffna">Jaffna</Dropdown.Item>
+                      <Dropdown.Item eventKey="Mannar">Mannar</Dropdown.Item>
+                      <Dropdown.Item eventKey="Vavuniya">
+                        Vavuniya
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Mullaitivu">
+                        Mullaitivu
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Batticaloa">
+                        Batticaloa
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Ampara">Ampara</Dropdown.Item>
+                      <Dropdown.Item eventKey="Trincomalee">
+                        Trincomalee
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kurunegala">
+                        Kurunegala
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Puttalam">
+                        Puttalam
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Anuradhapura">
+                        Anuradhapura
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Polonnaruwa">
+                        Polonnaruwa
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Badulla">Badulla</Dropdown.Item>
+                      <Dropdown.Item eventKey="Monaragala">
+                        Monaragala
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Ratnapura">
+                        Ratnapura
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kegalle">Kegalle</Dropdown.Item>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Form.Group>
 
+              {/* Province */}
               <Form.Group
-                style={{ marginLeft: "10%" }}
+                style={{ marginLeft: "5%", width: "45%" }}
                 as={Col}
                 md="5"
                 controlId="validationFormikProvince"
@@ -430,20 +505,43 @@ function ViewUser() {
                 >
                   Province
                 </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    aria-describedby="inputGroupPrepend"
-                    name="province"
-                    value={values.province}
-                    onChange={handleChange}
-                    isValid={touched.province && !errors.province}
-                    isInvalid={!!errors.province}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.province}
-                  </Form.Control.Feedback>
-                </InputGroup>
+                <Dropdown onSelect={handleDropdownProvince}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "100%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedProvince ? selectedProvince : "Select a Province"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="Northern">
+                      Northern Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="North Western">
+                      North Western Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="North Central">
+                      North Central Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Central">
+                      Central Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Sabaragamuwa">
+                      Sabaragamuwa Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Eastern">
+                      Eastern Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Uva">Uva Province</Dropdown.Item>
+                    <Dropdown.Item eventKey="Southern">
+                      Southern Province
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Form.Group>
 
               <Form.Group as={Col} md="5" controlId="validationFormikAge">

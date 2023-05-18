@@ -15,6 +15,8 @@ function OffcanvasExample() {
   const { logout } = useLogout();
   const { user } = useAuthContext();
 
+  //const userRole = user.role;
+
   const handleLogout = () => {
     logout();
   };
@@ -51,6 +53,7 @@ function OffcanvasExample() {
               </Offcanvas.Header>
               <Offcanvas.Body>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
+                  {/* <h4 style={{ textAlign: "left" }}>ADMIN</h4> */}
                   <Nav.Link
                     href="#action1"
                     style={{ color: "black", fontWeight: "bold" }}
@@ -63,20 +66,6 @@ function OffcanvasExample() {
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Stories
-                  </Nav.Link>
-
-                  <Nav.Link
-                    href="#action1"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Map
-                  </Nav.Link>
-
-                  <Nav.Link
-                    href="#action1"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    DDD
                   </Nav.Link>
 
                   <Nav.Link
@@ -97,6 +86,13 @@ function OffcanvasExample() {
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Events
+                  </Nav.Link>
+
+                  <Nav.Link
+                    href="/listUser"
+                    style={{ color: "black", fontWeight: "bold" }}
+                  >
+                    Users
                   </Nav.Link>
 
                   {/* Check whether the user is logged in */}
@@ -125,12 +121,6 @@ function OffcanvasExample() {
                         >
                           Login
                         </Nav.Link>
-                        {/* <Nav.Link
-                          href="/signup"
-                          style={{ color: "black", fontWeight: "bold" }}
-                        >
-                          Register
-                        </Nav.Link> */}
                       </Row>
                     </div>
                   )}

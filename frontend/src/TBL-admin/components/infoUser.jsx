@@ -8,18 +8,22 @@ import Modal from "react-bootstrap/Modal";
 import * as yup from "yup";
 import { Formik } from "formik";
 import React, { useState, useEffect } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
+// import { useAuthContext } from "../../hooks/useAuthContext";
+import { useAuthContext } from "../../TBL/hooks/useAuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
-import { useLogout } from "../../hooks/useLogout";
+import { useNavigate, useParams } from "react-router-dom";
+import { useLogout } from "../../TBL/hooks/useLogout";
+import { Dropdown } from "react-bootstrap";
 // import { useUpdateUser } from "../../hooks/useUpdateUser";
 import axios from "axios";
 
 function ViewUser() {
   //const { updateUser, error, isLoading } = useUpdateUser();
-  const { user } = useAuthContext();
-  const { logout } = useLogout();
+  // const { user } = useAuthContext();
+  //const { logout } = useLogout();
+
+  const { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -39,10 +43,8 @@ function ViewUser() {
   //GET USER DATA
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(
-        `http://localhost:7000/api/user/${user.userId}`
-      );
-      const { email, password, name, phone, age, province, city, photo } =
+      const response = await axios.get(`http://localhost:7000/api/user/${id}`);
+      const { email, password, name, phone, age, province, city, photo, role } =
         response.data;
       setInitialValues({
         email,
@@ -54,6 +56,10 @@ function ViewUser() {
         photo,
         role,
       });
+
+      setSelectedDistrict(city);
+      setSelectedProvince(province);
+      setSelectedUser(role);
 
       if (photo) {
         setImageURL(photo);
@@ -72,25 +78,22 @@ function ViewUser() {
   const handleSubmit = async (values) => {
     //e.preventDefault();
 
-    const response = await fetch(
-      `http://localhost:7000/api/user/${user.userId}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-          name: values.name,
-          phone: values.phone,
-          age: values.age,
-          province: values.province,
-          city: values.city,
-          photo,
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      }
-    );
+    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        phone: values.phone,
+        age: values.age,
+        province: values.province,
+        city: values.city,
+        photo,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
 
     const json = await response.json();
 
@@ -110,12 +113,9 @@ function ViewUser() {
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(
-      `http://localhost:7000/api/user/${user.userId}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
+      method: "DELETE",
+    });
     const json = await response.json();
 
     if (!response.ok) {
@@ -130,7 +130,6 @@ function ViewUser() {
       });
       setTimeout(() => {
         //navigate("/login");
-        logout();
       }, 2000);
     }
   };
@@ -197,6 +196,22 @@ function ViewUser() {
     );
   }
 
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
+
+  const handleDropdownDistrict = (eventKey) => {
+    setSelectedDistrict(eventKey);
+  };
+
+  const handleDropdownProvince = (eventKey) => {
+    setSelectedProvince(eventKey);
+  };
+
+  const handleDropdownUser = (eventKey) => {
+    setSelectedUser(eventKey);
+  };
+
   const [photo, setPhoto] = useState("");
 
   //file upload handler
@@ -255,7 +270,7 @@ function ViewUser() {
     >
       <ToastContainer />
       <div>
-        <h1 className="head">My Account</h1>
+        <h1 className="head">User Account</h1>
       </div>
       <Formik
         enableReinitialize
@@ -394,32 +409,92 @@ function ViewUser() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group as={Col} md="5" controlId="validationFormikCity">
+              {/* District */}
+              <Form.Group
+                as={Col}
+                md="5"
+                controlId="validationFormikDistrict"
+                style={{ width: "45%" }}
+              >
                 <Form.Label
                   style={{
                     marginTop: "20px",
                   }}
                 >
-                  City
+                  District
                 </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    aria-describedby="inputGroupPrepend"
-                    name="city"
-                    value={values.city}
-                    onChange={handleChange}
-                    isValid={touched.city && !errors.city}
-                    isInvalid={!!errors.city}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.city}
-                  </Form.Control.Feedback>
-                </InputGroup>
+
+                <Dropdown onSelect={handleDropdownDistrict}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "92%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedDistrict ? selectedDistrict : "Select a District"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <div style={{ maxHeight: "250px", overflowY: "auto" }}>
+                      <Dropdown.Item eventKey="Colombo">Colombo</Dropdown.Item>
+                      <Dropdown.Item eventKey="Gampaha">Gampaha</Dropdown.Item>
+                      <Dropdown.Item eventKey="Kalutara">
+                        Kalutara
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kandy">Kandy</Dropdown.Item>
+                      <Dropdown.Item eventKey="Matale">Matale</Dropdown.Item>
+                      <Dropdown.Item eventKey="Nuwara Eliya">
+                        Nuwara Eliya
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Galle">Galle</Dropdown.Item>
+                      <Dropdown.Item eventKey="Hambantota">
+                        Hambantota
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Jaffna">Jaffna</Dropdown.Item>
+                      <Dropdown.Item eventKey="Mannar">Mannar</Dropdown.Item>
+                      <Dropdown.Item eventKey="Vavuniya">
+                        Vavuniya
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Mullaitivu">
+                        Mullaitivu
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Batticaloa">
+                        Batticaloa
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Ampara">Ampara</Dropdown.Item>
+                      <Dropdown.Item eventKey="Trincomalee">
+                        Trincomalee
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kurunegala">
+                        Kurunegala
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Puttalam">
+                        Puttalam
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Anuradhapura">
+                        Anuradhapura
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Polonnaruwa">
+                        Polonnaruwa
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Badulla">Badulla</Dropdown.Item>
+                      <Dropdown.Item eventKey="Monaragala">
+                        Monaragala
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Ratnapura">
+                        Ratnapura
+                      </Dropdown.Item>
+                      <Dropdown.Item eventKey="Kegalle">Kegalle</Dropdown.Item>
+                    </div>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Form.Group>
 
+              {/* Province */}
               <Form.Group
-                style={{ marginLeft: "10%" }}
+                style={{ marginLeft: "7%", width: "45%" }}
                 as={Col}
                 md="5"
                 controlId="validationFormikProvince"
@@ -431,20 +506,43 @@ function ViewUser() {
                 >
                   Province
                 </Form.Label>
-                <InputGroup hasValidation>
-                  <Form.Control
-                    type="text"
-                    aria-describedby="inputGroupPrepend"
-                    name="province"
-                    value={values.province}
-                    onChange={handleChange}
-                    isValid={touched.province && !errors.province}
-                    isInvalid={!!errors.province}
-                  />
-                  <Form.Control.Feedback type="invalid">
-                    {errors.province}
-                  </Form.Control.Feedback>
-                </InputGroup>
+                <Dropdown onSelect={handleDropdownProvince}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "92%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedProvince ? selectedProvince : "Select a Province"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="Northern">
+                      Northern Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="North Western">
+                      North Western Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="North Central">
+                      North Central Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Central">
+                      Central Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Sabaragamuwa">
+                      Sabaragamuwa Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Eastern">
+                      Eastern Province
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="Uva">Uva Province</Dropdown.Item>
+                    <Dropdown.Item eventKey="Southern">
+                      Southern Province
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Form.Group>
 
               <Form.Group as={Col} md="5" controlId="validationFormikAge">
@@ -519,6 +617,39 @@ function ViewUser() {
                     {errors.photo}
                   </Form.Control.Feedback>
                 </InputGroup>
+              </Form.Group>
+
+              <Form.Group
+                style={{ marginLeft: "10%", width: "45%" }}
+                as={Col}
+                md="5"
+                controlId="validationFormikUsername"
+              >
+                <Form.Label
+                  style={{
+                    marginTop: "20px",
+                  }}
+                >
+                  User Role
+                </Form.Label>
+                <Dropdown onSelect={handleDropdownUser}>
+                  <Dropdown.Toggle
+                    variant="primary"
+                    id="dropdown-input"
+                    style={{
+                      width: "92%",
+                      backgroundColor: "white",
+                      color: "black",
+                    }}
+                  >
+                    {selectedUser ? selectedUser : "Select a User role"}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu style={{ width: "80%" }}>
+                    <Dropdown.Item eventKey="member">Member</Dropdown.Item>
+                    <Dropdown.Item eventKey="member">Moderator</Dropdown.Item>
+                    <Dropdown.Item eventKey="admin">Admin</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               </Form.Group>
             </Row>
 

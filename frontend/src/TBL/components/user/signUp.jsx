@@ -7,9 +7,7 @@ import { useSignup } from "../../hooks/useSignup";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useState } from "react";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import { Dropdown, FormControl } from "react-bootstrap";
-import DropdownMenu from "react-bootstrap/DropdownMenu";
+import { Dropdown } from "react-bootstrap";
 
 function SignUp() {
   const { signup, error, isLoading } = useSignup();
@@ -306,6 +304,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
+              {/* District */}
               <Form.Group
                 as={Col}
                 md="5"
@@ -388,6 +387,7 @@ function SignUp() {
                 </Dropdown>
               </Form.Group>
 
+              {/* Province */}
               <Form.Group
                 style={{ marginLeft: "5%", width: "45%" }}
                 as={Col}

@@ -47,6 +47,7 @@ const loginUser = async (req, res) => {
       userId: user.id,
       email: user.email,
       name: user.name,
+      role: user.role,
       token: token,
     });
   } catch (err) {
@@ -71,11 +72,11 @@ const signupUser = async (req, res) => {
       role,
     } = req.body;
 
-    // Check name or email or password is empty
-    if (!email || !password || !name || !phone) {
+    // Check name or email, name or password is empty
+    if (!email || !password || !name) {
       return res
         .status(400)
-        .json({ message: "email, password fields must be filled" });
+        .json({ message: "email, password, name fields must be filled" });
     }
 
     // Check if email already exists
@@ -128,6 +129,7 @@ const signupUser = async (req, res) => {
       userId: user._id,
       name: user.name,
       email: user.email,
+      role: user.role,
       token: token,
     });
   } catch (err) {

@@ -59,7 +59,7 @@ function UserList() {
                 <td>
                   <Button
                     variant="outline-primary"
-                    onClick={() => navigate(`/viewUser/${user._id}`)}
+                    onClick={() => navigate(`/infoUser/${user._id}`)}
                   >
                     View more
                   </Button>
