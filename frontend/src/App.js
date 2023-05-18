@@ -10,6 +10,9 @@ import { useAuthContext } from "./TBL/hooks/useAuthContext";
 //Add user
 const AddUser = lazy(() => import("./TBL-admin/pages/addUser"));
 
+//List user
+const ListUser = lazy(() => import("./TBL-admin/pages/listUser"));
+
 // Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
 
@@ -90,6 +93,10 @@ function App() {
             <Route
               path="/addUser"
               element={user ? <AddUser /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/listUser"
+              element={user ? <ListUser /> : <Navigate to="/login" />}
             />
             <Route
               path="/viewUser"

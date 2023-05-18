@@ -3,72 +3,209 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useSignup } from "../../hooks/useSignup";
-import * as formik from "formik";
+import Image from "react-bootstrap/Image";
+import Modal from "react-bootstrap/Modal";
 import * as yup from "yup";
-import { Formik, Field, ErrorMessage } from "formik";
-import { useState } from "react";
+import { Formik } from "formik";
+import React, { useState, useEffect } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { useLogout } from "../../hooks/useLogout";
+// import { useUpdateUser } from "../../hooks/useUpdateUser";
+import axios from "axios";
 
-import { BiTrash } from "react-icons/bi";
-import { IoAddSharp } from "react-icons/io5";
+function ViewUser() {
+  //const { updateUser, error, isLoading } = useUpdateUser();
+  const { user } = useAuthContext();
+  const { logout } = useLogout();
 
-function SignUp() {
-  const { signup, error, isLoading } = useSignup();
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [age, setAge] = useState("");
-  const [province, setProvince] = useState("");
-  const [city, setCity] = useState("");
+  const [initialValues, setInitialValues] = useState({
+    email: "",
+    password: "",
+    name: "",
+    phone: "",
+    age: "",
+    province: "",
+    city: "",
+    photo: "",
+  });
 
-  const [fields, setFields] = useState([{ value: "" }]);
+  const [imageURL, setImageURL] = useState("");
 
-  const handleInputChange = (index, event) => {
-    const values = [...fields];
-    values[index].value = event.target.value;
-    setFields(values);
-  };
+  //GET USER DATA
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get(
+        `http://localhost:7000/api/user/${user.userId}`
+      );
+      const { email, password, name, phone, age, province, city, photo } =
+        response.data;
+      setInitialValues({
+        email,
+        name,
+        phone,
+        age,
+        province,
+        city,
+        photo,
+        role,
+      });
 
-  const handleAddField = () => {
-    const values = [...fields];
-    values.push({ value: "" });
-    setFields(values);
-  };
+      if (photo) {
+        setImageURL(photo);
+      } else {
+        // Set a default image URL if the API response is empty
+      }
+    }
 
-  const handleRemoveField = (index) => {
-    const values = [...fields];
-    values.splice(index, 1);
-    setFields(values);
-  };
+    fetchData();
+  }, []);
 
+  const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
+
+  //UPDATE USER DATA
   const handleSubmit = async (values) => {
-    console.log(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      values.province,
-      values.city
+    //e.preventDefault();
+
+    const response = await fetch(
+      `http://localhost:7000/api/user/${user.userId}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+          name: values.name,
+          phone: values.phone,
+          age: values.age,
+          province: values.province,
+          city: values.city,
+          photo,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
     );
 
-    // await signup(
-    //   values.email,
-    //   values.password,
-    //   values.confirmPassword,
-    //   values.name,
-    //   values.phone,
-    //   values.age,
-    //   values.province,
-    //   values.city
-    // );
+    const json = await response.json();
+
+    if (response.ok) {
+      console.log("User updated successfully.");
+
+      toast.success(`User updated successfully `, {
+        position: "bottom-left",
+      });
+      setTimeout(() => {
+        //navigate("/user");
+      }, 2000);
+    }
   };
 
-  const { Formik } = formik;
+  //DELETE User
+  const handleDeleteSubmit = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(
+      `http://localhost:7000/api/user/${user.userId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.log(json.error);
+    }
+
+    if (response.ok) {
+      console.log("User deleted successfully.", json);
+
+      toast.success(`User deleted successfully `, {
+        position: "bottom-left",
+      });
+      setTimeout(() => {
+        //navigate("/login");
+        logout();
+      }, 2000);
+    }
+  };
+
+  //Update modal
+  function UpdateModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Update Your Account
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Are you sure want to update your account ?</h5>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ marginRight: "20px" }}
+            variant="success"
+            onClick={handleSubmit}
+          >
+            Update
+          </Button>
+          <Button onClick={props.onHide}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  //Delete modal
+  function DeleteModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Delete Your Account
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Are you sure want to permanently delete your account ?</h5>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ marginRight: "20px" }}
+            variant="danger"
+            onClick={handleDeleteSubmit}
+          >
+            Delete
+          </Button>
+          <Button onClick={props.onHide}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  const [photo, setPhoto] = useState("");
+
+  //file upload handler
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertToBase64(file);
+    setPhoto(base64);
+  };
 
   const schema = yup.object().shape({
     email: yup
@@ -87,7 +224,7 @@ function SignUp() {
     confirmPassword: yup
       .string()
       .required("Please enter the Password again!")
-      .matches(password, "Confirm Password should match with Password!"),
+      .oneOf([yup.ref("password"), ""], "Passwords must match"),
 
     phone: yup
       .string()
@@ -104,52 +241,60 @@ function SignUp() {
     province: yup.string().required("Please enter the Province!"),
 
     city: yup.string().required("Please enter the City!"),
-
-    // terms: yup
-    //   .bool()
-    //   .required()
-    //   .oneOf([true], "Terms and conditions must be accepted"),
   });
 
   return (
     <div
       style={{
         backgroundColor: "#b0dae9",
-        marginTop: "20px",
-        marginLeft: "13%",
-        marginRight: "13%",
-        marginBottom: "20px",
+        marginLeft: "200px",
+        marginRight: "200px",
+        marginBottom: "17px",
         padding: "50px",
       }}
     >
+      <ToastContainer />
       <div>
-        <h1 className="head">User Registration</h1>
+        <h1 className="head">My Account</h1>
       </div>
       <Formik
+        enableReinitialize
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
-        onSubmit={console.log}
-        initialValues={{
-          email: "",
-          password: "",
-          confirmPassword: "",
-          name: "",
-          phone: "",
-          age: "",
-          province: "",
-          city: "",
-        }}
+        onSubmit={handleSubmit}
+        initialValues={initialValues}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
           <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Row>
+                <div
+                  style={{
+                    marginLeft: "60px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Col s={6} md={4}>
+                    {imageURL ? (
+                      <Image
+                        src={imageURL}
+                        style={{ height: "250px", width: "250px" }}
+                        roundedCircle
+                      />
+                    ) : (
+                      <Image
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/2048px-Circle-icons-profile.svg.png"
+                        style={{ height: "250px", width: "250px" }}
+                        roundedCircle
+                      />
+                    )}
+                  </Col>
+                </div>
+              </Row>
+
+              <Form.Group as={Col} md="5" controlId="validationFormikName">
                 <Form.Label style={{ marginTop: "20px" }}>Name</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
@@ -168,10 +313,10 @@ function SignUp() {
               </Form.Group>
 
               <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
+                style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikEmail"
               >
                 <Form.Label
                   style={{
@@ -196,12 +341,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikPassword">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -226,10 +366,10 @@ function SignUp() {
               </Form.Group>
 
               <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
+                style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikConfirmPassword"
               >
                 <Form.Label
                   style={{
@@ -254,12 +394,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikCity">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -284,10 +419,10 @@ function SignUp() {
               </Form.Group>
 
               <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
+                style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikProvince"
               >
                 <Form.Label
                   style={{
@@ -312,12 +447,7 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikAge">
                 <Form.Label
                   style={{
                     marginTop: "20px",
@@ -342,10 +472,10 @@ function SignUp() {
               </Form.Group>
 
               <Form.Group
-                style={{ marginLeft: "5%", width: "45%" }}
+                style={{ marginLeft: "10%" }}
                 as={Col}
                 md="5"
-                controlId="validationFormikUsername"
+                controlId="validationFormikPhone"
               >
                 <Form.Label
                   style={{
@@ -370,28 +500,20 @@ function SignUp() {
                 </InputGroup>
               </Form.Group>
 
-              <Form.Group
-                as={Col}
-                md="5"
-                controlId="validationFormikUsername"
-                style={{ width: "45%" }}
-              >
+              <Form.Group as={Col} md="5" controlId="validationFormikPhoto">
                 <Form.Label
                   style={{
                     marginTop: "20px",
                   }}
                 >
-                  Upload a Profile Photo
+                  Upload Profile Photo
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     type="file"
                     aria-describedby="inputGroupPrepend"
-                    name="logo"
-                    value={values.photo}
-                    onChange={handleChange}
-                    isValid={touched.photo && !errors.photo}
-                    isInvalid={!!errors.photo}
+                    name="photo"
+                    onChange={(e) => handleFileUpload(e)}
                   />
                   <Form.Control.Feedback type="invalid">
                     {errors.photo}
@@ -400,40 +522,50 @@ function SignUp() {
               </Form.Group>
             </Row>
 
-            <Form.Group className="mb-3">
-              <Form.Check
-                required
-                name="terms"
-                label="Agree to terms and conditions"
-                onChange={handleChange}
-                isInvalid={!!errors.terms}
-                feedback={errors.terms}
-                feedbackType="invalid"
-                id="validationFormik0"
-              />
-            </Form.Group>
-
+            <br />
             <Button
-              disabled={isLoading}
               className="submitBTN"
+              variant="outline-success"
               type="submit"
-              variant="outline-primary"
             >
-              Register
+              Update
             </Button>
-            <br />
-            <br />
-            <p>
-              Already have an account? <a href="/login">Login</a>
-              <br />
-              <br />
-            </p>
-            {error && <div className="error">{error}</div>}
+            <Button
+              style={{ marginLeft: "30px" }}
+              className="submitBTN"
+              variant="outline-danger"
+              onClick={() => setModalDeleteShow(true)}
+            >
+              Delete
+            </Button>
           </Form>
         )}
       </Formik>
+
+      <UpdateModal
+        show={modalUpdateShow}
+        onHide={() => setModalUpdateShow(false)}
+      />
+
+      <DeleteModal
+        show={modalDeleteShow}
+        onHide={() => setModalDeleteShow(false)}
+      />
     </div>
   );
 }
 
-export default SignUp;
+export default ViewUser;
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}
