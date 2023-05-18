@@ -36,6 +36,11 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  role: {
+    type: String,
+    required: true,
+    default: "member",
+  },
   homeLocation: {
     type: { type: String },
     coordinates: [Number],

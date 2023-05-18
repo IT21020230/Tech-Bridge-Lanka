@@ -39,7 +39,6 @@
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.2",
-    "sass-loader": "^13.2.2",
     "toast": "^0.5.4",
 
     "validator": "^13.9.0",

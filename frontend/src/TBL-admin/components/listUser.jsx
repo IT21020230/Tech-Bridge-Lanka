@@ -3,23 +3,22 @@ import Table from "react-bootstrap/Table";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ViewEventList() {
+function UserList() {
   const navigate = useNavigate();
-  const [events, setEvents] = useState(null);
+  const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      const response = await fetch(`http://localhost:7000/api/events`);
+    const fetchProjects = async () => {
+      const response = await fetch(`http://localhost:7000/api/user`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
-
       if (response.ok) {
-        setEvents(json);
+        setUsers(json);
       }
     };
 
-    fetchEvents();
+    fetchProjects();
   }, []);
 
   return (
@@ -34,7 +33,7 @@ function ViewEventList() {
       }}
     >
       <div>
-        <h1 className="head">Event List</h1>
+        <h1 className="head">All Users</h1>
       </div>
       <br />
       <Table responsive style={{ backgroundColor: "#89c7dd" }}>
@@ -42,25 +41,25 @@ function ViewEventList() {
           <tr>
             <th></th>
             <th scope="col">Name</th>
-            <th scope="col">Community</th>
-            <th scope="col">Location</th>
-            <th scope="col">Date</th>
+            <th scope="col">Email</th>
+            <th scope="col">Age</th>
+            <th scope="col">User Role</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {events &&
-            events.map((event, count) => (
-              <tr key={event._id}>
+          {users &&
+            users.map((user, count) => (
+              <tr key={user._id}>
                 <th scope="row">{count + 1}</th>
-                <td>{event.name}</td>
-                <td>{event.commName}</td>
-                <td>{event.location}</td>
-                <td>{event.date}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.age}</td>
+                <td>{user.role}</td>
                 <td>
                   <Button
                     variant="outline-primary"
-                    onClick={() => navigate(`/viewEvent/${event._id}`)}
+                    onClick={() => navigate(`/infoUser/${user._id}`)}
                   >
                     View more
                   </Button>
@@ -73,4 +72,4 @@ function ViewEventList() {
   );
 }
 
-export default ViewEventList;
+export default UserList;

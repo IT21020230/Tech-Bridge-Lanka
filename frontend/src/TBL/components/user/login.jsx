@@ -5,7 +5,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
 import { useLogin } from "../../hooks/useLogin";
 import * as yup from "yup";
-import { Formik, Field, ErrorMessage } from "formik";
+import { Formik } from "formik";
 
 function Login() {
   const { login, error, isLoading } = useLogin();
@@ -55,7 +55,7 @@ function Login() {
               <Form.Group
                 as={Col}
                 md="12"
-                controlId="validationFormikUsername"
+                controlId="validationFormikEmail"
                 style={{ width: "100%" }}
               >
                 <Form.Label
@@ -85,7 +85,7 @@ function Login() {
               <Form.Group
                 as={Col}
                 md="12"
-                controlId="validationFormikUsername"
+                controlId="validationFormikPassword"
                 style={{ width: "100%" }}
               >
                 <Form.Label
