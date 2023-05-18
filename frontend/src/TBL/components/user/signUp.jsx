@@ -10,16 +10,7 @@ import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 
 function SignUp() {
-  const {signup, error, isLoading} = useSignup()
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [age, setAge] = useState('');
-  const [province, setProvince] = useState('');
-  const [city, setCity] = useState('');
+  const { signup, error, isLoading } = useSignup();
 
   const [fields, setFields] = useState([{ value: "" }]);
 
@@ -69,24 +60,11 @@ function SignUp() {
     password: yup
       .string()
       .required("Please enter a Password!")
-<<<<<<< HEAD
-      .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/, "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"),
-=======
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-      const user = await axios.post('http://localhost:8000/api/user/signup', {
-        email, password, confirmPassword, name, phone, age, address, city
-      }).then(() => {
-        console.log('User registered successfully');
->>>>>>> feature/udesh/current-location
-    
-=======
       .matches(
         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
         "Password should between 8 to 15 characters, and must include atleast 1 uppercase, 1 lowercase and 1 number!"
       ),
 
->>>>>>> 1bb55f56f4ea85999c084921c1f22b4ee1e39069
     confirmPassword: yup
       .string()
       .required("Please enter the Password again!")

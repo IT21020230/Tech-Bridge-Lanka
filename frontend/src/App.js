@@ -1,7 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./custom.scss";
-// import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
-
 import { Suspense, lazy } from "react";
 import AddPostPage from "./TBL/pages/blog/CreatePost";
 import EditPostPage from "./TBL/pages/blog/EditPost";
@@ -22,12 +18,11 @@ const ListUser = lazy(() => import("./TBL-admin/pages/listUser"));
 //Info user
 const InfoUser = lazy(() => import("./TBL-admin/pages/infoUser"));
 
-
 // map pages
 const Map = lazy(() => import("./TBL/pages/map/map.jsx"));
 const MapLive = lazy(() => import("./TBL/pages/map/mapLive.jsx"));
 
-// User Register Page
+// Signup Page
 const SignUp = lazy(() => import("./TBL/pages/user/signUp"));
 
 // Login Page
@@ -212,33 +207,14 @@ function App() {
               path={process.env.PUBLIC_URL + "/createCommunity"}
               element={<CreateCommunity />}
             />
+            {/* 
             <Route
-              path={process.env.PUBLIC_URL + "/community"}
+              path="/community/:id"
+              element={user ? <Community /> : <Navigate to="/login" />}
+            /> */}
+            <Route
+              path={process.env.PUBLIC_URL + "/community/:id"}
               element={<Community />}
-            />
-
-            <Route
-              path={process.env.PUBLIC_URL + "/posts"}
-              element={<PostsPage />}
-            />
-
-            <Route
-              path={process.env.PUBLIC_URL + "/post/:id"}
-              element={<PostPage />}
-            />
-            <Route
-              path={process.env.PUBLIC_URL + "/UserRegister"}
-              element={<UserRegisterPage />}
-            />
-
-            <Route
-              path={process.env.PUBLIC_URL + "/add-post"}
-              element={<AddPostPage />}
-            />
-
-            <Route
-              path={process.env.PUBLIC_URL + "/edit/:id"}
-              element={<EditPostPage />}
             />
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
@@ -250,12 +226,9 @@ function App() {
               path={process.env.PUBLIC_URL + "/map-live"}
               element={<MapLive />}
             />
-            <Route
-              path={process.env.PUBLIC_URL + "dd-data"}
-            />
           </Routes>
-          </div>
-          </BrowserRouter>
+        </div>
+      </BrowserRouter>
     </div>
   );
 }
