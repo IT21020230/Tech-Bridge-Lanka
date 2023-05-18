@@ -5,6 +5,7 @@ const {
   updateEvents,
   getAllEvents,
   getEventById,
+  getEventByCommId,
   deleteEvents,
 } = require("../controllers/eventController");
 
@@ -21,6 +22,9 @@ router.get("/", getAllEvents);
 
 //Get a project by its ID
 router.get("/:id", getEventById);
+
+//Get a project by its ID
+router.get("/commID/:commID", getEventByCommId);
 
 //Delete a project
 router.delete("/:id", deleteEvents);

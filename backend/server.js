@@ -18,16 +18,8 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-// set up routes
-const userRoutes = require("./src/routes/userRoutes");
-const postRoutes = require("./src/routes/postRoutes");
-const districtRoutes = require("./src/routes/districtRoutes");
-const projectRoutes = require("./src/routes/projectRoutes");
-const eventRoutes = require("./src/routes/eventRoutes");
-const community = require("./src/routes/communityRoutes");
-const communityRule = require("./src/routes/communityRuleRoute");
-const communityMember = require("./src/routes/communityMemberRoutes");
-const communityQuestion = require("./src/routes/communityQuestionRoute");
+
+
 
 //file upload
 //logo uploading
@@ -88,16 +80,6 @@ app.post("/pdf", multer(uploadRegisterFile).single("image"), (req, res) => {
   console.log(req.file);
   res.send("Single file upload success");
 });
-// define routes
-app.use("/api/user", userRoutes);
-app.use("/api/posts", postRoutes);
-app.use("/api/ddd-data", districtRoutes);
-app.use("/api/projects", projectRoutes);
-app.use("/api/events", eventRoutes);
-app.use("/api/community", community);
-app.use("/api/communityRule", communityRule);
-app.use("/api/communityMember", communityMember);
-app.use("/api/communityQuestion", communityQuestion);
 
 // Connect to the database
 mongoose.set("strictQuery", false);
@@ -114,3 +96,29 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
+
+// set up routes
+const userRoutes = require("./src/routes/userRoutes");
+const postRoutes = require("./src/routes/postRoutes");
+const districtRoutes = require("./src/routes/districtRoutes");
+const projectRoutes = require("./src/routes/projectRoutes");
+const eventRoutes = require("./src/routes/eventRoutes");
+const community = require("./src/routes/communityRoutes");
+const communityRule = require("./src/routes/communityRuleRoute");
+const communityMember = require("./src/routes/communityMemberRoutes");
+const communityQuestion = require("./src/routes/communityQuestionRoute");
+const projectConRoutes = require("./src/routes/projectConRoutes");
+
+// define routes
+app.use("/api/user", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/ddd-data", districtRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/events", eventRoutes);
+app.use("/api/community", community);
+app.use("/api/communityRule", communityRule);
+app.use("/api/projectCon", projectConRoutes);
+app.use("/api/community", community);
+app.use("/api/communityRule", communityRule);
+app.use("/api/communityMember", communityMember);
+app.use("/api/communityQuestion", communityQuestion);
