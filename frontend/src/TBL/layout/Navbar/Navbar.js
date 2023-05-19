@@ -57,7 +57,7 @@ function OffcanvasExample() {
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                   {/* <h4 style={{ textAlign: "left" }}>ADMIN</h4> */}
                   <Nav.Link
-                    href="#action1"
+                    href="/"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Home
@@ -103,6 +103,16 @@ function OffcanvasExample() {
                   >
                     DDD
                   </Nav.Link>
+
+                  {/* Check whether the user is logged in and admin */}
+                  {user && user.role === "admin" && (
+                    <Nav.Link
+                      href="/admin"
+                      style={{ color: "black", fontWeight: "bold" }}
+                    >
+                      Users
+                    </Nav.Link>
+                  )}
 
                   {/* Check whether the user is logged in and admin */}
                   {user && user.role === "admin" && (

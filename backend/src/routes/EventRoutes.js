@@ -7,26 +7,30 @@ const {
   getEventById,
   getEventByCommId,
   deleteEvents,
+  getEventByStatus,
 } = require("../controllers/eventController");
 
 const router = express.Router();
 
-//Create a project
+//Create a event
 router.post("/", createEvents);
 
-//Update a project
+//Update a event
 router.patch("/:id", updateEvents);
 
-//GET all projects
+//GET all event
 router.get("/", getAllEvents);
 
-//Get a project by its ID
+//Get a event by its ID
 router.get("/:id", getEventById);
 
-//Get a project by its ID
+//Get a event by its ID
 router.get("/commID/:commID", getEventByCommId);
 
-//Delete a project
+//Delete a event
 router.delete("/:id", deleteEvents);
+
+//Get a event by status
+router.get("/status/:status", getEventByStatus);
 
 module.exports = router;

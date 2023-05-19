@@ -82,7 +82,7 @@ function Projects() {
             <Button
               variant="primary"
               className="btn-logout"
-              onClick={handleClick}
+              onClick={() => (window.location.href = "/listProject")}
             >
               Manage Projects
             </Button>
@@ -91,7 +91,7 @@ function Projects() {
       </div>
       <br />
 
-      {projects &&
+      {projects && projects.length > 0 ? (
         projects.map((project) => (
           <>
             <Card
@@ -100,11 +100,12 @@ function Projects() {
                 backgroundColor: "#89c7dd",
                 width: "80%",
               }}
+              key={project._id}
             >
               <>
                 <br />
                 <Card.Title style={{ textAlign: "center" }}>
-                  <h4 key={project._id}>
+                  <h4>
                     <b>{project.name}</b>
                   </h4>
                   <h6>{project.commName}</h6>
@@ -148,7 +149,7 @@ function Projects() {
                         </Button>
                         <br />
                         <p style={{ color: "red" }}>
-                          You need login to contribute for a project
+                          You need to login to contribute to a project
                         </p>
                       </>
                     )}
@@ -159,7 +160,10 @@ function Projects() {
             <br />
             <br />
           </>
-        ))}
+        ))
+      ) : (
+        <p>Loading projects...</p>
+      )}
 
       {/* <ColabModal
         show={modalColabShow}

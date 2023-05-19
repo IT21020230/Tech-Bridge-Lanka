@@ -120,7 +120,7 @@ function ViewProject() {
         position: "bottom-left",
       });
       setTimeout(() => {
-        navigate("/listProject");
+        window.location.href = "/listProject";
       }, 2500);
     }
   };
@@ -178,7 +178,7 @@ function ViewProject() {
         position: "bottom-left",
       });
       setTimeout(() => {
-        navigate("/listProject");
+        window.location.href = "/listProject";
       }, 3000);
     }
   };

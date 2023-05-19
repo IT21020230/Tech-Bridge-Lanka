@@ -123,3 +123,5 @@ app.use("/api/communityRule", communityRule);
 app.use("/api/communityMember", communityMember);
 app.use("/api/communityQuestion", communityQuestion);
 app.use("/api/communityAnswer", communityAnswer);
+
+module.exports = app;

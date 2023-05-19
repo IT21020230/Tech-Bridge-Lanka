@@ -2,15 +2,19 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { startTransition } from "react";
+import { useParams } from "react-router-dom";
 
 function ViewProjectList() {
+  const { id } = useParams();
+
   const navigate = useNavigate();
   const [projects, setProjects] = useState(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:7000/api/projects`);
+      const response = await fetch(
+        `http://localhost:7000/api/projects/commID/` + id
+      );
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
