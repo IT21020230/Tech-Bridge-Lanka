@@ -12,6 +12,11 @@ import Axios from "axios";
 import { BiTrash } from "react-icons/bi";
 import { IoAddSharp } from "react-icons/io5";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useAuthContext } from "../../../hooks/useAuthContext";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function FormExample() {
   const [fields, setFields] = useState([{ value: "" }]);
   const [pdf, setPDF] = useState("");
@@ -31,6 +36,11 @@ function FormExample() {
   const [checkLogo, setCheckLogo] = useState(false);
   const [checkCover, setCheckCover] = useState(false);
   const [userID, setUserID] = useState("ABC123");
+
+  const { user } = useAuthContext();
+
+  const UID = user.userId;
+
   const handleInputChange = (index, event) => {
     const values = [...fields];
     values[index].value = event.target.value;
@@ -261,8 +271,8 @@ function FormExample() {
         registrationFile: pdfFile,
         logo: logoFile,
         coverPic: coverFile,
-        createdBy: userID,
-      }).then((resault) => {
+        createdBy: UID,
+      }).then(async (resault) => {
         const commID = resault.data._id;
 
         fields.map(async (data) => {
@@ -275,17 +285,31 @@ function FormExample() {
             }
           );
         });
+
+        await Axios.get(`http://localhost:8080/api/user/${UID}`).then(
+          async (response) => {
+            const uName = response.data.name;
+            const proPic = response.data.photo;
+
+            await Axios.post(
+              "http://localhost:8080/api/communityMember/createCommunityMember",
+              {
+                userID: UID,
+                name: uName,
+                pic: proPic,
+                comId: commID,
+                role: "admin",
+              }
+            );
+            toast.success(`Community created `, {
+              position: "bottom-left",
+            });
+            setTimeout(() => {
+              window.location.href = `/`;
+            }, 1000);
+          }
+        );
       });
-      await Axios.post(
-        "http://localhost:8080/api/communityMember/createCommunityMember",
-        {
-          userID: "ABC",
-          name: "sdasd",
-          pic: "sdasd",
-          comId: "sdasd",
-          role: "SDsd",
-        }
-      );
     }
   };
 
@@ -330,6 +354,8 @@ function FormExample() {
         padding: "50px",
       }}
     >
+      {" "}
+      <ToastContainer />
       <div>
         <h1 className="head">Community Registration</h1>
       </div>
