@@ -1,11 +1,14 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Input, Typography } from '@material-ui/core';
 import { styled } from "@material-ui/core";
 import { Stack } from "@mui/material";
 import myPhoto from './events-in-hyderabad.jpg'
+import { useNavigate } from "react-router-dom";
 
 
 const commonStyles = {
@@ -23,6 +26,55 @@ const commonStyles = {
 function IssuesToAccept(){
     const [apiData,setApiData] = useState([]);
 
+    const { id } = useParams();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        const getBlogData = async () => {
+            const response = await fetch(`http://localhost:7000/api/issue/get-issue-by-id/${id}`);
+            const json = await response.json();
+            
+            if(response.ok){
+                setApiData(json);
+                console.log(json);
+            }
+
+            if (!response.ok){
+                console.log(Error)
+            }
+        }
+        getBlogData();
+
+        console.log(apiData.title)
+    },[]);
+
+    function getDataFunction(json){
+        setApiData(json);
+
+       
+    }
+
+    function convertToImage(base64String) {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            resolve(img);
+          };
+          img.onerror = (error) => {
+            reject(error);
+          };
+          img.src = base64String;
+        });
+      }
+
+      function handleAccept (e){
+
+        axios.patch(`http://localhost:7000/api/issue/accept-issue/${id}`);
+        navigate('/issues-list-page');
+      }
+
     return (
 
         <Box sx={commonStyles}>
@@ -30,13 +82,14 @@ function IssuesToAccept(){
             <Stack spacing={2} direction='column' sx={{display:'flex',justifyContent:'center',alignItems:'center',width:'50%',height:'90%'}}>
 
 
-            <h3>Issue Topic:</h3>Computer lab for Gemunukula College Polonnaruwa
-            <h3>Issue details: </h3>Scratches on your face, hands, or body when you wake up are usually caused by scratching yourself while asleep. You may have a skin condition thats causing intense itchiness at night, or you may have dermatographia. Dermatographia causes even very light scratches to produce raised red marks.
-            <h3>Proof: </h3><img src={myPhoto} alt="My Photo" width="50%" height="50%"/>
-            <h3>Province: </h3>Central Province
-            <h3>District: </h3>Polonnaruwa
+            <h3>Issue Topic:</h3>{apiData[0].title}
 
-            <Button variant="contained" style={{ backgroundColor: 'green' }}>Accept</Button>
+            <h3>Issue details: </h3>{apiData[0].description}
+            <h3>Proof: </h3><img src={apiData[0].proof} alt="My Photo" width="50%" height="50%"/>
+            <h3>Province: </h3>{apiData[0].province}
+            <h3>District: </h3>{apiData[0].district}
+
+            <Button variant="contained" style={{ backgroundColor: 'green' }} onClick={()=>handleAccept()}>Accept</Button>
       <Button variant="contained" style={{ backgroundColor: 'red' }}>Decline</Button>
 
 

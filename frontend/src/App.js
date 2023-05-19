@@ -17,14 +17,18 @@ const Login = lazy(() => import("./TBL/pages/user/login"));
 const TestingUi = lazy(() => import("./TBL/pages/TestingUI/testingUI"));
 
 //Accept or Decline blogs
+const BlogListPage = lazy(() => import("./TBL/pages/admin/BlogListPage"))
 const AcceptDeclineBlogsPage = lazy(() => import("./TBL/pages/admin/AcceptDeclineBlogPage"));
 const VerifyUserCommunitiesListPage = lazy(() => import("./TBL/pages/admin/VerifyUserCommunitiesListPage"))
+const VerifyUserCommunityPage = lazy(() => import("./TBL/pages/admin/VerifyUserCommunityPage"))
 const CreateIssuesPage = lazy(() => import("./TBL/pages/admin/CreateIssuesPage"))
+const IssuesListPage = lazy(() => import("./TBL/pages/admin/IssuesListPage"))
 const IssuesToAcceptPage = lazy(() => import("./TBL/pages/admin/IssuesToAcceptPage"))
 const AcceptDeclineUpcomingEventPage = lazy(() => import("./TBL/pages/admin/AcceptDeclineUpcomingEventPage"))
 const UpcomingEventsPage = lazy(() => import("./TBL/pages/admin/UpcomingEventsPage"))
 const CreateEventsPage = lazy(() => import("./TBL/pages/admin/CreateEventsPage"))
 const KithminaPage = lazy(() => import("./TBL/pages/admin/kithmina"))
+const ReactPractice = lazy(() => import("./TBL/components/admin/ReactPractice"))
 
 function App() {
   const { user } = useAuthContext();
@@ -52,7 +56,12 @@ function App() {
             />
 
             <Route
-              path={process.env.PUBLIC_URL + "/accept-decline-blogs-page"}
+              path={process.env.PUBLIC_URL + "/blog-list-page"}
+              element={<BlogListPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/accept-decline-blogs-page/:id"}
               element={<AcceptDeclineBlogsPage />}
             />
 
@@ -62,17 +71,27 @@ function App() {
             />
 
             <Route
+              path={process.env.PUBLIC_URL + "/verify-user-community/:id"}
+              element={<VerifyUserCommunityPage />}
+            />
+
+            <Route
               path={process.env.PUBLIC_URL + "/create-issues"}
               element={<CreateIssuesPage />}
             />
 
             <Route
-              path={process.env.PUBLIC_URL + "/issues-to-accept"}
+              path={process.env.PUBLIC_URL + "/issues-list-page"}
+              element={<IssuesListPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/issues-to-accept/:id"}
               element={<IssuesToAcceptPage />}
             />
 
             <Route
-              path={process.env.PUBLIC_URL + "/accept-decline-upcoming-event"}
+              path={process.env.PUBLIC_URL + "/accept-decline-upcoming-event/:id"}
               element={<AcceptDeclineUpcomingEventPage />}
             />
 
@@ -89,6 +108,11 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/kithmina"}
               element={<KithminaPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/react-practice"}
+              element={<ReactPractice />}
             />
 
           </Routes>

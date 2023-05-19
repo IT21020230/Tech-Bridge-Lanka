@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Input, Typography } from '@material-ui/core';
@@ -15,23 +15,26 @@ const commonStyles = {
     alignItems:'center',
     flexDirection:'column',
     width:'100wh',
-    height:'100vh'
+    height:'100%'
 
   };
 
 
-function AcceptDeclineBlog(){
+function VerifyUserCommunity(){
 
     const [apiData, setApiData] = useState([]);
-    const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
-    const navigate = useNavigate();
 
     const {id} = useParams();
+
+    const navigate = useNavigate();
+
+    const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
 
     useEffect(() => {
 
         const getBlogData = async () => {
-            const response = await fetch(`http://localhost:7000/api/posts/post/${id}`);
+            const response = await fetch(`http://localhost:7000/api/community/get-single-comuunity/${id}`);
             const json = await response.json();
 
             if(response.ok){
@@ -50,12 +53,15 @@ function AcceptDeclineBlog(){
 
 
      function handleAccept(e){
-        axios.patch(`http://localhost:7000/api/posts/post/accept/${id}`)
-        navigate("/blog-list-page")
-       
+        axios.patch(`http://localhost:7000/api/community/accept-community/${id}`);
+        
+       navigate("/verify-user-communities-list")
     };
 
-    function DeleteModal(props) {
+    
+    
+      //Delete modal
+      function DeleteModal(props) {
         return (
           <Modal
             {...props}
@@ -86,7 +92,6 @@ function AcceptDeclineBlog(){
         );
       }
 
-
     return(
         <>
 
@@ -94,11 +99,18 @@ function AcceptDeclineBlog(){
 
             <Stack spacing={2} direction='column' sx={{justifyContent:'center',alignItems:'center', width:'50%',height:'90%'}}>
 
-            <h1>Blog Title: </h1>{ apiData.title}
-            <h1>Blog Description: </h1>{ apiData.summary}
+            {apiData.length > 0 && apiData[0].logo}
+            {apiData.length > 0 && apiData[0].coverPic}
+            <h1>Community Name: </h1>{apiData.length > 0 && apiData[0].commName}
+            <h1>Community Location: </h1>{apiData.length > 0 && apiData[0].location}
             
-            <h1>Blog:  </h1>{ apiData.content}
-            <h3>Proof: </h3><img src={apiData.cover} alt="My Photo" width="50%" height="50%"/>
+            <h1>Vision:  </h1>{apiData.length > 0 && apiData[0].vission}
+            <h1>Mission:  </h1>{apiData.length > 0 && apiData[0].Mission}
+            <h1>Instagram:  </h1>{apiData.length > 0 && apiData[0].instergrameLink}
+            <h1>Whatsapp:  </h1>{apiData.length > 0 && apiData[0].whatsappLink}
+            <h1>Facebook:  </h1>{apiData.length > 0 && apiData[0].faceBookLink}
+            <h1>Contact:  </h1>{apiData.length > 0 && apiData[0].contactNumber}
+            <h3>Size: </h3>{apiData.length > 0 && apiData[0].size}
             
 
       <Button variant="contained" style={{ backgroundColor: 'green' }} onClick={() => setModalDeleteShow(true)}>Accept</Button>
@@ -126,7 +138,7 @@ function AcceptDeclineBlog(){
 
 }
 
-export default AcceptDeclineBlog;
+export default VerifyUserCommunity;
 
 
 

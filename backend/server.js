@@ -34,6 +34,19 @@ mongoose
 
 // set up routes
 const userRoutes = require("./src/routes/userRoutes");
+const issueRoutes = require("./src/routes/issueRoutes");
+const postRoutes = require("./src/routes/postRoutes");
+const eventRoutes = require("./src/routes/eventRoutes");
+const community = require("./src/routes/communityRoutes");
 
 // define routes
 app.use("/api/user", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/issue", issueRoutes);
+app.use("/api/events", eventRoutes);
+app.use("/api/community", community);
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+

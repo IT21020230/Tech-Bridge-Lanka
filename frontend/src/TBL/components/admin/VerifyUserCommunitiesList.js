@@ -22,20 +22,27 @@ const commonStyles = {
 
 };
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('6457df523d440e21c8c127d9', 'Community C', '2021-01-01'),
-    createData('6457df523d440e21c8c127da', 'Community B', '2021-01-21'),
-    createData('6457df523d440e21c8c127db', 'Community A', '2021-01-15'),
-    
-  ];
-
-
-
 function VerifyUserCommunitiesList(){
+
+  const [apiData, setApiData] = useState([]);
+
+  useEffect(() => {
+
+    const getBlogData = async () => {
+        const response = await fetch("http://localhost:7000/api/community/get-community-by-status/Pending");
+        const json = await response.json();
+
+        if(response.ok){
+            setApiData(json);
+            console.log(json);
+        }
+
+        if (!response.ok){
+            console.log(Error)
+        }
+    }
+    getBlogData();
+},[]);
 
     return (
       <Box sx={commonStyles}>
@@ -49,23 +56,24 @@ function VerifyUserCommunitiesList(){
       <TableCell><h4>Comunity ID</h4></TableCell>
       <TableCell align="right"><h4>Comunity Name</h4></TableCell>
       <TableCell align="right"><h4>Date created</h4></TableCell>
+      <TableCell align="right"><h4>created By</h4></TableCell>
       
       <TableCell align="right"><h4>View</h4></TableCell>
     </TableRow>
   </TableHead>
   <TableBody>
-    {rows.map((row) => (
+    {apiData.map((row) => (
       <TableRow
-        key={row.name}
+        key={row._id}
         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
       >
         <TableCell component="th" scope="row">
-          {row.name}
+          {row._id}
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        
-        <TableCell align="right"><Link>View</Link></TableCell>
+        <TableCell align="right">{row.commName}</TableCell>
+        <TableCell align="right">{row.startedDate}</TableCell>
+        <TableCell align="right">{row.createdBy}</TableCell>
+        <TableCell align="right"><Link to={{ pathname: `/verify-user-community/${row._id}` }}>View</Link></TableCell>
       </TableRow>
     ))}
   </TableBody>
