@@ -46,11 +46,25 @@ import UpdateModal from "./updateModal";
 import UpdateRuleModal from "./updateRule";
 import UpdateQuestionModal from "./updateQuestion";
 import UserQuestionModal from "./userQuestionForm";
+import UserAnswerModal from "./userAnswerForm";
 
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import axios from "axios";
 import { useAuthContext } from "../../../hooks/useAuthContext";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const getFilteredItems = (query, items) => {
+  if (!query) {
+    return items;
+  }
+  const lowercaseQuery = query.toLowerCase();
+  return items.filter((data) =>
+    data.memberName.toLowerCase().includes(lowercaseQuery)
+  );
+};
 
 export default function () {
   const [visible, setVisible] = useState(false);
@@ -61,33 +75,108 @@ export default function () {
   const [comData, setComData] = useState([]);
   const [comRules, setComRules] = useState([]);
   const [comQuestions, setComQuestions] = useState([]);
+  const [comRequest, setComRequest] = useState([]);
   const [tab, setTab] = useState("home");
   const [rule, setRule] = useState("");
   const [question, setComQuestion] = useState("");
-
+  const [count, setCount] = useState(0);
   const { user } = useAuthContext();
 
-  // const UID = user.userId;
+  const UID = user.userId;
 
   console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
   console.log(comData);
   const { id } = useParams();
   console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
   console.log(id);
-  const popover = (
-    <Popover id="popover-basic">
-      <Popover.Body>
-        <Grid container spacing={1}>
-          <Grid item xs={12}>
-            <button className="inBTN">set as admin</button>
+  const popover = (id, role) => {
+    return (
+      <Popover id="popover-basic">
+        <Popover.Body>
+          <Grid container spacing={1}>
+            {role != "admin" ? (
+              <Grid item xs={12}>
+                <button
+                  className="inBTN"
+                  onClick={(e) => {
+                    setAsAdmin(id);
+                  }}
+                >
+                  Make as Admin
+                </button>
+              </Grid>
+            ) : (
+              <Grid item xs={12}>
+                <button
+                  className="inBTN"
+                  onClick={(e) => {
+                    dismissAsAdmin(id);
+                  }}
+                >
+                  Dismiss as Admin
+                </button>
+              </Grid>
+            )}
+
+            <Grid item xs={12}>
+              <button
+                className="inBTN"
+                onClick={(e) => {
+                  removeMember(id);
+                }}
+              >
+                {" "}
+                remove from community
+              </button>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <button className="inBTN">remove from community</button>
-          </Grid>
-        </Grid>
-      </Popover.Body>
-    </Popover>
-  );
+        </Popover.Body>
+      </Popover>
+    );
+  };
+
+  const setAsAdmin = (ID) => {
+    axios
+      .patch(`http://localhost:8080/api/communityMember/changeRoll/${ID}`, {
+        role: "admin",
+      })
+      .then((response) => {
+        toast.success(`Roll changed successfully `, {
+          position: "bottom-left",
+        });
+        setTimeout(() => {
+          window.location.href = `/community/${id}`;
+        }, 2000);
+      });
+  };
+
+  const dismissAsAdmin = (ID) => {
+    axios
+      .patch(`http://localhost:8080/api/communityMember/changeRoll/${ID}`, {
+        role: "member",
+      })
+      .then((response) => {
+        toast.success(`Roll changed successfully`, {
+          position: "bottom-left",
+        });
+        setTimeout(() => {
+          window.location.href = `/community/${id}`;
+        }, 2000);
+      });
+  };
+
+  const removeMember = (ID) => {
+    axios
+      .delete(`http://localhost:8080/api/communityMember/removeMember/${ID}`)
+      .then((response) => {
+        toast.success(`Member is removed `, {
+          position: "bottom-left",
+        });
+        setTimeout(() => {
+          window.location.href = `/community/${id}`;
+        }, 2000);
+      });
+  };
 
   useEffect(() => {
     axios
@@ -112,6 +201,57 @@ export default function () {
         setComQuestions(response.data);
       });
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/communityAnswer/getRequest/${id}`)
+      .then((response) => {
+        setComRequest(response.data);
+      });
+  }, []);
+  const [currentRole, setCurrentRole] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:8080/api/communityMember/getOneMember/${UID}/${id}`
+      )
+      .then((response) => {
+        if (response.data.length != 0) {
+          setCurrentRole(response.data[0].role);
+        } else {
+          axios
+            .get(
+              `http://localhost:8080/api/communityAnswer/getOneMember/${UID}/${id}`
+            )
+            .then((response) => {
+              if (response.data.length != 0) {
+                setCurrentRole("pending");
+              } else {
+                setCurrentRole("guest");
+              }
+            });
+        }
+      });
+  }, []);
+
+  console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+  console.log(currentRole);
+
+  const [memberList, setMemberList] = useState([]);
+
+  const [query, setQuery] = useState("");
+
+  const filteredItems = getFilteredItems(query, memberList);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/communityMember/getMembers/${id}`)
+      .then((response) => {
+        setMemberList(response.data);
+        console.log(response.data);
+      });
+  }, []);
+
   const { Formik } = formik;
   console.log("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
@@ -145,6 +285,7 @@ export default function () {
     communitySize: yup.string().required("Community size is required"),
   });
   const [updateFormOpen, setUpdateFormOpen] = useState(false);
+  const [userAnswerFormOpen, setAnswerFormOpen] = useState(false);
   const [updateRuleFormOpen, setUpdateRuleFormOpen] = useState(false);
   const [updateQuestionFormOpen, setUpdateQuestionFormOpen] = useState(false);
   const [ruleId, setRuleID] = useState();
@@ -152,6 +293,8 @@ export default function () {
 
   const [questionId, setQuestionID] = useState();
   const [questionOne, setQuestionOne] = useState();
+
+  const [answerData, setQAnswerData] = useState();
 
   const handleOpenModal = () => {
     setUpdateFormOpen(true);
@@ -177,6 +320,14 @@ export default function () {
     // window.location.href = `/community/${id}`;
   };
 
+  const userAnswerOpen = (data) => {
+    setQAnswerData(data);
+    setAnswerFormOpen(true);
+  };
+  const userAnswerClose = () => {
+    setAnswerFormOpen(false);
+  };
+
   const handleOpenQuestionModal = (id, question) => {
     console.log(
       "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
@@ -197,21 +348,38 @@ export default function () {
     await axios.delete(
       `http://localhost:8080/api/communityRule/deleteRule/${Ruleid}`
     );
-    window.location.href = `/community/${id}`;
+
+    toast.success(`Rule deleted `, {
+      position: "bottom-left",
+    });
+    setTimeout(() => {
+      window.location.href = `/community/${id}`;
+    }, 1000);
   };
 
   const delteQuestion = async (Questionid) => {
     await axios.delete(
       `http://localhost:8080/api/communityQuestion/deleteQuestion/${Questionid}`
     );
-    window.location.href = `/community/${id}`;
+    toast.success(`Question deleted `, {
+      position: "bottom-left",
+    });
+    setTimeout(() => {
+      window.location.href = `/community/${id}`;
+    }, 1000);
   };
   const sendData = async (id) => {
     await axios.post("http://localhost:8080/api/communityRule/createRule", {
       commID: id,
       rule,
     });
-    window.location.href = `/community/${id}`;
+
+    toast.success(`Rule added successfully`, {
+      position: "bottom-left",
+    });
+    setTimeout(() => {
+      window.location.href = `/community/${id}`;
+    }, 1000);
   };
   const sendQuestinData = async (id) => {
     await axios.post(
@@ -221,21 +389,34 @@ export default function () {
         question,
       }
     );
-    window.location.href = `/community/${id}`;
+    toast.success(`Rule added successfully`, {
+      position: "bottom-left",
+    });
+    setTimeout(() => {
+      window.location.href = `/community/${id}`;
+    }, 1000);
   };
   return (
     <div style={{ backgroundColor: "#F0F2F5" }}>
+      <ToastContainer />
       <UpdateModal
         isOpen={updateFormOpen}
         onRequestClose={handleCloseModal}
         comData={id}
       />
 
+      <UserAnswerModal
+        isOpen={userAnswerFormOpen}
+        onRequestClose={userAnswerClose}
+        communityID={id}
+        answerData={answerData}
+      />
+
       <UserQuestionModal
         isOpen={visible}
         onRequestClose={handleCloseModal2}
         communityID={id}
-        userID="{UID}"
+        userID={UID}
       />
 
       <Model
@@ -313,60 +494,6 @@ export default function () {
         </Box>
       </Model>
 
-      <Model
-        isOpen={Form1}
-        onRequestClose={() => setForm1(false)}
-        style={{
-          overlay: {
-            backdropFilter: "blur(5px)",
-          },
-          content: {
-            top: "50%",
-            left: "50%",
-            right: "auto",
-            bottom: "auto",
-            marginRight: "-50%",
-
-            transform: "translate(-50%, -50%)",
-          },
-        }}
-      >
-        <div style={{ marginBottom: "10px" }}>
-          <h3>
-            <b>Member answer form</b>
-          </h3>
-        </div>
-        <ol>
-          <li>
-            How diverse and inclusive is the community and Do you actively
-            promote inclusivity and equality?
-            <p style={{ margin: "10px" }}>Answer :- aaaaaaaaaaaaaaaaaaaaaa</p>
-          </li>
-          <li>
-            {" "}
-            What resources or support systems are available within the community
-            for members?
-            <p style={{ margin: "10px" }}>Answer :- aaaaaaaaaaaaaaaaaaaaaa</p>
-          </li>
-          <li>
-            {" "}
-            Can you share testimonials or stories from current members about
-            their experiences in the community?
-            <p style={{ margin: "10px" }}>Answer :- aaaaaaaaaaaaaaaaaaaaaa</p>
-          </li>
-          <li>
-            {" "}
-            What are some of the challenges or obstacles the community has
-            faced, and how have you overcome them?
-            <p style={{ margin: "10px" }}>Answer :- aaaaaaaaaaaaaaaaaaaaaa</p>
-          </li>
-        </ol>
-        <Box m="20px">
-          <button className="acceptMember">Accept</button>
-          <button className="rejectMember">Reject</button>
-        </Box>
-      </Model>
-
       {comData.map((data) => {
         console.log(
           "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
@@ -401,17 +528,37 @@ export default function () {
                     </Grid>
                   </Grid>
                   <Grid item xs={2}>
-                    <div style={{ textAlign: "right" }}>
-                      <button
-                        className="joinBtn"
-                        onClick={() => setVisible(true)}
-                      >
-                        <MdConnectWithoutContact
-                          style={{ marginRight: "10px" }}
-                        />
-                        Join with us
-                      </button>
-                    </div>
+                    {currentRole == "guest" ? (
+                      <div style={{ textAlign: "right" }}>
+                        <button
+                          className="joinBtn"
+                          onClick={() => setVisible(true)}
+                        >
+                          <MdConnectWithoutContact
+                            style={{ marginRight: "10px" }}
+                          />
+                          Join with us
+                        </button>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
+                    {currentRole == "pending" ? (
+                      <div style={{ textAlign: "right" }}>
+                        <button
+                          className="joinBtn"
+                          onClick={() => setVisible(true)}
+                          disabled
+                        >
+                          <MdConnectWithoutContact
+                            style={{ marginRight: "10px" }}
+                          />
+                          Request sent
+                        </button>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </Grid>
                 </Grid>
               </Card>
@@ -449,48 +596,22 @@ export default function () {
                         <div className="lB">
                           <h4 className="memberTitile">Community member</h4>
                           <Grid container spacing={2}>
-                            <Grid item xs={4}>
-                              <div className="memberList">
-                                <img src={p01} className="proPic" />
+                            {memberList.slice(0, 6).map((data2) => {
+                              return (
+                                <>
+                                  <Grid item xs={4}>
+                                    <div className="memberList">
+                                      <img
+                                        src={data2.proPic}
+                                        className="proPic"
+                                      />
 
-                                <p>Jhon de silva</p>
-                              </div>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <div className="memberList">
-                                <img src={p02} className="proPic" />
-
-                                <p>S.N.W Gunasekara</p>
-                              </div>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <div className="memberList">
-                                <img src={p03} className="proPic" />
-
-                                <p>W.A Alwis</p>
-                              </div>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <div className="memberList">
-                                <img src={p03} className="proPic" />
-
-                                <p>Jerms Proyantha</p>
-                              </div>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <div className="memberList">
-                                <img src={p03} className="proPic" />
-
-                                <p>A.S Gunarathna</p>
-                              </div>
-                            </Grid>
-                            <Grid item xs={4}>
-                              <div className="memberList">
-                                <img src={p03} className="proPic" />
-
-                                <p>W.P Kavish</p>
-                              </div>
-                            </Grid>
+                                      <p>{data2.memberName} </p>
+                                    </div>
+                                  </Grid>
+                                </>
+                              );
+                            })}
                           </Grid>
                           <button className="memberBTN">
                             View All members
@@ -509,6 +630,25 @@ export default function () {
                         <Grid container spacing={2}>
                           <Grid item xs={12}>
                             <div className="options">
+                              <button className="createEvent">
+                                <p className="ln1">
+                                  <MdOutlineEventNote />
+                                </p>
+                                <p className="ln2"> View Event</p>
+                              </button>
+                              <button className="createProject">
+                                <p className="ln3">
+                                  <AiOutlineFundProjectionScreen />
+                                </p>
+                                <p className="ln4">View Project</p>
+                              </button>
+                            </div>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <div
+                              className="options"
+                              style={{ marginTop: "-20px" }}
+                            >
                               <button className="createEvent">
                                 <p className="ln1">
                                   <MdOutlineEventNote />
@@ -565,11 +705,19 @@ export default function () {
                                     setTab("About us");
                                   }}
                                 >
-                                  ...see community about info
+                                  {data.whatsappLink == null &&
+                                  currentRole == "admin" ? (
+                                    <h9 style={{ color: "red" }}>
+                                      Complete your community Page...
+                                    </h9>
+                                  ) : (
+                                    <>...see community about info</>
+                                  )}
                                 </h6>
                               </div>
                             </div>
                           </Grid>
+                          <Grid item xs={12}></Grid>
                         </Grid>
                       </Grid>
                     );
@@ -583,17 +731,35 @@ export default function () {
                       <Grid item xs={6}>
                         <div className="promt">
                           <h4 className="memberTitile">Our Vission</h4>
-                          <p>{data.vission}</p>
+                          {data.vission == null && currentRole == "admin" ? (
+                            <h9 style={{ color: "red" }}>
+                              Complete your community page.....
+                            </h9>
+                          ) : (
+                            <>
+                              {" "}
+                              <p>{data.vission}</p>
+                            </>
+                          )}
                         </div>
                         <div className="promt">
                           <h4 className="memberTitile">Our Misson</h4>
-                          <p>{data.Mission}</p>
+                          {data.Mission == null && currentRole == "admin" ? (
+                            <h9 style={{ color: "red" }}>
+                              Complete your community page.....
+                            </h9>
+                          ) : (
+                            <>
+                              {" "}
+                              <p>{data.Mission}</p>
+                            </>
+                          )}
                         </div>
                       </Grid>
                     );
                   })}
-                  <Grid item xs={6}>
-                    <div className="displayRule">
+                  {/* <Grid item xs={6}>
+                    <div className="displayRule" style={{ marginTop: "20px" }}>
                       <h4 className="memberTitile">Community Rules</h4>
                       <ul>
                         {comRules.map((data) => {
@@ -610,7 +776,7 @@ export default function () {
                         </button>
                       </ul>
                     </div>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Card>
             </Tab>
@@ -747,9 +913,13 @@ export default function () {
                   })}
                 </Grid>
                 <Grid item xs={2.5}>
-                  <button className="editAbout" onClick={handleOpenModal}>
-                    <FaRegEdit />
-                  </button>
+                  {currentRole == "admin" ? (
+                    <button className="editAbout" onClick={handleOpenModal}>
+                      <FaRegEdit />
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                 </Grid>
               </Grid>
             </Tab>
@@ -778,33 +948,47 @@ export default function () {
                                   comRule={ruleOne}
                                   id={id}
                                 />
-                                <button
-                                  className="editBtn"
-                                  onClick={() => {
-                                    handleOpenRuleModal(data._id, data.rule);
-                                  }}
-                                >
-                                  <AiOutlineEdit />
-                                </button>
-                                <button
-                                  className="delteBtn"
-                                  onClick={() => {
-                                    delteRule(data._id);
-                                  }}
-                                >
-                                  <IoTrash />
-                                </button>
+                                {currentRole == "admin" ? (
+                                  <>
+                                    <button
+                                      className="editBtn"
+                                      onClick={() => {
+                                        handleOpenRuleModal(
+                                          data._id,
+                                          data.rule
+                                        );
+                                      }}
+                                    >
+                                      <AiOutlineEdit />
+                                    </button>
+                                    <button
+                                      className="delteBtn"
+                                      onClick={() => {
+                                        delteRule(data._id);
+                                      }}
+                                    >
+                                      <IoTrash />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
                               </li>
                             </div>
                           );
                         })}
                       </ol>
-                      <button
-                        className="addRuleBtn"
-                        onClick={() => setForm2(true)}
-                      >
-                        Add new Rule
-                      </button>
+
+                      {currentRole == "admin" ? (
+                        <button
+                          className="addRuleBtn"
+                          onClick={() => setForm2(true)}
+                        >
+                          Add new Rule
+                        </button>
+                      ) : (
+                        <></>
+                      )}
                     </div>
                   </div>
                 </Grid>
@@ -815,7 +999,7 @@ export default function () {
                 <div className="memberOption">
                   <Grid container spacing={0}>
                     <Grid item xs={10}>
-                      <div style={{ position: "relative" }}>
+                      <div style={{ position: "relative", marginTop: "20px" }}>
                         <label
                           htmlFor="myInput"
                           style={{
@@ -825,291 +1009,206 @@ export default function () {
                             left: "10px",
                             transform: "translateY(-50%)",
                             pointerEvents: "none", // Ensures the label doesn't interfere with input interaction
+                            marginTop: "10px",
                           }}
                         >
-                          <AiOutlineSearch /> Search member here...
+                          <AiOutlineSearch />
                         </label>
                         <input
                           type="text"
                           id="myInput"
+                          placeholder="search community here"
                           style={{
                             paddingLeft: "30px",
                             width: "220px",
                             borderRadius: "50px",
+                            marginTop: "20px",
+                          }}
+                          onChange={(e) => {
+                            setQuery(e.target.value);
                           }}
                         />
                       </div>
                     </Grid>
-                    <Grid item xs={2}>
-                      <button className="invite">+ Invite members</button>
-                    </Grid>
+                    <Grid item xs={2}></Grid>
                   </Grid>
                 </div>
                 <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <div className="oneMember">
-                      <Grid container spacing={0}>
-                        <Grid item xs={3}>
-                          <img className="memberList1" src={p01} />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <p className="oneName">Jhon de silva</p>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="right"
-                            overlay={popover}
-                          >
-                            <button variant="success" className="optionBTN">
-                              :
-                            </button>
-                          </OverlayTrigger>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>{" "}
-                  <Grid item xs={6}>
-                    <div className="oneMember">
-                      <Grid container spacing={0}>
-                        <Grid item xs={3}>
-                          <img className="memberList1" src={p02} />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <p className="oneName">S.N.W Gunasekara</p>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="right"
-                            overlay={popover}
-                          >
-                            <button variant="success" className="optionBTN">
-                              :
-                            </button>
-                          </OverlayTrigger>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>{" "}
-                  <Grid item xs={6}>
-                    <div className="oneMember">
-                      <Grid container spacing={0}>
-                        <Grid item xs={3}>
-                          <img className="memberList1" src={p03} />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <p className="oneName">W.A Alwis</p>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="right"
-                            overlay={popover}
-                          >
-                            <button variant="success" className="optionBTN">
-                              :
-                            </button>
-                          </OverlayTrigger>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>{" "}
-                  <Grid item xs={6}>
-                    <div className="oneMember">
-                      <Grid container spacing={0}>
-                        <Grid item xs={3}>
-                          <img className="memberList1" src={p03} />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <p className="oneName">Jerms Proyantha</p>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="right"
-                            overlay={popover}
-                          >
-                            <button variant="success" className="optionBTN">
-                              :
-                            </button>
-                          </OverlayTrigger>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>{" "}
-                  <Grid item xs={6}>
-                    <div className="oneMember">
-                      <Grid container spacing={0}>
-                        <Grid item xs={3}>
-                          <img className="memberList1" src={p03} />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <p className="oneName">A.S Gunarathna</p>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="right"
-                            overlay={popover}
-                          >
-                            <button variant="success" className="optionBTN">
-                              :
-                            </button>
-                          </OverlayTrigger>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>{" "}
-                  <Grid item xs={6}>
-                    <div className="oneMember">
-                      <Grid container spacing={0}>
-                        <Grid item xs={3}>
-                          <img className="memberList1" src={p03} />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <p className="oneName">W.P Kavish</p>
-                        </Grid>
-                        <Grid item xs={1}>
-                          <OverlayTrigger
-                            trigger="click"
-                            placement="right"
-                            overlay={popover}
-                          >
-                            <button variant="success" className="optionBTN">
-                              :
-                            </button>
-                          </OverlayTrigger>
-                        </Grid>
-                      </Grid>
-                    </div>
-                  </Grid>{" "}
+                  {filteredItems.map((data) => {
+                    return (
+                      <>
+                        {" "}
+                        <Grid item xs={6}>
+                          <div className="oneMember">
+                            <Grid container spacing={0}>
+                              <Grid item xs={3}>
+                                <img
+                                  className="memberList1"
+                                  src={data.proPic}
+                                />
+                              </Grid>
+                              <Grid item xs={8}>
+                                <p className="oneName">{data.memberName}</p>
+                                <p
+                                  style={{
+                                    fontSize: "12px",
+                                    marginTop: "-20px",
+                                  }}
+                                >
+                                  {data.role}
+                                </p>
+                              </Grid>
+                              <Grid item xs={1}>
+                                {currentRole == "admin" &&
+                                data.userID !== UID ? (
+                                  <OverlayTrigger
+                                    trigger="click"
+                                    placement="right"
+                                    overlay={popover(data._id, data.role)}
+                                  >
+                                    <button
+                                      variant="success"
+                                      className="optionBTN"
+                                    >
+                                      :
+                                    </button>
+                                  </OverlayTrigger>
+                                ) : (
+                                  <></>
+                                )}
+                              </Grid>
+                            </Grid>
+                          </div>
+                        </Grid>{" "}
+                      </>
+                    );
+                  })}
                 </Grid>
               </div>
             </Tab>
-            <Tab eventKey="Question Form" title="Question Form">
-              <div>
-                <Grid container spacing={0}>
-                  <Grid item xs={12}>
-                    <div className="rules">
-                      <h2>
-                        <u>
-                          <b>Question form </b>
-                        </u>
-                      </h2>
-                      <div className="rulesList">
-                        <ol>
-                          {comQuestions.map((data) => {
-                            return (
-                              <div>
-                                <li>
-                                  {data.question}
-                                  <br />
-                                  <div></div>
-                                  <UpdateQuestionModal
-                                    isOpen={updateQuestionFormOpen}
-                                    onRequestClose={handleCloseQuestionModal}
-                                    comQuestionData={questionOne}
-                                    comQuestionID={questionId}
-                                    id={id}
-                                  />
-                                  <button
-                                    className="editBtn"
-                                    onClick={() => {
-                                      handleOpenQuestionModal(
-                                        data._id,
-                                        data.question
-                                      );
-                                    }}
-                                  >
-                                    <AiOutlineEdit />
-                                  </button>
-                                  <button
-                                    className="delteBtn"
-                                    onClick={() => {
-                                      delteQuestion(data._id);
-                                    }}
-                                  >
-                                    <IoTrash />
-                                  </button>
-                                </li>
-                              </div>
-                            );
-                          })}
-                        </ol>
-                        <button
-                          className="addRuleBtn"
-                          onClick={() => setForm3(true)}
-                        >
-                          Add new Question
-                        </button>
+            {currentRole == "admin" ? (
+              <Tab eventKey="Question Form" title="Question Form">
+                <div style={{ minHeight: "500px" }}>
+                  <Grid container spacing={0}>
+                    <Grid item xs={12}>
+                      <div className="rules">
+                        <h2>
+                          <u>
+                            <b>Question form </b>
+                          </u>
+                        </h2>
+                        <div className="rulesList">
+                          <ol>
+                            {comQuestions.map((data) => {
+                              return (
+                                <div>
+                                  <li>
+                                    {data.question}
+                                    <br />
+                                    <div></div>
+                                    <UpdateQuestionModal
+                                      isOpen={updateQuestionFormOpen}
+                                      onRequestClose={handleCloseQuestionModal}
+                                      comQuestionData={questionOne}
+                                      comQuestionID={questionId}
+                                      id={id}
+                                    />
+                                    <button
+                                      className="editBtn"
+                                      onClick={() => {
+                                        handleOpenQuestionModal(
+                                          data._id,
+                                          data.question
+                                        );
+                                      }}
+                                    >
+                                      <AiOutlineEdit />
+                                    </button>
+                                    <button
+                                      className="delteBtn"
+                                      onClick={() => {
+                                        delteQuestion(data._id);
+                                      }}
+                                    >
+                                      <IoTrash />
+                                    </button>
+                                  </li>
+                                </div>
+                              );
+                            })}
+                          </ol>
+                          <button
+                            className="addRuleBtn"
+                            onClick={() => setForm3(true)}
+                          >
+                            Add new Question
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
-            </Tab>
-            <Tab eventKey="Member Requst" title="Member request">
-              <div className="CommunityMember">
-                {" "}
-                <Table striped="columns">
-                  <tbody>
-                    <tr>
-                      <td>U01</td>
-                      <td>Shehan</td>
-                      <td>Kiribathgoda</td>
-                      <td>
-                        <button
-                          className="viewBtn"
-                          onClick={() => setForm1(true)}
-                        >
-                          View Form
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>U01</td>
-                      <td>Shehan</td>
-                      <td>Kiribathgoda</td>
-                      <td>
-                        <button
-                          className="viewBtn"
-                          onClick={() => setForm1(true)}
-                        >
-                          View Form
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>U01</td>
-                      <td>Shehan</td>
-                      <td>Kiribathgoda</td>
-                      <td>
-                        <button
-                          className="viewBtn"
-                          onClick={() => setForm1(true)}
-                        >
-                          View Form
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>U01</td>
-                      <td>Shehan</td>
-                      <td>Kiribathgoda</td>
-                      <td>
-                        <button
-                          className="viewBtn"
-                          onClick={() => setForm1(true)}
-                        >
-                          View Form
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
-            </Tab>
+                </div>
+              </Tab>
+            ) : (
+              <></>
+            )}
+            {currentRole == "admin" ? (
+              <Tab eventKey="Member Requst" title="Member request">
+                <div className="CommunityMember" style={{ minHeight: "500px" }}>
+                  <Grid container spacing={2}>
+                    {" "}
+                    {comRequest.length != 0 ? (
+                      <>
+                        {" "}
+                        {comRequest.map((data) => {
+                          return (
+                            <Grid item xs={6}>
+                              <div className="oneMember">
+                                <Grid container spacing={0}>
+                                  <Grid item xs={3}>
+                                    <img
+                                      className="memberList1"
+                                      src={data.proPic}
+                                    />
+                                  </Grid>
+                                  <Grid item xs={6}>
+                                    <p className="oneName">{data.userName}</p>
+                                  </Grid>
+                                  <Grid item xs={3}>
+                                    <button
+                                      variant="success"
+                                      className="addRuleBtn"
+                                      style={{ marginTop: "10px" }}
+                                      onClick={() => {
+                                        userAnswerOpen(data);
+                                      }}
+                                    >
+                                      View form
+                                    </button>
+                                  </Grid>
+                                </Grid>
+                              </div>
+                            </Grid>
+                          );
+                        })}
+                      </>
+                    ) : (
+                      <div
+                        style={{
+                          textAlign: "center",
+                          marginTop: "150px",
+                          marginRight: "50%",
+                        }}
+                      >
+                        No member requests found.
+                      </div>
+                    )}
+                  </Grid>
+                </div>
+              </Tab>
+            ) : (
+              <></>
+            )}
           </Tabs>
         </Grid>
         <Grid item xs={2}></Grid>

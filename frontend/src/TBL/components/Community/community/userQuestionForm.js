@@ -19,6 +19,7 @@ import axios from "axios";
 
 const QuestionForm = ({ isOpen, onRequestClose, communityID, userID }) => {
   const [question, setQuestion] = useState([]);
+  const [answer, setAnswers] = useState({});
 
   useEffect(() => {
     axios
@@ -29,13 +30,70 @@ const QuestionForm = ({ isOpen, onRequestClose, communityID, userID }) => {
         setQuestion(response.data);
       });
   }, []);
+
+  //   useEffect(() => {
+  //     axios.get(`http://localhost:8080/api/user/${userID}`).then((response) => {
+  //       setQuestion(response.data);
+  //     });
+  //   }, []);
+
+  const handleInputChange = (event, question) => {
+    const { value } = event.target;
+    setAnswers((prevState) => ({
+      ...prevState,
+      [question]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    // Prepare data object for storing answer
+    event.preventDefault();
+    await axios
+      .get(`http://localhost:8080/api/user/${userID}`)
+      .then(async (response) => {
+        //   setQuestion(response.data);
+        console.log(response.data);
+        const data = {
+          answer: answer,
+        };
+        console.log(data);
+        let data2 = [];
+        data2.push(data);
+
+        await axios
+          .post(
+            "http://localhost:8080/api/communityAnswer/createCommunityAnswer",
+            {
+              commID: communityID,
+              answer: data,
+              userId: userID,
+              userName: response.data.name,
+              proPic: response.data.photo,
+            }
+          )
+          .then(() => {
+            window.location.href = `/community/${communityID}`;
+          });
+      });
+
+    // // Make API call to store answer
+    // axios
+    //   .post("/api/answer", data)
+    //   .then((response) => {
+    //     console.log("Answer stored successfully!");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  };
+
   return (
     <Model
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       style={{
         overlay: {
-          backdropFilter: "blur(5px)",
+          backdropFilter: "blur(1px)",
         },
         content: {
           top: "50%",
@@ -53,26 +111,50 @@ const QuestionForm = ({ isOpen, onRequestClose, communityID, userID }) => {
         <div
           style={{
             backgroundColor: "#E8E8E8",
-            marginLeft: "200px",
-            marginRight: "200px",
+            // marginLeft: "200px",
+            // marginRight: "200px",
 
-            padding: "50px",
+            padding: "80px",
           }}
         >
           <div>
             <h1 className="head">Question Form</h1>
-          </div>
-          {question.map((data) => {
-            return (
-              <div>
-                <label>{data.question}</label>
-                <input type="text" />
-              </div>
-            );
-          })}
-          <Button className="submitBTN" type="submit">
-            Submit form
-          </Button>
+          </div>{" "}
+          <form
+            onSubmit={(event) => {
+              handleSubmit(event);
+            }}
+          >
+            <ol>
+              <Grid container spacing={1} width={"750px"}>
+                {question.map((data) => {
+                  return (
+                    <>
+                      <Grid item xs={12}>
+                        <li>
+                          {" "}
+                          <label>{data.question}</label>
+                        </li>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <input
+                          type="text"
+                          style={{ width: "100%" }}
+                          onChange={(event) =>
+                            handleInputChange(event, data.question)
+                          }
+                          required
+                        />
+                      </Grid>
+                    </>
+                  );
+                })}
+              </Grid>{" "}
+            </ol>
+            <Button className="submitBTN" type="submit">
+              Submit form
+            </Button>
+          </form>
         </div>
       </Box>
     </Model>
