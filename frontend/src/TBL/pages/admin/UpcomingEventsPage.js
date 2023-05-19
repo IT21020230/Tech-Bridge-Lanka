@@ -1,26 +1,31 @@
 import React from "react";
-import AcceptMembers from "../../components/admin/AcceptMembers";
 import Navbar from "../../layout/Navbar/Navbar";
 
 import Slidebar from "../../layout/Slidebar/Slidebar";
 import Footer from "../../layout/Footer/Footer";
 
+import UpcomingEvents from "../../components/admin/UpcomingEvents";
 
-function AcceptMembersPage(){
+function UpcomingEventsPage(){
+
     return(
-
         <main>
       <Navbar />
       <div className="content">
         <Slidebar />
-        <AcceptMembers />
+        <UpcomingEvents />
         
       </div>
       <Footer />
     </main>
+
+
+
     )
+
+
+
 
 }
 
-export default AcceptMembersPage;
-
+export default UpcomingEventsPage;

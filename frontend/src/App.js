@@ -75,6 +75,21 @@ const IssuesToAcceptPage = lazy(() =>
   import("./TBL/pages/admin/IssuesToAcceptPage")
 );
 
+const VerifyUserCommunitiesListPage = lazy(() =>
+  import("./TBL/pages/admin/VerifyUserCommunitiesListPage")
+);
+
+const AcceptDeclineUpcomingEventPage = lazy(() =>
+  import("./TBL/pages/admin/AcceptDeclineUpcomingEventPage")
+);
+const UpcomingEventsPage = lazy(() =>
+  import("./TBL/pages/admin/UpcomingEventsPage")
+);
+const CreateEventsPage = lazy(() =>
+  import("./TBL/pages/admin/CreateEventsPage")
+);
+const KithminaPage = lazy(() => import("./TBL/pages/admin/kithmina"));
+
 function App() {
   const { user } = useAuthContext();
 
@@ -182,8 +197,8 @@ function App() {
             />
 
             <Route
-              path={process.env.PUBLIC_URL + "/accept-members-page"}
-              element={<AcceptMembersPage />}
+              path={process.env.PUBLIC_URL + "/verify-user-communities-list"}
+              element={<VerifyUserCommunitiesListPage />}
             />
 
             <Route
@@ -222,6 +237,25 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/map-live"}
               element={<MapLive />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/accept-decline-upcoming-event"}
+              element={<AcceptDeclineUpcomingEventPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/upcoming-events-list"}
+              element={<UpcomingEventsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/create-events"}
+              element={<CreateEventsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/kithmina"}
+              element={<KithminaPage />}
             />
           </Routes>
         </div>
