@@ -11,6 +11,7 @@ function Slidebar() {
       <a href="/blog-list-page">New Blogs</a>
       <a href="/verify-user-communities-list">New Communities</a>
       <a href="/issues-list-page">New Issues</a>
+      <a href="/create-issues">Create Issues</a>
       <a href="/upcoming-events-list">Upcoming Events</a>
     </div>
   );

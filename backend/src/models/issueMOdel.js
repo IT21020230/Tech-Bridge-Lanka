@@ -2,16 +2,8 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const eventSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  commID: {
-    type: String,
-    required: true,
-  },
-  commName: {
+const issueSchema = new Schema({
+  title: {
     type: String,
     required: true,
   },
@@ -19,19 +11,25 @@ const eventSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-  },
-  location: {
+
+  proof: {
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
+
+  province: {
+    type: String,
+    required: true,
+  },
+
+  district: {
+    type: String,
+    required: true,
   },
   status: {
     type: String,
+    required: true,
   },
 });
 
-module.exports = mongoose.model("Event", eventSchema);
+module.exports = mongoose.model("Issues", issueSchema);

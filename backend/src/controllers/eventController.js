@@ -161,6 +161,22 @@ const getEventByStatus = async (req, res) => {
   res.status(200).json(event);
 };
 
+//Accept event
+const acceptEvent = async (req, res) => {
+  const event = await Event.findById(req.params.id);
+
+  if (event) {
+    event.status = "Accepted";
+
+    const acceptedEvent = await event.save();
+
+    res.json(acceptedEvent);
+  } else {
+    res.status(404);
+    throw new Error("Event not found");
+  }
+};
+
 module.exports = {
   createEvents,
   updateEvents,
@@ -169,4 +185,5 @@ module.exports = {
   getEventByCommId,
   deleteEvents,
   getEventByStatus,
+  acceptEvent,
 };

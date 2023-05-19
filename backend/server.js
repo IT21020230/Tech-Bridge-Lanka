@@ -108,6 +108,7 @@ const communityMember = require("./src/routes/communityMemberRoutes");
 const communityQuestion = require("./src/routes/communityQuestionRoute");
 const projectConRoutes = require("./src/routes/projectConRoutes");
 const communityAnswer = require("./src/routes/communityAnswer");
+const issueRoutes = require("./src/routes/issueRoutes");
 
 // define routes
 app.use("/api/user", userRoutes);
@@ -123,5 +124,6 @@ app.use("/api/communityRule", communityRule);
 app.use("/api/communityMember", communityMember);
 app.use("/api/communityQuestion", communityQuestion);
 app.use("/api/communityAnswer", communityAnswer);
+app.use("/api/issue", issueRoutes);
 
 module.exports = app;

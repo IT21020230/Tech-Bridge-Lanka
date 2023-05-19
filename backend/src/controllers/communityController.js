@@ -83,6 +83,13 @@ const acceptCommunity = async (req, res) => {
   }
 };
 
+
+const getCommunityByStatus = async (req, res) => {
+  const community = await Community.find({ status: req.params.status });
+  res.status(200).json(community);
+};
+
+
 module.exports = {
   createCommunity,
   getAllCommunity,
@@ -90,4 +97,6 @@ module.exports = {
   getCommunity,
   acceptCommunity,
   getCommunityByCommunityId,
+  getCommunityByStatus,
+
 };
