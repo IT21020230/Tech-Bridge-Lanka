@@ -137,7 +137,7 @@ export default function () {
 
   const setAsAdmin = (ID) => {
     axios
-      .patch(`/api/communityMember/changeRoll/${ID}`, {
+      .patch(`http://localhost:7000/api/communityMember/changeRoll/${ID}`, {
         role: "admin",
       })
       .then((response) => {
@@ -152,7 +152,7 @@ export default function () {
 
   const dismissAsAdmin = (ID) => {
     axios
-      .patch(`/api/communityMember/changeRoll/${ID}`, {
+      .patch(`http://localhost:7000/api/communityMember/changeRoll/${ID}`, {
         role: "member",
       })
       .then((response) => {
@@ -166,51 +166,63 @@ export default function () {
   };
 
   const removeMember = (ID) => {
-    axios.delete(`/api/communityMember/removeMember/${ID}`).then((response) => {
-      toast.success(`Member is removed `, {
-        position: "bottom-left",
+    axios
+      .delete(`http://localhost:7000/api/communityMember/removeMember/${ID}`)
+      .then((response) => {
+        toast.success(`Member is removed `, {
+          position: "bottom-left",
+        });
+        setTimeout(() => {
+          window.location.href = `/community/${id}`;
+        }, 2000);
       });
-      setTimeout(() => {
-        window.location.href = `/community/${id}`;
-      }, 2000);
-    });
   };
 
   useEffect(() => {
-    axios.get(`/api/community/getCommunity/${id}`).then((response) => {
-      setComData(response.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    axios.get(`/api/communityRule/getAllRules/${id}`).then((response) => {
-      setComRules(response.data);
-    });
+    axios
+      .get(`http://localhost:7000/api/community/getCommunity/${id}`)
+      .then((response) => {
+        setComData(response.data);
+      });
   }, []);
 
   useEffect(() => {
     axios
-      .get(`/api/communityQuestion/getAllQuestion/${id}`)
+      .get(`http://localhost:7000/api/communityRule/getAllRules/${id}`)
+      .then((response) => {
+        setComRules(response.data);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:7000/api/communityQuestion/getAllQuestion/${id}`)
       .then((response) => {
         setComQuestions(response.data);
       });
   }, []);
 
   useEffect(() => {
-    axios.get(`/api/communityAnswer/getRequest/${id}`).then((response) => {
-      setComRequest(response.data);
-    });
+    axios
+      .get(`http://localhost:7000/api/communityAnswer/getRequest/${id}`)
+      .then((response) => {
+        setComRequest(response.data);
+      });
   }, []);
   const [currentRole, setCurrentRole] = useState([]);
   useEffect(() => {
     axios
-      .get(`/api/communityMember/getOneMember/${UID}/${id}`)
+      .get(
+        `http://localhost:7000/api/communityMember/getOneMember/${UID}/${id}`
+      )
       .then((response) => {
         if (response.data.length != 0) {
           setCurrentRole(response.data[0].role);
         } else {
           axios
-            .get(`/api/communityAnswer/getOneMember/${UID}/${id}`)
+            .get(
+              `http://localhost:7000/api/communityAnswer/getOneMember/${UID}/${id}`
+            )
             .then((response) => {
               if (response.data.length != 0) {
                 setCurrentRole("pending");
@@ -232,10 +244,15 @@ export default function () {
   const filteredItems = getFilteredItems(query, memberList);
 
   useEffect(() => {
-    axios.get(`/api/communityMember/getMembers/${id}`).then((response) => {
-      setMemberList(response.data);
-      console.log(response.data);
-    });
+    axios
+      .get(`http://localhost:7000/api/communityMember/getMembers/${id}`)
+      .then((response) => {
+        setMemberList(response.data);
+        console.log(
+          "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+        );
+        console.log(response.data);
+      });
   }, []);
 
   const { Formik } = formik;
@@ -331,7 +348,9 @@ export default function () {
   };
 
   const delteRule = async (Ruleid) => {
-    await axios.delete(`/api/communityRule/deleteRule/${Ruleid}`);
+    await axios.delete(
+      `http://localhost:7000/api/communityRule/deleteRule/${Ruleid}`
+    );
 
     toast.success(`Rule deleted `, {
       position: "bottom-left",
@@ -342,7 +361,9 @@ export default function () {
   };
 
   const delteQuestion = async (Questionid) => {
-    await axios.delete(`/api/communityQuestion/deleteQuestion/${Questionid}`);
+    await axios.delete(
+      `http://localhost:7000/api/communityQuestion/deleteQuestion/${Questionid}`
+    );
     toast.success(`Question deleted `, {
       position: "bottom-left",
     });
@@ -351,7 +372,7 @@ export default function () {
     }, 1000);
   };
   const sendData = async (id) => {
-    await axios.post("/api/communityRule/createRule", {
+    await axios.post("http://localhost:7000/api/communityRule/createRule", {
       commID: id,
       rule,
     });
@@ -364,10 +385,13 @@ export default function () {
     }, 1000);
   };
   const sendQuestinData = async (id) => {
-    await axios.post("/api/communityQuestion/createQuestion", {
-      commID: id,
-      question,
-    });
+    await axios.post(
+      "http://localhost:7000/api/communityQuestion/createQuestion",
+      {
+        commID: id,
+        question,
+      }
+    );
     toast.success(`Rule added successfully`, {
       position: "bottom-left",
     });
