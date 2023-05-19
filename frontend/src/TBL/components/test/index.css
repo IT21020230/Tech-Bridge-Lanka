@@ -1,0 +1,39 @@
+.content1 {
+  background-image: url("../../assests/GGG.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 1200px;
+  margin-top: -20px;
+}
+
+/* Applying Arial font */
+.font-arial {
+  font-family: Arial, sans-serif;
+}
+
+.headFont {
+  font-size: 110px;
+  font-weight: 600;
+}
+
+.headFont2 {
+  font-size: 90px;
+}
+
+.mapBTN {
+  padding: 10px;
+  border-radius: 20px;
+  width: 105px;
+  background-color: rgb(8, 187, 187);
+  color: rgb(200, 228, 241);
+  border: 0px;
+}
+
+.createCom {
+  padding: 10px;
+  border-radius: 20px;
+  width: 165px;
+  background-color: rgb(8, 187, 187);
+  color: rgb(200, 228, 241);
+  border: 0px;
+}

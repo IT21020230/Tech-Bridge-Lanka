@@ -8,7 +8,7 @@ import Navbar from "../../layout/Navbar/Navbar";
 import Footer from "../../layout/Footer/Footer";
 import Sidebar from "../../layout/Slidebar/Slidebar";
 import { Grid, Card } from "@mui/material";
-import "../index.css";
+import "./index.css";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -45,12 +45,12 @@ export default function CreatePost() {
   return (
     <main>
       <Navbar />
-      <div className="content">
+      <div className="content4">
         <Grid container spacing={0}>
           <Grid item xs={3}></Grid>
           <Grid item xs={6}>
             <div style={{}}>
-              <h1>Create Post</h1>
+              <h1 className="head">Create Post</h1>
               <form onSubmit={createNewPost}>
                 <input
                   type="title"
@@ -71,9 +71,9 @@ export default function CreatePost() {
                   onChange={(ev) => setCommunity(ev.target.value)}
                 >
                   <option value="">Select a community</option>
-                  <option value="Community 1">Community 1</option>
-                  <option value="Community 2">Community 2</option>
-                  <option value="Community 3">Community 3</option>
+                  <option value="Leo club">Leo club</option>
+                  <option value="MS club">MS club</option>
+                  <option value="Rotaract Clubs">Rotaract Clubs</option>
                   {/* Add more options for communities as needed */}
                 </select>
                 <br /> <br />
