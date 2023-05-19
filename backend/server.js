@@ -5,6 +5,7 @@ const express = require("express");
 const multer = require("multer");
 const mongoose = require("mongoose");
 const cors = require("cors");
+// const Districts = require("./src/models/districtModel");
 
 // express app
 const app = express();
@@ -91,6 +92,7 @@ mongoose
       console.log(
         `Connected to the Database and Listening on http://localhost:${port}`
       );
+      // Districts.create({});
     });
   })
   .catch((error) => {

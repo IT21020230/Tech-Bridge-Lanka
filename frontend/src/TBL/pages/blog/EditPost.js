@@ -18,7 +18,7 @@ export default function EditPost() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/posts/post/" + id).then((response) => {
+    fetch("http://localhost:7000/api/posts/post/" + id).then((response) => {
       response.json().then((postInfo) => {
         setTitle(postInfo.title);
         setContent(postInfo.content);
@@ -39,13 +39,17 @@ export default function EditPost() {
     if (files?.[0]) {
       data.set("file", files?.[0]);
     }
-    const response = await fetch("http://localhost:8000/api/posts/post", {
-      method: "PUT",
-      body: data,
-      credentials: "include",
-    });
-    if (response.ok) {
-      setRedirect(true);
+    try {
+      const response = await fetch("/api/posts/post", {
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      });
+      if (response.ok) {
+        setRedirect(true);
+      }
+    } catch {
+      console.log("error");
     }
   }
 
@@ -61,7 +65,7 @@ export default function EditPost() {
           <Grid item xs={3}></Grid>
           <Grid item xs={6}>
             <div style={{}}>
-              <h1>Create Post</h1>
+              <h1>Edit Post</h1>
               <form onSubmit={updatePost}>
                 <input
                   type="title"
@@ -77,12 +81,16 @@ export default function EditPost() {
                   onChange={(ev) => setSummary(ev.target.value)}
                 />
                 <br /> <br />
-                <input
-                  type="text"
-                  placeholder={"Community"}
+                <select
                   value={community}
                   onChange={(ev) => setCommunity(ev.target.value)}
-                />
+                >
+                  <option value="">Select a community</option>
+                  <option value="Community 1">Community 1</option>
+                  <option value="Community 2">Community 2</option>
+                  <option value="Community 3">Community 3</option>
+                  {/* Add more options for communities as needed */}
+                </select>
                 <br /> <br />
                 <input
                   type="file"

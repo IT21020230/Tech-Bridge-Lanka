@@ -12,7 +12,7 @@ export default function IndexPage() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/posts/post")
+      .get("http://localhost:7000/api/posts/post")
       .then((response) => {
         setPosts(response.data);
       })

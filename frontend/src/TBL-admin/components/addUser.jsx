@@ -3,14 +3,20 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Row from "react-bootstrap/Row";
-import { useSignup } from "../../TBL/hooks/useSignup";
 import * as yup from "yup";
 import { Formik } from "formik";
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
+import React, { startTransition } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 function AddUser() {
-  const { signup, error, isLoading } = useSignup();
+  // startTransition(() => {
+  //   // Perform the updates that may suspend here
+  // });
+  const navigate = useNavigate();
 
   const [photo, setPhoto] = useState("");
 
@@ -22,33 +28,38 @@ function AddUser() {
   };
 
   const handleSubmit = async (values) => {
-    //e.preventDefault();
+    const response = await fetch("http://localhost:8000/api/user/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+        name: values.name,
+        phone: values.phone,
+        age: values.age,
+        province: selectedProvince,
+        city: selectedDistrict,
+        photo: photo,
+        role: selectedUser,
+      }),
+    });
+    const json = await response.json();
 
-    console.log(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      selectedProvince,
-      selectedDistrict,
-      photo,
-      selectedUser
-    );
+    if (!response.ok) {
+      console.log(json.error);
+    }
 
-    await signup(
-      values.email,
-      values.password,
-      values.confirmPassword,
-      values.name,
-      values.phone,
-      values.age,
-      selectedProvince,
-      selectedDistrict,
-      photo,
-      selectedUser
-    );
+    if (response.ok) {
+      console.log("User created successfully.", json);
+
+      toast.success(`User created successfully `, {
+        position: "bottom-left",
+      });
+      setTimeout(() => {
+        navigate("/listUser");
+      }, 2500);
+    }
   };
 
   const schema = yup.object().shape({
@@ -73,10 +84,7 @@ function AddUser() {
     phone: yup
       .string()
       .required("Please enter a Phone number!")
-      .matches(
-        /^\d{11}$/,
-        "Contact number must be a 11-digit number with country code!"
-      ),
+      .matches(/^[0-9]{10}$/, "Please enter a valid 10-digit Mobile Number"),
 
     name: yup.string().required("Please enter the Name!"),
 
@@ -85,11 +93,6 @@ function AddUser() {
     //province: yup.string().required("Please enter the Province!"),
 
     //city: yup.string().required("Please enter the City!"),
-
-    // terms: yup
-    //   .bool()
-    //   .required()
-    //   .oneOf([true], "Terms and conditions must be accepted"),
   });
 
   const [selectedDistrict, setSelectedDistrict] = useState("");
@@ -119,6 +122,7 @@ function AddUser() {
         padding: "50px",
       }}
     >
+      <ToastContainer />
       <div>
         <h1 className="head">Create a User</h1>
       </div>
@@ -295,7 +299,7 @@ function AddUser() {
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
-                    type="number"
+                    type="text"
                     aria-describedby="inputGroupPrepend"
                     name="phone"
                     value={values.phone}
@@ -417,6 +421,9 @@ function AddUser() {
                     {selectedProvince ? selectedProvince : "Select a Province"}
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="Western">
+                      Western Province
+                    </Dropdown.Item>
                     <Dropdown.Item eventKey="Northern">
                       Northern Province
                     </Dropdown.Item>
@@ -496,7 +503,9 @@ function AddUser() {
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ width: "100%" }}>
                     <Dropdown.Item eventKey="member">Member</Dropdown.Item>
-                    <Dropdown.Item eventKey="member">Moderator</Dropdown.Item>
+                    <Dropdown.Item eventKey="moderator">
+                      Moderator
+                    </Dropdown.Item>
                     <Dropdown.Item eventKey="admin">Admin</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -504,15 +513,18 @@ function AddUser() {
             </Row>
 
             <Button
-              disabled={isLoading}
               className="submitBTN"
               type="submit"
               variant="outline-primary"
             >
               Create User
             </Button>
-
-            {error && <div className="error">{error}</div>}
+            <br />
+            {/* {error && (
+              <div style={{ color: "red" }} className="error">
+                <b>{error}</b>
+              </div>
+            )} */}
           </Form>
         )}
       </Formik>

@@ -64,7 +64,7 @@ function OffcanvasExample() {
                   </Nav.Link>
 
                   <Nav.Link
-                    href="#action1"
+                    href="/posts"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Stories
@@ -91,18 +91,28 @@ function OffcanvasExample() {
                   </Nav.Link>
 
                   <Nav.Link
-                    href="#action1"
+                    href="Map-live"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Map
                   </Nav.Link>
 
                   <Nav.Link
-                    href="#action1"
+                    href="/dd-data"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     DDD
                   </Nav.Link>
+
+                  {/* Check whether the user is logged in and admin */}
+                  {user && user.role === "admin" && (
+                    <Nav.Link
+                      href="/listUser"
+                      style={{ color: "black", fontWeight: "bold" }}
+                    >
+                      Users
+                    </Nav.Link>
+                  )}
 
                   <Nav.Link
                     href="/listUser"
@@ -110,6 +120,16 @@ function OffcanvasExample() {
                   >
                     Users
                   </Nav.Link>
+                  {user &&
+                    (user.role === "admin" || user.role === "moderator") && (
+                      <Nav.Link
+                        href="/add-post"
+                        style={{ color: "red", fontWeight: "bold" }}
+                      >
+                        Create Story
+                      </Nav.Link>
+                    )}
+
 
                   {/* Check whether the user is logged in */}
                   {user && (

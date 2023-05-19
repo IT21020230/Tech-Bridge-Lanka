@@ -7,9 +7,13 @@ function UserList() {
   const navigate = useNavigate();
   const [users, setUsers] = useState(null);
 
+  const handleClick = () => {
+    navigate("/addUser");
+  };
+
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:7000/api/user`);
+      const response = await fetch(`http://localhost:8000/api/user`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
@@ -34,6 +38,11 @@ function UserList() {
     >
       <div>
         <h1 className="head">All Users</h1>
+        <div>
+          <Button variant="success" className="btn" onClick={handleClick}>
+            Create a User
+          </Button>
+        </div>
       </div>
       <br />
       <Table responsive style={{ backgroundColor: "#89c7dd" }}>

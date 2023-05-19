@@ -8,48 +8,12 @@ import Row from "react-bootstrap/Row";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-// function ColabModal(props) {
-//   const { show, onHide, CommId, pId, pName, personId, personName } = props;
-//   console.log(show, onHide, CommId, pId, pName, personId, personName);
-//   return (
-//     <Modal
-//       show={show}
-//       onHide={onHide}
-//       size="lg"
-//       aria-labelledby="contained-modal-title-vcenter"
-//       centered
-//     >
-//       <Modal.Header closeButton>
-//         <Modal.Title id="contained-modal-title-vcenter">
-//           Collaborate for this Project
-//         </Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>
-//         <h5>Are you sure want to collaborate for this project ?</h5>
-//       </Modal.Body>
-//       <Modal.Footer>
-//         <Button
-//           style={{ marginRight: "20px" }}
-//           variant="outline-success"
-//           onClick={() =>
-//             handleContribution(CommId, pId, pName, personId, personName)
-//           }
-//         >
-//           Yes
-//         </Button>
-//         <Button onClick={props.onHide} variant="outline-primary">
-//           Cancel
-//         </Button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// }
+import { useNavigate } from "react-router-dom";
 
 function handleContribution(commId, pId, pName, personId, personName) {
   //console.log(commId, pId, pName, personId, personName);
   axios
-    .post("http://localhost:7000/api/projectCon/", {
+    .post("http://localhost:8000/api/projectCon/", {
       commID: commId,
       projectId: pId,
       projectName: pName,
@@ -80,7 +44,7 @@ function Projects() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:7000/api/projects`);
+      const response = await fetch(`http://localhost:8000/api/projects`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
@@ -91,6 +55,12 @@ function Projects() {
 
     fetchProjects();
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/listProject");
+  };
 
   return (
     <div
@@ -106,6 +76,18 @@ function Projects() {
       <ToastContainer />
       <div>
         <h1 className="head">Projects</h1>
+        {/* Check whether the user is logged in and not a member */}
+        {user && user.role !== "member" && (
+          <div>
+            <Button
+              variant="primary"
+              className="btn-logout"
+              onClick={handleClick}
+            >
+              Manage Projects
+            </Button>
+          </div>
+        )}
       </div>
       <br />
 
@@ -139,9 +121,9 @@ function Projects() {
                     {project.description}
                     <br />
                     <br />
-                    {`Start Date: ` + project.startDate}
+                    {`Start Date: ` + project.startDate.substring(0, 10)}
                     <br />
-                    {`End Date: ` + project.endDate}
+                    {`End Date: ` + project.endDate.substring(0, 10)}
                   </Card.Text>
                   <div style={{ display: "flex", justifyContent: "center" }}>
                     {user ? (
@@ -188,3 +170,40 @@ function Projects() {
 }
 
 export default Projects;
+
+// function ColabModal(props) {
+//   const { show, onHide, CommId, pId, pName, personId, personName } = props;
+//   console.log(show, onHide, CommId, pId, pName, personId, personName);
+//   return (
+//     <Modal
+//       show={show}
+//       onHide={onHide}
+//       size="lg"
+//       aria-labelledby="contained-modal-title-vcenter"
+//       centered
+//     >
+//       <Modal.Header closeButton>
+//         <Modal.Title id="contained-modal-title-vcenter">
+//           Collaborate for this Project
+//         </Modal.Title>
+//       </Modal.Header>
+//       <Modal.Body>
+//         <h5>Are you sure want to collaborate for this project ?</h5>
+//       </Modal.Body>
+//       <Modal.Footer>
+//         <Button
+//           style={{ marginRight: "20px" }}
+//           variant="outline-success"
+//           onClick={() =>
+//             handleContribution(CommId, pId, pName, personId, personName)
+//           }
+//         >
+//           Yes
+//         </Button>
+//         <Button onClick={props.onHide} variant="outline-primary">
+//           Cancel
+//         </Button>
+//       </Modal.Footer>
+//     </Modal>
+//   );
+// }
