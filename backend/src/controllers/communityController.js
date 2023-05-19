@@ -13,7 +13,7 @@ const createCommunity = async (req, res) => {
     registrationFile: req.body.registrationFile,
     logo: req.body.logo,
     coverPic: req.body.coverPic,
-    status: "pending",
+    status: "Pending",
     createdBy: req.body.createdBy,
   });
 
@@ -22,7 +22,7 @@ const createCommunity = async (req, res) => {
 };
 
 const getAllCommunity = async (req, res) => {
-  const community = await Community.find();
+  const community = await Community.find({ status: "Accepted" });
   res.send(community);
 };
 
@@ -57,9 +57,43 @@ const updateCommunity = async (req, res) => {
   }
 };
 
+//get single community
+
+const getCommunityByCommunityId = async (req, res) => {
+  const community = await Community.find({ _id: req.params.id });
+
+  res.status(200).json(community);
+};
+
+//accept community
+
+const acceptCommunity = async (req, res) => {
+  const community = await Community.findById(req.params.id);
+
+  if (community) {
+    community.status = "Accepted";
+
+    const acceptedCommunity = await community.save();
+
+    res.json(acceptedCommunity);
+  } else {
+    res.status(404);
+
+    throw new Error("Order not found");
+  }
+};
+
+const getCommunityByStatus = async (req, res) => {
+  const community = await Community.find({ status: req.params.status });
+  res.status(200).json(community);
+};
+
 module.exports = {
   createCommunity,
   getAllCommunity,
   updateCommunity,
   getCommunity,
+  acceptCommunity,
+  getCommunityByCommunityId,
+  getCommunityByStatus,
 };
