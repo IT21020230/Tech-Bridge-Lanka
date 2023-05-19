@@ -114,12 +114,6 @@ function OffcanvasExample() {
                     </Nav.Link>
                   )}
 
-                  <Nav.Link
-                    href="/listUser"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Users
-                  </Nav.Link>
                   {user &&
                     (user.role === "admin" || user.role === "moderator") && (
                       <Nav.Link
@@ -129,7 +123,6 @@ function OffcanvasExample() {
                         Create Story
                       </Nav.Link>
                     )}
-
 
                   {/* Check whether the user is logged in */}
                   {user && (

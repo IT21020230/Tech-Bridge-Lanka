@@ -28,7 +28,7 @@ function AddUser() {
   };
 
   const handleSubmit = async (values) => {
-    const response = await fetch("http://localhost:8000/api/user/", {
+    const response = await fetch("http://localhost:7000/api/user/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

@@ -43,7 +43,7 @@ function ViewUser() {
   //GET USER DATA
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(`http://localhost:8000/api/user/${id}`);
+      const response = await axios.get(`http://localhost:7000/api/user/${id}`);
       const { email, password, name, phone, age, province, city, photo, role } =
         response.data;
       setInitialValues({
@@ -78,7 +78,7 @@ function ViewUser() {
   const handleSubmit = async (values) => {
     //e.preventDefault();
 
-    const response = await fetch(`http://localhost:8000/api/user/${id}`, {
+    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         email: values.email,
@@ -113,7 +113,7 @@ function ViewUser() {
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(`http://localhost:8000/api/user/${id}`, {
+    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
       method: "DELETE",
     });
     const json = await response.json();

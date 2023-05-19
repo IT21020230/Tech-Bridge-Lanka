@@ -42,7 +42,7 @@ function ViewUser() {
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get(
-        `http://localhost:8000/api/user/${user.userId}`
+        `http://localhost:7000/api/user/${user.userId}`
       );
       const { email, password, name, phone, age, province, city, photo } =
         response.data;
@@ -77,7 +77,7 @@ function ViewUser() {
     //e.preventDefault();
 
     const response = await fetch(
-      `http://localhost:8000/api/user/${user.userId}`,
+      `http://localhost:7000/api/user/${user.userId}`,
       {
         method: "PATCH",
         body: JSON.stringify({
@@ -115,7 +115,7 @@ function ViewUser() {
     e.preventDefault();
 
     const response = await fetch(
-      `http://localhost:8000/api/user/${user.userId}`,
+      `http://localhost:7000/api/user/${user.userId}`,
       {
         method: "DELETE",
       }

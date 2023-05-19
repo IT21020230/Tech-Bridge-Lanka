@@ -43,7 +43,7 @@ function ViewEvent() {
   //GET EVENT DATA
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch(`http://localhost:8000/api/events/${id}`);
+      const response = await fetch(`http://localhost:7000/api/events/${id}`);
       const json = await response.json();
 
       if (response.ok) {
@@ -80,7 +80,7 @@ function ViewEvent() {
     console.log("update running");
     //e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/api/events/" + id, {
+    const response = await fetch("http://localhost:7000/api/events/" + id, {
       method: "PATCH",
       body: JSON.stringify({
         name: values.name,
@@ -116,7 +116,7 @@ function ViewEvent() {
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/api/events/" + id, {
+    const response = await fetch("http://localhost:7000/api/events/" + id, {
       method: "DELETE",
     });
     const json = await response.json();

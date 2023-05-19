@@ -32,7 +32,7 @@ function ViewProject() {
   //GET PROJECT DATA
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:8000/api/projects/${id}`);
+      const response = await fetch(`http://localhost:7000/api/projects/${id}`);
       const json = await response.json();
 
       if (response.ok) {
@@ -93,7 +93,7 @@ function ViewProject() {
     // return values;
     //e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/api/projects/" + id, {
+    const response = await fetch("http://localhost:7000/api/projects/" + id, {
       method: "PATCH",
       body: JSON.stringify({
         name: values.name,
@@ -126,7 +126,7 @@ function ViewProject() {
   };
 
   // const handleUpdateSubmit = async (values) => {
-  //   const response = await fetch("http://localhost:8000/api/projects/" + id, {
+  //   const response = await fetch("http://localhost:7000/api/projects/" + id, {
   //     method: "PATCH",
   //     body: JSON.stringify({
   //       name: values.name,
@@ -162,7 +162,7 @@ function ViewProject() {
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/api/projects/" + id, {
+    const response = await fetch("http://localhost:7000/api/projects/" + id, {
       method: "DELETE",
     });
     const json = await response.json();
@@ -194,7 +194,7 @@ function ViewProject() {
   const fetchContributors = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/projectCon/${id}`
+        `http://localhost:7000/api/projectCon/${id}`
       );
       const data = await response.json();
       setContributors(data);
