@@ -25,7 +25,7 @@ const loginUser = async (req, res) => {
     // Check if email exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({ message: "Email does not exists" });
     }
 
     // Check if password is correct
@@ -138,10 +138,92 @@ const signupUser = async (req, res) => {
   }
 };
 
+// signup user
+const createUser = async (req, res) => {
+  try {
+    const {
+      email,
+      password,
+      confirmPassword,
+      name,
+      phone,
+      age,
+      province,
+      city,
+      photo,
+      role,
+    } = req.body;
+
+    // Check name or email, name or password is empty
+    if (!email || !password || !name) {
+      return res
+        .status(400)
+        .json({ message: "email, password, name fields must be filled" });
+    }
+
+    // Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already exists" });
+    }
+
+    // Check if email is valid
+    if (!validator.isEmail(email)) {
+      return res.status(400).json({ error: "Email is not valid" });
+    }
+
+    // Check password and confirm password are equal or not
+    if (!(password === confirmPassword)) {
+      return res.status(400).json({
+        error: "Password and confirm password mismatch",
+      });
+    }
+
+    // Check if password is strong enough
+    if (!validator.isStrongPassword(password)) {
+      return res.status(400).json({
+        error:
+          "Password is not strong enough.\nMust contain an uppercase, a lowercase, a special character, a number and must be more than eight characters",
+      });
+    }
+
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    // Create new user
+    const user = new User({
+      email,
+      password: hash,
+      name,
+      phone,
+      age,
+      province,
+      city,
+      photo,
+      role,
+    });
+    await user.save();
+
+    // const token = createToken(user._id);
+
+    // res.status(200).json({
+    //   userId: user._id,
+    //   name: user.name,
+    //   email: user.email,
+    //   role: user.role,
+    //   token: token,
+    // });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 //Update the User
 const updateUser = async (req, res) => {
   try {
-    const { email, password, name, phone, age, province, city, photo } =
+    const { email, password, name, phone, age, province, city, photo, role } =
       req.body;
 
     // Find User by ID
@@ -283,4 +365,5 @@ module.exports = {
   getAllUser,
   getUserById,
   deleteUser,
+  createUser,
 };

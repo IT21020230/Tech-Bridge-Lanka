@@ -9,7 +9,7 @@ function ViewProjectList() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:7000/api/projects`);
+      const response = await fetch(`http://localhost:8000/api/projects`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
@@ -54,8 +54,8 @@ function ViewProjectList() {
                 <th scope="row">{count + 1}</th>
                 <td>{project.name}</td>
                 <td>{project.commName}</td>
-                <td>{project.startDate}</td>
-                <td>{project.endDate}</td>
+                <td>{project.startDate.substring(0, 10)}</td>
+                <td>{project.endDate.substring(0, 10)}</td>
                 <td>
                   <Button
                     variant="outline-primary"

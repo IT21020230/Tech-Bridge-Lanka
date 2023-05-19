@@ -32,7 +32,7 @@ function ViewProject() {
   //GET PROJECT DATA
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:7000/api/projects/${id}`);
+      const response = await fetch(`http://localhost:8000/api/projects/${id}`);
       const json = await response.json();
 
       if (response.ok) {
@@ -89,44 +89,11 @@ function ViewProject() {
 
   //UPDATE PROJECT DATA
   const handleSubmit = async (values) => {
-    setModalUpdateShow(true);
-    return values;
+    // setModalUpdateShow(true);
+    // return values;
     //e.preventDefault();
 
-    // const response = await fetch("http://localhost:7000/api/projects/" + id, {
-    //   method: "PATCH",
-    //   body: JSON.stringify({
-    //     name: values.name,
-    //     description: values.description,
-    //     image: values.image,
-    //     startDate: values.startDate,
-    //     endDate: values.endDate,
-    //   }),
-    //   headers: {
-    //     "Content-type": "application/json; charset=UTF-8",
-    //   },
-    // });
-
-    // const json = await response.json();
-
-    // if (!response.ok) {
-    //   console.log(json.error);
-    // }
-
-    // if (response.ok) {
-    //   console.log("Project updated successfully.", json);
-
-    //   toast.success(`Product updated successfully `, {
-    //     position: "bottom-left",
-    //   });
-    //   setTimeout(() => {
-    //     //navigate("/projects");
-    //   }, 2000);
-    // }
-  };
-
-  const handleUpdateSubmit = async (values) => {
-    const response = await fetch("http://localhost:7000/api/projects/" + id, {
+    const response = await fetch("http://localhost:8000/api/projects/" + id, {
       method: "PATCH",
       body: JSON.stringify({
         name: values.name,
@@ -149,20 +116,53 @@ function ViewProject() {
     if (response.ok) {
       console.log("Project updated successfully.", json);
 
-      toast.success(`Product updated successfully `, {
+      toast.success(`Project updated successfully `, {
         position: "bottom-left",
       });
       setTimeout(() => {
-        //navigate("/projects");
-      }, 2000);
+        navigate("/listProject");
+      }, 2500);
     }
   };
+
+  // const handleUpdateSubmit = async (values) => {
+  //   const response = await fetch("http://localhost:8000/api/projects/" + id, {
+  //     method: "PATCH",
+  //     body: JSON.stringify({
+  //       name: values.name,
+  //       description: values.description,
+  //       image: values.image,
+  //       startDate: values.startDate,
+  //       endDate: values.endDate,
+  //     }),
+  //     headers: {
+  //       "Content-type": "application/json; charset=UTF-8",
+  //     },
+  //   });
+
+  //   const json = await response.json();
+
+  //   if (!response.ok) {
+  //     console.log(json.error);
+  //   }
+
+  //   if (response.ok) {
+  //     console.log("Project updated successfully.", json);
+
+  //     toast.success(`Product updated successfully `, {
+  //       position: "bottom-left",
+  //     });
+  //     setTimeout(() => {
+  //       //navigate("/projects");
+  //     }, 2000);
+  //   }
+  // };
 
   //DELETE PROJECT
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:7000/api/projects/" + id, {
+    const response = await fetch("http://localhost:8000/api/projects/" + id, {
       method: "DELETE",
     });
     const json = await response.json();
@@ -194,7 +194,7 @@ function ViewProject() {
   const fetchContributors = async () => {
     try {
       const response = await fetch(
-        `http://localhost:7000/api/projectCon/${id}`
+        `http://localhost:8000/api/projectCon/${id}`
       );
       const data = await response.json();
       setContributors(data);
@@ -225,7 +225,7 @@ function ViewProject() {
           <Button
             style={{ marginRight: "20px" }}
             variant="success"
-            onClick={() => handleUpdateSubmit(props.values)}
+            //onClick={() => handleUpdateSubmit(props.values)}
           >
             Update
           </Button>
@@ -297,8 +297,8 @@ function ViewProject() {
           name: name,
           commName: commName,
           description: description,
-          startDate: startDate,
-          endDate: endDate,
+          startDate: startDate.substring(0, 10),
+          endDate: endDate.substring(0, 10),
         }}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (

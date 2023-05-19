@@ -1,5 +1,5 @@
 import ListUser from "../components/listUser";
-import NavbarAdmin from "../Layout/NavbarAdmin/NavbarAdmin";
+import NavbarAdmin from "../../TBL/layout/Navbar/Navbar";
 import Footer from "../../TBL/layout/Footer/Footer";
 
 const ListUserPage = () => {

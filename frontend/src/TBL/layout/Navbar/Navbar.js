@@ -104,12 +104,15 @@ function OffcanvasExample() {
                     DDD
                   </Nav.Link>
 
-                  <Nav.Link
-                    href="/listUser"
-                    style={{ color: "black", fontWeight: "bold" }}
-                  >
-                    Users
-                  </Nav.Link>
+                  {/* Check whether the user is logged in and admin */}
+                  {user && user.role === "admin" && (
+                    <Nav.Link
+                      href="/listUser"
+                      style={{ color: "black", fontWeight: "bold" }}
+                    >
+                      Users
+                    </Nav.Link>
+                  )}
 
                   {/* Check whether the user is logged in */}
                   {user && (

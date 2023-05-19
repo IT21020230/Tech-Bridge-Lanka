@@ -19,6 +19,8 @@ const createEvents = async (req, res) => {
       return res.status(409).json({ message: "Event already exists" });
     }
 
+    //var formattedDate = date.toISOString().split("T")[0];
+
     // Create new Event
     const event = new Event({
       name,

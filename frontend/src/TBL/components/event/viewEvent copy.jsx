@@ -22,6 +22,7 @@ function ViewEvent() {
   const [location, setLocation] = useState("");
   const [date, setDate] = useState("");
 
+  const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
   const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
 
   const { id } = useParams();
@@ -135,6 +136,37 @@ function ViewEvent() {
       }, 3000);
     }
   };
+
+  //Update modal
+  function UpdateModal(props) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Update this Event
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h5>Are you sure want to update this event ?</h5>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            style={{ marginRight: "20px" }}
+            variant="success"
+            onClick={handleSubmit}
+          >
+            Update
+          </Button>
+          <Button onClick={props.onHide}>Cancel</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
 
   //Delete modal
   function DeleteModal(props) {
@@ -398,6 +430,7 @@ function ViewEvent() {
                 className="submitBTN"
                 variant="outline-success"
                 type="submit"
+                //onClick={() => setModalUpdateShow(true)}
               >
                 Update
               </Button>
@@ -413,6 +446,11 @@ function ViewEvent() {
           </Form>
         )}
       </Formik>
+
+      {/* <UpdateModal
+        show={modalUpdateShow}
+        onHide={() => setModalUpdateShow(false)}
+      /> */}
 
       <DeleteModal
         show={modalDeleteShow}

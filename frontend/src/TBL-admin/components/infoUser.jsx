@@ -43,7 +43,7 @@ function ViewUser() {
   //GET USER DATA
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(`http://localhost:7000/api/user/${id}`);
+      const response = await axios.get(`http://localhost:8000/api/user/${id}`);
       const { email, password, name, phone, age, province, city, photo, role } =
         response.data;
       setInitialValues({
@@ -78,7 +78,7 @@ function ViewUser() {
   const handleSubmit = async (values) => {
     //e.preventDefault();
 
-    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
+    const response = await fetch(`http://localhost:8000/api/user/${id}`, {
       method: "PATCH",
       body: JSON.stringify({
         email: values.email,
@@ -113,7 +113,7 @@ function ViewUser() {
   const handleDeleteSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch(`http://localhost:7000/api/user/${id}`, {
+    const response = await fetch(`http://localhost:8000/api/user/${id}`, {
       method: "DELETE",
     });
     const json = await response.json();
@@ -244,10 +244,7 @@ function ViewUser() {
     phone: yup
       .string()
       .required("Please enter a Phone number!")
-      .matches(
-        /^[0-9]{10}$/,
-        "Contact number must be a 10-digit number without spaces or dashes"
-      ),
+      .matches(/^[0-9]{10}$/, "Please enter a valid 10-digit Mobile Number"),
 
     name: yup.string().required("Please enter the Name!"),
 
@@ -519,6 +516,9 @@ function ViewUser() {
                     {selectedProvince ? selectedProvince : "Select a Province"}
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="Western">
+                      Western Province
+                    </Dropdown.Item>
                     <Dropdown.Item eventKey="Northern">
                       Northern Province
                     </Dropdown.Item>
@@ -584,7 +584,7 @@ function ViewUser() {
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
-                    type="number"
+                    type="text"
                     aria-describedby="inputGroupPrepend"
                     name="phone"
                     value={values.phone}

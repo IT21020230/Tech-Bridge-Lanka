@@ -11,6 +11,7 @@ const {
   deleteUser,
   addUserLocation,
   getLocations,
+  createUser,
 } = require("../controllers/userController");
 
 //GET all users
@@ -36,5 +37,8 @@ router.get("/locations", getLocations);
 
 // POST request to store user's home location in the database
 router.patch("/home-location", addUserLocation);
+
+// POST request to create a new user
+router.post("/", createUser);
 
 module.exports = router;
