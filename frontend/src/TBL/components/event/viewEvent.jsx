@@ -77,9 +77,8 @@ function ViewEvent() {
   }, [setEvents]);
 
   //Update EVENT
-  const handleSubmit = async (values) => {
+  const handleSubmitUpdate = async (values) => {
     console.log("update running");
-    //e.preventDefault();
 
     const response = await fetch("http://localhost:7000/api/events/" + id, {
       method: "PATCH",
@@ -192,7 +191,7 @@ function ViewEvent() {
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitUpdate}
         initialValues={{
           name: name,
           description: description,
@@ -399,8 +398,8 @@ function ViewEvent() {
               <Button
                 className="submitBTN"
                 variant="outline-success"
-                type="submit"
-                //onClick={() => setModalUpdateShow(true)}
+                //type="submit"
+                onClick={() => handleSubmitUpdate(values)}
               >
                 Update
               </Button>
