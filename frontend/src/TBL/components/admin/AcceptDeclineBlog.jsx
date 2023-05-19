@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
 import { useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Input, Typography } from '@material-ui/core';
 import { styled } from "@material-ui/core";
 import { Stack } from "@mui/material";
+import Modal from "react-bootstrap/Modal";
+import { useNavigate } from "react-router-dom";
 
 const commonStyles = {
     display:'flex',
@@ -20,11 +23,15 @@ const commonStyles = {
 function AcceptDeclineBlog(){
 
     const [apiData, setApiData] = useState([]);
+    const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
+    const navigate = useNavigate();
+
+    const {id} = useParams();
 
     useEffect(() => {
 
         const getBlogData = async () => {
-            const response = await fetch("https://jsonplaceholder.typicode.com/todos/1");
+            const response = await fetch(`http://localhost:7000/api/posts/post/${id}`);
             const json = await response.json();
 
             if(response.ok){
@@ -41,6 +48,45 @@ function AcceptDeclineBlog(){
         getBlogData();
     },[]);
 
+
+     function handleAccept(e){
+        axios.patch(`http://localhost:7000/api/posts/post/accept/${id}`)
+        navigate("/blog-list-page")
+       
+    };
+
+    function DeleteModal(props) {
+        return (
+          <Modal
+            {...props}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                Accept Community
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h5>Are you sure want to accept the community?</h5>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                style={{ marginRight: "20px" }}
+                variant="danger"
+                onClick={handleAccept}
+                
+              >
+                Accept
+              </Button>
+              <Button onClick={props.onHide}>Cancel</Button>
+            </Modal.Footer>
+          </Modal>
+        );
+      }
+
+
     return(
         <>
 
@@ -48,14 +94,20 @@ function AcceptDeclineBlog(){
 
             <Stack spacing={2} direction='column' sx={{justifyContent:'center',alignItems:'center', width:'50%',height:'90%'}}>
 
-            <h1>Blog Title: </h1>The best solution ever for
-            <h1>Blog Description: </h1><pr>In the rapidly evolving world of InfoSec, Sentinel Labs is where you’ll find highly-informed deep dives into the latest cybersecurity dangers and developments. Threat researchers and vetted contributors share critical information on malware, exploits, cybercrime, and APTs, with the aim of contributing to a safer digital space for everyone.</pr>
+            <h1>Blog Title: </h1>{ apiData.title}
+            <h1>Blog Description: </h1>{ apiData.summary}
             
-            <h1>Blog:  </h1>
-            <pr>Wired is a popular tech blog that observes how technology affects human lives across culture, politics, and security. Business leaders can access informative news, delivered through approachable, easy-to-understand content. Focused on breakthroughs and innovation, you’ll also find hot takes on modern life, tech trends, and gadget reviews.</pr>
+            <h1>Blog:  </h1>{ apiData.content}
+            <h3>Proof: </h3><img src={apiData.cover} alt="My Photo" width="50%" height="50%"/>
+            
 
-      <Button variant="contained" style={{ backgroundColor: 'green' }}>Accept</Button>
+      <Button variant="contained" style={{ backgroundColor: 'green' }} onClick={() => setModalDeleteShow(true)}>Accept</Button>
       <Button variant="contained" style={{ backgroundColor: 'red' }}>Decline</Button>
+
+      <DeleteModal
+        show={modalDeleteShow}
+        onHide={() => setModalDeleteShow(false)}
+      />
 
 
 
