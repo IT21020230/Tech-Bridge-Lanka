@@ -29,6 +29,9 @@ const eventSchema = new Schema({
   date: {
     type: Date,
   },
+  status: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("Event", eventSchema);

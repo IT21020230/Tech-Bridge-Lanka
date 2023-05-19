@@ -8,6 +8,7 @@ const {
   getEventByCommId,
   deleteEvents,
   getEventByStatus,
+  acceptEvent,
 } = require("../controllers/eventController");
 
 const router = express.Router();
@@ -30,7 +31,10 @@ router.get("/commID/:commID", getEventByCommId);
 //Delete a event
 router.delete("/:id", deleteEvents);
 
-//Get a event by status
-router.get("/status/:status", getEventByStatus);
+//Accept an event
+router.patch("/accept/:id", acceptEvent);
+
+//get event by status
+router.get("/get-event-by-status/:status", getEventByStatus);
 
 module.exports = router;
