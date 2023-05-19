@@ -633,13 +633,25 @@ export default function () {
                         <Grid container spacing={2}>
                           <Grid item xs={12}>
                             <div className="options">
-                              <button className="createEvent">
+                              <button
+                                className="createEvent"
+                                onClick={() => {
+                                  const url = `/viewEventById/${id}`;
+                                  window.location.href = url;
+                                }}
+                              >
                                 <p className="ln1">
                                   <MdOutlineEventNote />
                                 </p>
                                 <p className="ln2"> View Event</p>
                               </button>
-                              <button className="createProject">
+                              <button
+                                className="createProject"
+                                onClick={() => {
+                                  const url = `/viewProjectById/${id}`;
+                                  window.location.href = url;
+                                }}
+                              >
                                 <p className="ln3">
                                   <AiOutlineFundProjectionScreen />
                                 </p>
@@ -652,18 +664,37 @@ export default function () {
                               className="options"
                               style={{ marginTop: "-20px" }}
                             >
-                              <button className="createEvent">
-                                <p className="ln1">
-                                  <MdOutlineEventNote />
-                                </p>
-                                <p className="ln2"> Create Event</p>
-                              </button>
-                              <button className="createProject">
-                                <p className="ln3">
-                                  <AiOutlineFundProjectionScreen />
-                                </p>
-                                <p className="ln4">Start Project</p>
-                              </button>
+                              {currentRole == "admin" ? (
+                                <>
+                                  {" "}
+                                  <button
+                                    className="createEvent"
+                                    onClick={() => {
+                                      const url = `/create-events/${id}`;
+                                      window.location.href = url;
+                                    }}
+                                  >
+                                    <p className="ln1">
+                                      <MdOutlineEventNote />
+                                    </p>
+                                    <p className="ln2"> Create Event</p>
+                                  </button>
+                                  <button
+                                    className="createProject"
+                                    onClick={() => {
+                                      const url = `/create-project/${id}`;
+                                      window.location.href = url;
+                                    }}
+                                  >
+                                    <p className="ln3">
+                                      <AiOutlineFundProjectionScreen />
+                                    </p>
+                                    <p className="ln4">Start Project</p>
+                                  </button>
+                                </>
+                              ) : (
+                                <></>
+                              )}
                             </div>
                           </Grid>
                           <Grid item xs={12}>
@@ -721,6 +752,7 @@ export default function () {
                             </div>
                           </Grid>
                           <Grid item xs={12}></Grid>
+                                   
                         </Grid>
                       </Grid>
                     );
