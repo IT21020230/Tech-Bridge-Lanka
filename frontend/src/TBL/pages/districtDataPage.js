@@ -12,7 +12,7 @@ function DistrictData() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/ddd-data/districts-data")
+      .get("http://localhost:7000/api/ddd-data/districts-data")
       .then((response) => {
         setDistricts(response.data);
       })
