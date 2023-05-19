@@ -4,12 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function UserList() {
-  const navigate = useNavigate();
   const [users, setUsers] = useState(null);
-
-  const handleClick = () => {
-    navigate("/addUser");
-  };
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -39,7 +34,11 @@ function UserList() {
       <div>
         <h1 className="head">All Users</h1>
         <div>
-          <Button variant="success" className="btn" onClick={handleClick}>
+          <Button
+            variant="success"
+            className="btn"
+            onClick={() => (window.location.href = `/addUser`)}
+          >
             Create a User
           </Button>
         </div>
@@ -68,7 +67,10 @@ function UserList() {
                 <td>
                   <Button
                     variant="outline-primary"
-                    onClick={() => navigate(`/infoUser/${user._id}`)}
+                    //onClick={() => navigate(`/infoUser/${user._id}`)}
+                    onClick={() =>
+                      (window.location.href = `/infoUser/${user._id}`)
+                    }
                   >
                     View more
                   </Button>

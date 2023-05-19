@@ -33,6 +33,7 @@ const commonStyles = {
 function CreateEvents(){
 
     const [image, setImage] = useState(null);
+    
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];

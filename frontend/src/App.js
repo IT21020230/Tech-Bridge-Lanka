@@ -9,6 +9,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
+const BlogListPage = lazy(() => import("./TBL/pages/admin/BlogListPage"));
+
+const VerifyUserCommunityPage = lazy(() =>
+  import("./TBL/pages/admin/VerifyUserCommunityPage")
+);
+
+const IssuesListPage = lazy(() => import("./TBL/pages/admin/IssuesListPage"));
+
+const CreateProjectPage = lazy(() =>
+  import("./TBL/pages/admin/CreateProjectPage")
+);
+const AdminHomePage = lazy(() => import("./TBL/pages/admin/AdminHomePage"));
 // //Admin
 // const Admin = lazy(() => import("./TBL-admin/pages/admin"));
 
@@ -111,10 +123,10 @@ function App() {
               element={<TestingUi />}
             />
 
-            {/* <Route
+            <Route
               path="/admin"
-              element={user ? <Admin /> : <Navigate to="/login" />}
-            /> */}
+              element={user ? <AdminHomePage /> : <Navigate to="/login" />}
+            />
 
             <Route
               path={process.env.PUBLIC_URL + "/"}
@@ -271,6 +283,67 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/create-events"}
               element={<CreateEventsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/blog-list-page"}
+              element={<BlogListPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/accept-decline-blogs-page/:id"}
+              element={<AcceptDeclineBlogsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/verify-user-communities-list"}
+              element={<VerifyUserCommunitiesListPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/verify-user-community/:id"}
+              element={<VerifyUserCommunityPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/create-issues"}
+              element={<CreateIssuesPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/issues-list-page"}
+              element={<IssuesListPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/issues-to-accept/:id"}
+              element={<IssuesToAcceptPage />}
+            />
+
+            <Route
+              path={
+                process.env.PUBLIC_URL + "/accept-decline-upcoming-event/:id"
+              }
+              element={<AcceptDeclineUpcomingEventPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/upcoming-events-list"}
+              element={<UpcomingEventsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/create-events/:id"}
+              element={<CreateEventsPage />}
+            />
+
+            <Route
+              path={process.env.PUBLIC_URL + "/create-project/:id"}
+              element={<CreateProjectPage />}
+            />
+            <Route
+              path={process.env.PUBLIC_URL + "/admin"}
+              element={<AdminHomePage />}
             />
           </Routes>
         </div>

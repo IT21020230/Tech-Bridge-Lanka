@@ -7,9 +7,11 @@ function Slidebar() {
   return (
     <div className="sidebar" ref={navRef}>
       <a href="/#">Home</a>
-      <a href="/#">My work</a>
-      <a href="/#">Blog</a>
-      <a href="/#">About me</a>
+      <a href="/listUser">Manage Users</a>
+      <a href="/blog-list-page">New Blogs</a>
+      <a href="/verify-user-communities-list">New Communities</a>
+      <a href="/issues-list-page">New Issues</a>
+      <a href="/upcoming-events-list">Upcoming Events</a>
     </div>
   );
 }

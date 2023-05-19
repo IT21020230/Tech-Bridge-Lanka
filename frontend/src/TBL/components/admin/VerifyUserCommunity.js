@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button, Input, Typography } from '@material-ui/core';
@@ -21,19 +20,21 @@ const commonStyles = {
   };
 
 
-function AcceptDeclineUpcomingEvent(){
+function VerifyUserCommunity(){
 
     const [apiData, setApiData] = useState([]);
 
-    const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
-    
     const {id} = useParams();
+
     const navigate = useNavigate();
+
+    const [modalUpdateShow, setModalUpdateShow] = React.useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
 
     useEffect(() => {
 
         const getBlogData = async () => {
-            const response = await fetch(`http://localhost:7000/api/events/${id}`);
+            const response = await fetch(`http://localhost:7000/api/community/get-single-comuunity/${id}`);
             const json = await response.json();
 
             if(response.ok){
@@ -44,17 +45,23 @@ function AcceptDeclineUpcomingEvent(){
             if (!response.ok){
                 console.log(Error)
             }
+            
+
         }
         getBlogData();
     },[]);
 
-    function handleAccept(e){
-        axios.patch(`http://localhost:7000/api/events/accept/${id}`)
-        navigate("/upcoming-events-list")
 
-    }
+     function handleAccept(e){
+        axios.patch(`http://localhost:7000/api/community/accept-community/${id}`);
+        
+       navigate("/verify-user-communities-list")
+    };
 
-    function DeleteModal(props) {
+    
+    
+      //Delete modal
+      function DeleteModal(props) {
         return (
           <Modal
             {...props}
@@ -86,19 +93,27 @@ function AcceptDeclineUpcomingEvent(){
       }
 
     return(
+        <>
 
-        <Box sx={commonStyles}>
-            <Stack spacing={2} direction='column' sx={{display:'flex',justifyContent:'center',alignItems:'center',width:'50%',height:'90%'}}>
+        <Box sx = {commonStyles}>
 
-            <h3>Event Name:</h3>{apiData.name}
-            
-            
-            <h3>Other Info:</h3>{apiData.description}
-            <img src={apiData.image} alt="My Photo" width="50%" height="50%"/>
-            
-            <h3>Comunity Name:</h3>{apiData.commName}
+            <Stack spacing={2} direction='column' sx={{justifyContent:'center',alignItems:'center', width:'50%',height:'90%'}}>
 
-            <Button variant="contained" style={{ backgroundColor: 'green' }} onClick={() => setModalDeleteShow(true)}>Accept</Button>
+            {apiData.length > 0 && apiData[0].logo}
+            {apiData.length > 0 && apiData[0].coverPic}
+            <h1>Community Name: </h1>{apiData.length > 0 && apiData[0].commName}
+            <h1>Community Location: </h1>{apiData.length > 0 && apiData[0].location}
+            
+            <h1>Vision:  </h1>{apiData.length > 0 && apiData[0].vission}
+            <h1>Mission:  </h1>{apiData.length > 0 && apiData[0].Mission}
+            <h1>Instagram:  </h1>{apiData.length > 0 && apiData[0].instergrameLink}
+            <h1>Whatsapp:  </h1>{apiData.length > 0 && apiData[0].whatsappLink}
+            <h1>Facebook:  </h1>{apiData.length > 0 && apiData[0].faceBookLink}
+            <h1>Contact:  </h1>{apiData.length > 0 && apiData[0].contactNumber}
+            <h3>Size: </h3>{apiData.length > 0 && apiData[0].size}
+            
+
+      <Button variant="contained" style={{ backgroundColor: 'green' }} onClick={() => setModalDeleteShow(true)}>Accept</Button>
       <Button variant="contained" style={{ backgroundColor: 'red' }}>Decline</Button>
 
       <DeleteModal
@@ -111,11 +126,24 @@ function AcceptDeclineUpcomingEvent(){
             </Stack>
 
 
+
         </Box>
-
-
-
+        
+        
+        
+        </>
     )
+
+
+
 }
 
-export default AcceptDeclineUpcomingEvent;
+export default VerifyUserCommunity;
+
+
+
+/* <div>
+            <h1>Blog title: {apiData.userId}</h1>
+      <p>Blog description: {apiData.id}</p>
+      <div>Blog:  {apiData.title}</div>
+        </div>*/
