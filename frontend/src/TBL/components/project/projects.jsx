@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 function handleContribution(commId, pId, pName, personId, personName) {
   //console.log(commId, pId, pName, personId, personName);
   axios
-    .post("http://localhost:8000/api/projectCon/", {
+    .post("http://localhost:7000/api/projectCon/", {
       commID: commId,
       projectId: pId,
       projectName: pName,
@@ -44,7 +44,7 @@ function Projects() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:8000/api/projects`);
+      const response = await fetch(`http://localhost:7000/api/projects`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);

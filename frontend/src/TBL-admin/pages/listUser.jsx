@@ -1,11 +1,11 @@
 import ListUser from "../components/listUser";
-import NavbarAdmin from "../../TBL/layout/Navbar/Navbar";
+import Navbar from "../../TBL/layout/Navbar/Navbar";
 import Footer from "../../TBL/layout/Footer/Footer";
 
 const ListUserPage = () => {
   return (
     <main className="app">
-      <NavbarAdmin />
+      <Navbar />
       <div className="content">
         <ListUser />
       </div>

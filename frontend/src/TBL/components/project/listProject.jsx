@@ -9,7 +9,7 @@ function ViewProjectList() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:8000/api/projects`);
+      const response = await fetch(`http://localhost:7000/api/projects`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);

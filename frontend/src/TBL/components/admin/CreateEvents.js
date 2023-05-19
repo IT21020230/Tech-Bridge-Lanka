@@ -30,7 +30,7 @@ const commonStyles = {
 
   };
 
-function CreateIssues(){
+function CreateEvents(){
 
     const [image, setImage] = useState(null);
 
@@ -92,12 +92,14 @@ function CreateIssues(){
   
   
   <Stack spacing={3} direction='column' sx={{justifyContent:'center',alignItems:'center', backgroundColor: '#a2c6eb', width:'50%', borderRadius: 10}}>
-  <Typography variant="h3">Upload an issue</Typography>
+  <Typography variant="h3">Create an Event</Typography>
         
-      <TextField id="outlined-basic" label="Type of issue" variant="outlined" sx={{width:'80%', backgroundColor: '#fafafa', borderRadius: 2}}/>
+      <TextField id="outlined-basic" label="Event Name" variant="outlined" sx={{width:'80%', backgroundColor: '#fafafa', borderRadius: 2}}/>
       
 
-        <TextField fullWidth label="Tell us your problem here:" id="fullWidth"  multiline sx={{width:'80%', backgroundColor: '#fafafa', borderRadius: 2}}/>
+        <TextField fullWidth label="Event description:" id="fullWidth"  multiline sx={{width:'80%', backgroundColor: '#fafafa', borderRadius: 2}}/>
+
+        <TextField id="outlined-basic" label="Event location:" variant="outlined" sx={{width:'80%', backgroundColor: '#fafafa', borderRadius: 2}}/>
 
       {/*  <Input type="file" hidden onChange={handleImageUpload} />
     
@@ -116,22 +118,10 @@ function CreateIssues(){
          />
 
 
-       <select value={province} onChange={handleSelectionChange1} >
-      <option value="default">Select province</option>
-      <option value="option1">Option 1</option>
-      <option value="option2">Option 2</option>
-      <option value="Pagaya 3">Pagaya 3</option>
-    </select>
-
-    <select value={province} onChange={handleSelectionChange2}>
-      <option value="default">Select district</option>
-      <option value="Page lankawa">Page lankawa</option>
-      <option value="option2">Option 2</option>
-      <option value="Pagaya 3">Pagaya 3</option>
-    </select>
+       
 
     
-    <Button variant="contained" style={{ backgroundColor: 'green' }}>PLACE ISSUE</Button>
+    <Button variant="contained" style={{ backgroundColor: 'green' }}>Create Event</Button>
       
 </Stack>  
 
@@ -144,4 +134,4 @@ function CreateIssues(){
     )
 }
 
-export default CreateIssues;
+export default CreateEvents;

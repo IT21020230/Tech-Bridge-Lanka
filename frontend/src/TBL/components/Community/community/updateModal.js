@@ -91,11 +91,9 @@ const UpdateModal = ({ isOpen, onRequestClose, comData }) => {
   };
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/community/getCommunity/${comData}`)
-      .then((response) => {
-        setComData(response.data);
-      });
+    axios.get(`/api/community/getCommunity/${comData}`).then((response) => {
+      setComData(response.data);
+    });
   }, []);
   console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII");
   console.log(communityData[0]);
@@ -106,7 +104,7 @@ const UpdateModal = ({ isOpen, onRequestClose, comData }) => {
     data.append("image", logoFileData);
     console.log("BBBBBBBBBBBB");
     console.log(logoFileData);
-    await fetch("http://localhost:8080/logo", {
+    await fetch("/logo", {
       method: "POST",
       body: data,
     })
@@ -124,7 +122,7 @@ const UpdateModal = ({ isOpen, onRequestClose, comData }) => {
     const data2 = new FormData();
 
     data2.append("image", coverFileData);
-    await fetch("http://localhost:8080/cover", {
+    await fetch("/cover", {
       method: "POST",
       body: data2,
     })
@@ -139,21 +137,18 @@ const UpdateModal = ({ isOpen, onRequestClose, comData }) => {
         console.log(error.message);
       });
 
-    await axios.patch(
-      `http://localhost:8080/api/community/updateCommunity/${comData}`,
-      {
-        vission,
-        Mission,
-        faceBookLink,
-        instergrameLink,
-        whatsappLink,
-        email,
-        contactNumber,
-        coverPic,
-        logo,
-        size,
-      }
-    );
+    await axios.patch(`/api/community/updateCommunity/${comData}`, {
+      vission,
+      Mission,
+      faceBookLink,
+      instergrameLink,
+      whatsappLink,
+      email,
+      contactNumber,
+      coverPic,
+      logo,
+      size,
+    });
     window.location.href = `/community/${comData}`;
   };
   return (

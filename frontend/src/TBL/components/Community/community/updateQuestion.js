@@ -33,7 +33,7 @@ const UpdateRule = ({
 
   const sendQuestionData = async () => {
     await axios.patch(
-      `http://localhost:8080/api/communityQuestion/updateQuestion/${comQuestionID}`,
+      `/api/communityQuestion/updateQuestion/${comQuestionID}`,
       {
         question,
       }

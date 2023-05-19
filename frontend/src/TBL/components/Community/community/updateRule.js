@@ -25,12 +25,9 @@ const UpdateRule = ({ isOpen, onRequestClose, comData, comRule, id }) => {
   const [rule, setRule] = useState([]);
 
   const sendData = async () => {
-    await axios.patch(
-      `http://localhost:8080/api/communityRule/updateRule/${comData}`,
-      {
-        rule,
-      }
-    );
+    await axios.patch(`/api/communityRule/updateRule/${comData}`, {
+      rule,
+    });
 
     window.location.href = `/community/${id}`;
   };

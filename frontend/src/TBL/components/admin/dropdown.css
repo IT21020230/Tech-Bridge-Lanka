@@ -1,0 +1,29 @@
+select {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  appearance: none;
+  background-color: white;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M7.5 9.5L10 12L12.5 9.5' stroke='%23525F7F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  cursor: pointer;
+}
+
+
+  
+  select:hover,
+  select:focus {
+    outline: none;
+    border-color: #525F7F;
+  }
+  
+  option {
+    color: #333;
+    background-color: #fff;
+  }
+  
+  option:hover {
+    background-color: #F5F5F5;
+  }

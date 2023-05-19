@@ -13,7 +13,7 @@ function UserList() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-      const response = await fetch(`http://localhost:8000/api/user`);
+      const response = await fetch(`http://localhost:7000/api/user`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);

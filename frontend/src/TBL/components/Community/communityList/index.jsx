@@ -40,7 +40,7 @@ function FormExample() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/community/getAllCommunity")
+      .get("http://localhost:7000/api/community/getAllCommunity")
       .then((response) => {
         setCommunityList(response.data);
         console.log(response.data);

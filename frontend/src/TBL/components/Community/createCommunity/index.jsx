@@ -209,7 +209,7 @@ function FormExample() {
       data.append("image", logoFileData);
       console.log("BBBBBBBBBBBB");
       console.log(logoFileData);
-      await fetch("http://localhost:8080/logo", {
+      await fetch("http://localhost:7000/logo", {
         method: "POST",
         body: data,
       })
@@ -227,7 +227,7 @@ function FormExample() {
       const data2 = new FormData();
 
       data2.append("image", coverFileData);
-      await fetch("http://localhost:8080/cover", {
+      await fetch("http://localhost:7000/cover", {
         method: "POST",
         body: data2,
       })
@@ -246,7 +246,7 @@ function FormExample() {
 
       data3.append("image", PDFFileData);
 
-      await fetch("http://localhost:8080/pdf", {
+      await fetch("http://localhost:7000/pdf", {
         method: "POST",
         body: data3,
       })
@@ -261,7 +261,7 @@ function FormExample() {
           console.log(error.message);
         });
 
-      await Axios.post("http://localhost:8080/api/community/createCommunity", {
+      await Axios.post("http://localhost:7000/api/community/createCommunity", {
         commName,
         location,
         contactNumber,
@@ -278,7 +278,7 @@ function FormExample() {
         fields.map(async (data) => {
           console.log(data.value);
           await Axios.post(
-            "http://localhost:8080/api/communityRule/createRule",
+            "http://localhost:7000/api/communityRule/createRule",
             {
               commID,
               rule: data.value,
@@ -286,13 +286,13 @@ function FormExample() {
           );
         });
 
-        await Axios.get(`http://localhost:8080/api/user/${UID}`).then(
+        await Axios.get(`http://localhost:7000/api/user/${UID}`).then(
           async (response) => {
             const uName = response.data.name;
             const proPic = response.data.photo;
 
             await Axios.post(
-              "http://localhost:8080/api/communityMember/createCommunityMember",
+              "http://localhost:7000/api/communityMember/createCommunityMember",
               {
                 userID: UID,
                 name: uName,
