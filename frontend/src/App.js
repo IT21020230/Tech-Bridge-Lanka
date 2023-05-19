@@ -65,9 +65,7 @@ const CommunityList = lazy(() =>
 const AcceptDeclineBlogsPage = lazy(() =>
   import("./TBL/pages/admin/AcceptDeclineBlogPage")
 );
-const AcceptMembersPage = lazy(() =>
-  import("./TBL/pages/admin/AcceptMembersPage")
-);
+
 const CreateIssuesPage = lazy(() =>
   import("./TBL/pages/admin/CreateIssuesPage")
 );
@@ -88,7 +86,6 @@ const UpcomingEventsPage = lazy(() =>
 const CreateEventsPage = lazy(() =>
   import("./TBL/pages/admin/CreateEventsPage")
 );
-const KithminaPage = lazy(() => import("./TBL/pages/admin/kithmina"));
 
 function App() {
   const { user } = useAuthContext();
@@ -222,10 +219,7 @@ function App() {
               path="/community/:id"
               element={user ? <Community /> : <Navigate to="/login" />}
             />
-            {/* <Route
-              path={process.env.PUBLIC_URL + "/community/:id"}
-              element={<Community />}
-            /> */}
+
             <Route
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
@@ -251,11 +245,6 @@ function App() {
             <Route
               path={process.env.PUBLIC_URL + "/create-events"}
               element={<CreateEventsPage />}
-            />
-
-            <Route
-              path={process.env.PUBLIC_URL + "/kithmina"}
-              element={<KithminaPage />}
             />
           </Routes>
         </div>

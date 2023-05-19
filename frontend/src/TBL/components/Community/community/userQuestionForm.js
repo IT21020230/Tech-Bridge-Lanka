@@ -23,16 +23,14 @@ const QuestionForm = ({ isOpen, onRequestClose, communityID, userID }) => {
 
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:8080/api/communityQuestion/getAllQuestion/${communityID}`
-      )
+      .get(`/api/communityQuestion/getAllQuestion/${communityID}`)
       .then((response) => {
         setQuestion(response.data);
       });
   }, []);
 
   //   useEffect(() => {
-  //     axios.get(`http://localhost:8080/api/user/${userID}`).then((response) => {
+  //     axios.get(`/api/user/${userID}`).then((response) => {
   //       setQuestion(response.data);
   //     });
   //   }, []);
@@ -48,33 +46,28 @@ const QuestionForm = ({ isOpen, onRequestClose, communityID, userID }) => {
   const handleSubmit = async (event) => {
     // Prepare data object for storing answer
     event.preventDefault();
-    await axios
-      .get(`http://localhost:8080/api/user/${userID}`)
-      .then(async (response) => {
-        //   setQuestion(response.data);
-        console.log(response.data);
-        const data = {
-          answer: answer,
-        };
-        console.log(data);
-        let data2 = [];
-        data2.push(data);
+    await axios.get(`/api/user/${userID}`).then(async (response) => {
+      //   setQuestion(response.data);
+      console.log(response.data);
+      const data = {
+        answer: answer,
+      };
+      console.log(data);
+      let data2 = [];
+      data2.push(data);
 
-        await axios
-          .post(
-            "http://localhost:8080/api/communityAnswer/createCommunityAnswer",
-            {
-              commID: communityID,
-              answer: data,
-              userId: userID,
-              userName: response.data.name,
-              proPic: response.data.photo,
-            }
-          )
-          .then(() => {
-            window.location.href = `/community/${communityID}`;
-          });
-      });
+      await axios
+        .post("/api/communityAnswer/createCommunityAnswer", {
+          commID: communityID,
+          answer: data,
+          userId: userID,
+          userName: response.data.name,
+          proPic: response.data.photo,
+        })
+        .then(() => {
+          window.location.href = `/community/${communityID}`;
+        });
+    });
 
     // // Make API call to store answer
     // axios

@@ -71,7 +71,7 @@ function OffcanvasExample() {
                   </Nav.Link>
 
                   <Nav.Link
-                    href="#action1"
+                    href="/communitylist"
                     style={{ color: "black", fontWeight: "bold" }}
                   >
                     Communities
@@ -118,7 +118,7 @@ function OffcanvasExample() {
                     (user.role === "admin" || user.role === "moderator") && (
                       <Nav.Link
                         href="/add-post"
-                        style={{ color: "red", fontWeight: "bold" }}
+                        style={{ color: "black", fontWeight: "bold" }}
                       >
                         Create Story
                       </Nav.Link>

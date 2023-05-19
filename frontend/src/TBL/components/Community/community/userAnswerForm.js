@@ -34,7 +34,7 @@ const AnswerForm = ({ isOpen, onRequestClose, communityID, answerData }) => {
   //     if (isOpen) {
   //       axios
   //         .get(
-  //           `http://localhost:8080/api/communityAnswer/getOneRequest/${answerData}`
+  //           `/api/communityAnswer/getOneRequest/${answerData}`
   //         )
   //         .then((response) => {
   //           setRequset(response);
@@ -43,9 +43,7 @@ const AnswerForm = ({ isOpen, onRequestClose, communityID, answerData }) => {
   //   }, []);
   const RejectMember = () => {
     axios
-      .delete(
-        `http://localhost:8080/api/communityAnswer/deleteRequest/${answerData._id}`
-      )
+      .delete(`/api/communityAnswer/deleteRequest/${answerData._id}`)
       .then(() => {
         toast.success(`User request  accepted successfully`, {
           position: "Member rejected",
@@ -57,7 +55,7 @@ const AnswerForm = ({ isOpen, onRequestClose, communityID, answerData }) => {
   };
   const AcceptMember = () => {
     axios
-      .post("http://localhost:8080/api/communityMember/createCommunityMember", {
+      .post("/api/communityMember/createCommunityMember", {
         userID: answerData.userId,
         name: answerData.userName,
         pic: answerData.proPic,
@@ -66,9 +64,7 @@ const AnswerForm = ({ isOpen, onRequestClose, communityID, answerData }) => {
       })
       .then(() => {
         axios
-          .delete(
-            `http://localhost:8080/api/communityAnswer/deleteRequest/${answerData._id}`
-          )
+          .delete(`/api/communityAnswer/deleteRequest/${answerData._id}`)
           .then(() => {
             toast.success(`User request  rejected successfull`, {
               position: "Member rejected",

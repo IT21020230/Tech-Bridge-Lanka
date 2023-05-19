@@ -1,11 +1,11 @@
 import AddUser from "../components/addUser";
-import NavbarAdmin from "../Layout/NavbarAdmin/NavbarAdmin";
+import Navbar from "../../TBL/layout/Navbar/Navbar";
 import Footer from "../../TBL/layout/Footer/Footer";
 
 const AddUserPage = () => {
   return (
     <main className="app">
-      <NavbarAdmin />
+      <Navbar />
       <div className="content">
         <AddUser />
       </div>
