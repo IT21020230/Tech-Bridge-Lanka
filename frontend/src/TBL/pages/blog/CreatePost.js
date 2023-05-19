@@ -23,21 +23,24 @@ export default function CreatePost() {
     data.set("summary", summary);
     data.set("content", content);
     data.set("community", community);
-    data.set("author", "6453a8bcc6d9e14527bdf3e1");
     data.set("file", files[0]);
     ev.preventDefault();
-    const response = await fetch("http://localhost:8000/api/posts/post", {
-      method: "POST",
-      body: data,
-      credentials: "include",
-    });
-    if (response.ok) {
-      setRedirect(true);
+    try {
+      const response = await fetch("/api/posts/post", {
+        method: "POST",
+        body: data,
+        credentials: "include",
+      });
+      if (response.ok) {
+        setRedirect(true);
+      }
+    } catch {
+      console.log("error");
     }
   }
 
   if (redirect) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/posts"} />;
   }
   return (
     <main>
@@ -63,12 +66,16 @@ export default function CreatePost() {
                   onChange={(ev) => setSummary(ev.target.value)}
                 />
                 <br /> <br />
-                <input
-                  type="text"
-                  placeholder={"Community"}
+                <select
                   value={community}
                   onChange={(ev) => setCommunity(ev.target.value)}
-                />
+                >
+                  <option value="">Select a community</option>
+                  <option value="Community 1">Community 1</option>
+                  <option value="Community 2">Community 2</option>
+                  <option value="Community 3">Community 3</option>
+                  {/* Add more options for communities as needed */}
+                </select>
                 <br /> <br />
                 <input
                   type="file"

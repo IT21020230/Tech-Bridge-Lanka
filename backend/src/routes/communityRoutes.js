@@ -1,9 +1,17 @@
 const express = require("express");
-const { createCommunity } = require("../controllers/communityController");
+const {
+  createCommunity,
+  getAllCommunity,
+  updateCommunity,
+  getCommunity,
+} = require("../controllers/communityController");
 
 const router = express.Router();
 
 //Post a new order
 router.post("/createCommunity", createCommunity);
+router.get("/getAllCommunity", getAllCommunity);
+router.get("/getCommunity/:id", getCommunity);
+router.patch("/updateCommunity/:id", updateCommunity);
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const Post = require("../models/postModel");
 
-const fs = require('fs');
+const fs = require("fs");
 
 const addPost = async (req, res) => {
   const { originalname, path } = req.file;
@@ -9,14 +9,13 @@ const addPost = async (req, res) => {
   const newPath = path + "." + ext;
   fs.renameSync(path, newPath);
 
-  const { title, summary, content, author, community } = req.body;
+  const { title, summary, content, community } = req.body;
   const postDoc = await Post.create({
     title,
     summary,
     content,
     cover: newPath,
     community,
-    author,
   });
   res.json(postDoc);
 };
@@ -32,30 +31,25 @@ const updatePost = async (req, res) => {
   }
 
   const { id, title, summary, content, community } = req.body;
-    const postDoc = await Post.findById(id);
-    await postDoc.update({
-      title,
-      summary,
-      content,
-      community,
-      cover: newPath ? newPath : postDoc.cover,
-    });
+  const postDoc = await Post.findById(id);
+  await postDoc.updateOne({
+    title,
+    summary,
+    content,
+    community,
+    cover: newPath ? newPath : postDoc.cover,
+  });
 
-    res.json(postDoc);
+  res.json(postDoc);
 };
 
 const getPosts = async (req, res) => {
-  res.json(
-    await Post.find()
-      .populate("author", ["username"])
-      .sort({ createdAt: -1 })
-      .limit(20)
-  );
+  res.json(await Post.find().sort({ createdAt: -1 }).limit(20));
 };
 
 const getPost = async (req, res) => {
   const { id } = req.params;
-  const postDoc = await Post.findById(id).populate("author", ["username"]);
+  const postDoc = await Post.findById(id);
   res.json(postDoc);
 };
 
