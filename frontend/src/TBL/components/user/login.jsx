@@ -121,12 +121,18 @@ function Login() {
             </Button>
             <br />
             <br />
+            {error && (
+              <div className="error" style={{ color: "red" }}>
+                <b>{error}</b>
+              </div>
+            )}
+            <br />
             <p>
-              No created account? <a href="/signup">Register</a>
-              <br />
-              <br />
+              No created account?{" "}
+              <a href="/signup">
+                <b>Register</b>
+              </a>
             </p>
-            {error && <div className="error">{error}</div>}
           </Form>
         )}
       </Formik>

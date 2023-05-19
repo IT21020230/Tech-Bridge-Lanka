@@ -9,7 +9,7 @@ function ViewEventList() {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch(`http://localhost:7000/api/events`);
+      const response = await fetch(`http://localhost:8000/api/events`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
@@ -56,7 +56,7 @@ function ViewEventList() {
                 <td>{event.name}</td>
                 <td>{event.commName}</td>
                 <td>{event.location}</td>
-                <td>{event.date}</td>
+                <td>{event.date.substring(0, 10)}</td>
                 <td>
                   <Button
                     variant="outline-primary"

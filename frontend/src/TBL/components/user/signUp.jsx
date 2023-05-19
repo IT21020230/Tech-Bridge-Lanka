@@ -73,10 +73,7 @@ function SignUp() {
     phone: yup
       .string()
       .required("Please enter a Phone number!")
-      .matches(
-        /^\d{11}$/,
-        "Contact number must be a 11-digit number with country code!"
-      ),
+      .matches(/^[0-9]{10}$/, "Please enter a valid 10-digit Mobile Number"),
 
     name: yup.string().required("Please enter the Name!"),
 
@@ -290,7 +287,7 @@ function SignUp() {
                 </Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
-                    type="number"
+                    type="text"
                     aria-describedby="inputGroupPrepend"
                     name="phone"
                     value={values.phone}
@@ -414,6 +411,9 @@ function SignUp() {
                     {selectedProvince ? selectedProvince : "Select a Province"}
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="Western">
+                      Western Province
+                    </Dropdown.Item>
                     <Dropdown.Item eventKey="Northern">
                       Northern Province
                     </Dropdown.Item>
@@ -490,12 +490,15 @@ function SignUp() {
             </Button>
             <br />
             <br />
+            {error && <div className="error">{error}</div>}
             <p>
-              Already have an account? <a href="/login">Login</a>
+              Already have an account?{" "}
+              <a href="/login">
+                <b>Login</b>
+              </a>
               <br />
               <br />
             </p>
-            {error && <div className="error">{error}</div>}
           </Form>
         )}
       </Formik>

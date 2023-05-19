@@ -3,6 +3,9 @@ import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { Row } from "react-bootstrap";
 
 function ParticipateModal(props) {
   return (
@@ -33,13 +36,21 @@ function ParticipateModal(props) {
 }
 
 function Events() {
+  const { user } = useAuthContext();
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/listEvent");
+  };
+
   const [modalParticipateShow, setModalParticipateShow] = React.useState(false);
 
   const [events, setEvents] = useState(null);
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch(`http://localhost:7000/api/events`);
+      const response = await fetch(`http://localhost:8000/api/events`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
@@ -51,6 +62,8 @@ function Events() {
 
     fetchEvents();
   }, []);
+
+  //const dateWithoutTime = dateString.substring(0, 10);
 
   return (
     <div
@@ -65,6 +78,24 @@ function Events() {
     >
       <div>
         <h1 className="head">Events</h1>
+        {/* Check whether the user is logged in and not a member */}
+        {user && user.role !== "member" && (
+          <div
+          // style={{
+          //   display: "flex",
+          //   justifyContent: "flex-end",
+          //   marginRight: "15%",
+          // }}
+          >
+            <Button
+              variant="primary"
+              className="btn-logout"
+              onClick={handleClick}
+            >
+              Manage Events
+            </Button>
+          </div>
+        )}
       </div>
       <br />
 
@@ -98,18 +129,18 @@ function Events() {
                     {event.description}
                     <br />
                     <br />
-                    {`Date : ${event.date}`}
+                    {`Date : ${event.date.substring(0, 10)}`}
                     <br />
                     {`Location : ${event.location}`}
                   </Card.Text>
-                  <div style={{ display: "flex", justifyContent: "center" }}>
+                  {/* <div style={{ display: "flex", justifyContent: "center" }}>
                     <Button
                       variant="primary"
                       onClick={() => setModalParticipateShow(true)}
                     >
                       Participate
                     </Button>
-                  </div>
+                  </div> */}
                 </Card.Body>
               </>
             </Card>
