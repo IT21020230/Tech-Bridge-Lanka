@@ -3,6 +3,9 @@ import ReactMapboxGl, { Marker, ZoomControl } from "react-mapbox-gl";
 import mapboxgl from "mapbox-gl";
 import axios from "axios";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./mapView.css";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -15,6 +18,7 @@ import Sidebar from "../../layout/Slidebar/Slidebar";
 import { Grid, Card } from "@mui/material";
 import "../index.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
+
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -53,8 +57,10 @@ const MapView = () => {
       });
 
       alert("Location data sent successfully!");
+      // toast.success("Location data sent successfully!");
     } catch (error) {
       console.error(error);
+      // toast.error("Failed to send location data. Please try again later.");
       alert("Failed to send location data. Please try again later.");
     }
   };
@@ -113,8 +119,9 @@ const MapView = () => {
             <div style={{}}>
               <h1>Contribute to DDD Map </h1>
               <p>
-                Select your home location where you connect to the internet and send us. 
-                That will help people to get a visual outcome of Digital Divide Distribution in Sri Lanka. 
+                Select your home location where you connect to the internet and
+                send us. That will help people to get a visual outcome of
+                Digital Divide Distribution in Sri Lanka.
               </p>
               <PlacesAutocomplete
                 value={address}
@@ -189,7 +196,6 @@ const MapView = () => {
                 )}
               </Map>
               <br />
-
               <button
                 onClick={handleSendLocation}
                 disabled={!location.latitude || !location.longitude}
