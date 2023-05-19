@@ -60,7 +60,10 @@ function ViewEventList() {
                 <td>
                   <Button
                     variant="outline-primary"
-                    onClick={() => navigate(`/viewEvent/${event._id}`)}
+                    onClick={() => {
+                      const url = `/viewEvent/${event._id}`;
+                      window.location.href = url;
+                    }}
                   >
                     View more
                   </Button>

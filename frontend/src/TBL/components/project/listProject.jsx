@@ -2,6 +2,7 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { startTransition } from "react";
 
 function ViewProjectList() {
   const navigate = useNavigate();
@@ -59,7 +60,10 @@ function ViewProjectList() {
                 <td>
                   <Button
                     variant="outline-primary"
-                    onClick={() => navigate(`/viewProject/${project._id}`)}
+                    onClick={() => {
+                      const url = `/viewProject/${project._id}`;
+                      window.location.href = url;
+                    }}
                   >
                     View more
                   </Button>

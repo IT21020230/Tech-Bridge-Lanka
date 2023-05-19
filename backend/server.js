@@ -19,9 +19,6 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
-
-
-
 //file upload
 //logo uploading
 const logoUploading = multer.diskStorage({
@@ -124,3 +121,5 @@ app.use("/api/community", community);
 app.use("/api/communityRule", communityRule);
 app.use("/api/communityMember", communityMember);
 app.use("/api/communityQuestion", communityQuestion);
+
+module.exports = app;

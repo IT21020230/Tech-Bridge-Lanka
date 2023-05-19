@@ -1,10 +1,9 @@
 jest.mock("../../src/models/userModel");
-
 const User = require("../../src/models/userModel");
-
 const { getAllUser } = require("../../src/controllers/userController");
 
 describe("getAllUser", () => {
+  //
   it("should return all users", async () => {
     // Mock User.find() to return an array of users
     const users = [
@@ -48,24 +47,24 @@ describe("getAllUser", () => {
     expect(res.send).toHaveBeenCalledWith("User not found");
   });
 
-  // it('should return "Server error" if an error occurs', async () => {
-  //   // Mock User.find() to throw an error
-  //   const errorMessage = "Database error";
-  //   User.find.mockRejectedValue(new Error(errorMessage));
+  it('should return "Server error" if an error occurs', async () => {
+    // Mock User.find() to throw an error
+    const errorMessage = "Database error";
+    User.find.mockRejectedValue(new Error(errorMessage));
 
-  //   // Mock request and response objects
-  //   const req = {};
-  //   const res = {
-  //     status: jest.fn().mockReturnThis(),
-  //     json: jest.fn(),
-  //   };
+    // Mock request and response objects
+    const req = {};
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
 
-  //   // Execute the getAllUser function
-  //   await getAllUser(req, res);
+    // Execute the getAllUser function
+    await getAllUser(req, res);
 
-  //   // Verify the expected behavior
-  //   expect(User.find).toHaveBeenCalled();
-  //   expect(res.status).toHaveBeenCalledWith(500);
-  //   expect(res.json).toHaveBeenCalledWith({ message: "Server error" });
-  // });
+    // Verify the expected behavior
+    expect(User.find).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.json).toHaveBeenCalledWith({ message: "Server error" });
+  });
 });

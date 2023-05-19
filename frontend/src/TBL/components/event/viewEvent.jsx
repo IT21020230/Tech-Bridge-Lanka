@@ -106,7 +106,7 @@ function ViewEvent() {
         position: "bottom-left",
       });
       setTimeout(() => {
-        navigate("/listEvent");
+        window.location.href = "/listEvent";
       }, 2500);
     }
   };
@@ -131,7 +131,7 @@ function ViewEvent() {
         position: "bottom-left",
       });
       setTimeout(() => {
-        navigate("/listEvent");
+        window.location.href = "/listEvent";
       }, 3000);
     }
   };

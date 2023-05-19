@@ -90,7 +90,7 @@ function Events() {
             <Button
               variant="primary"
               className="btn-logout"
-              onClick={handleClick}
+              onClick={() => (window.location.href = "/listEvent")}
             >
               Manage Events
             </Button>
