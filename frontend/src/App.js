@@ -134,22 +134,17 @@ function App() {
 
             <Route
               path={process.env.PUBLIC_URL + "/add-post"}
-              element={<AddPostPage />}
+              element={user ? <AddPostPage /> : <Navigate to="/login" />}
             />
 
             <Route
               path={process.env.PUBLIC_URL + "/edit/:id"}
-              element={<EditPostPage />}
+              element={user ? <EditPostPage /> : <Navigate to="/login" />}
             />
 
             <Route
-              path={process.env.PUBLIC_URL + "dd-data"}
+              path={process.env.PUBLIC_URL + "/dd-data"}
               element={<DistrictDataPage />}
-            />
-
-            <Route
-              path={process.env.PUBLIC_URL + "/edit/:id"}
-              element={<EditPostPage />}
             />
 
             {/* Usesh end */}
@@ -220,8 +215,10 @@ function App() {
               path={process.env.PUBLIC_URL + "/communityList"}
               element={<CommunityList />}
             />
-
-            <Route path={process.env.PUBLIC_URL + "/map"} element={<Map />} />
+            <Route
+              path={process.env.PUBLIC_URL + "/map"}
+              element={user ? <Map /> : <Navigate to="/login" />}
+            />
             <Route
               path={process.env.PUBLIC_URL + "/map-live"}
               element={<MapLive />}

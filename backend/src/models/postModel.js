@@ -8,7 +8,6 @@ const PostSchema = new Schema(
     content: String,
     cover: String,
     community: String,
-    author: String,
   },
   {
     timestamps: true,

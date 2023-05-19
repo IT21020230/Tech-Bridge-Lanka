@@ -98,6 +98,15 @@ function OffcanvasExample() {
                   >
                     Events
                   </Nav.Link>
+                  {user &&
+                    (user.role === "admin" || user.role === "moderator") && (
+                      <Nav.Link
+                        href="/events"
+                        style={{ color: "black", fontWeight: "bold" }}
+                      >
+                        Create a Story
+                      </Nav.Link>
+                    )}
 
                   {/* Check whether the user is logged in */}
                   {user && (

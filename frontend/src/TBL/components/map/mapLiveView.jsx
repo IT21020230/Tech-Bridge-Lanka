@@ -25,7 +25,7 @@ const OpenLayersMap = () => {
     const fetchLocations = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/user/locations"
+          "http://localhost:7000/api/user/locations"
         );
         await setLocations(response.data);
         await console.log(response.data);
@@ -112,6 +112,13 @@ const OpenLayersMap = () => {
           <Grid item xs={3}></Grid>
           <Grid item xs={6}>
             <div style={{}}>
+              <h1>Digital Divide Distribution Map </h1>
+              <p>
+                Following map helps you to get an idea of DDD in Sri Lanka.
+                These calculations are based on the locations of the
+                contributors of the site. Click <a href="http://localhost:3000/map">here</a> to
+                become a contributor by providing your location.
+              </p>
               <div id="map" style={{ width: "800px", height: "800px" }}></div>
             </div>
           </Grid>

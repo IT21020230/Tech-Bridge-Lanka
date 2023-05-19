@@ -13,6 +13,12 @@ const {
   getLocations,
 } = require("../controllers/userController");
 
+// get all user locations
+router.get("/locations", getLocations);
+
+// POST request to store user's home location in the database
+router.patch("/home-location", addUserLocation);
+
 //GET all users
 router.get("/", getAllUser);
 
@@ -30,11 +36,5 @@ router.get("/:id", getUserById);
 
 //Delete user route
 router.delete("/:id", deleteUser);
-
-// get all user locations
-router.get("/locations", getLocations);
-
-// POST request to store user's home location in the database
-router.patch("/home-location", addUserLocation);
 
 module.exports = router;

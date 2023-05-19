@@ -3,6 +3,9 @@ import ReactMapboxGl, { Marker, ZoomControl } from "react-mapbox-gl";
 import mapboxgl from "mapbox-gl";
 import axios from "axios";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./mapView.css";
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -14,6 +17,8 @@ import Footer from "../../layout/Footer/Footer";
 import Sidebar from "../../layout/Slidebar/Slidebar";
 import { Grid, Card } from "@mui/material";
 import "../index.css";
+import { useAuthContext } from "../../hooks/useAuthContext";
+
 
 const Map = ReactMapboxGl({
   accessToken:
@@ -27,6 +32,7 @@ const MapView = () => {
   const [zoom, setZoom] = useState([5]);
   const [address, setAddress] = useState("");
   const [center, setCenter] = useState([null, null]);
+  const { user } = useAuthContext();
 
   const locationBounds = [
     [79.596998, 5.868369], // southwest corner of Sri Lanka
@@ -38,19 +44,23 @@ const MapView = () => {
     // alert(latitude);
     // alert(longitude);
 
-    const userId = "64577ff67e4e188701fa551c"; // replace with actual user ID
+    //const userId = "646676d408d6791817b3e37d"; // replace with actual user ID
+    const userId = user.userId; // replace with actual user ID
+    console.log(userId);
     const { latitude, longitude } = location;
 
     try {
-      await axios.patch(`http://localhost:8000/api/user/home-location`, {
+      await axios.patch(`http://localhost:7000/api/user/home-location`, {
         userId,
         latitude,
         longitude,
       });
 
       alert("Location data sent successfully!");
+      // toast.success("Location data sent successfully!");
     } catch (error) {
       console.error(error);
+      // toast.error("Failed to send location data. Please try again later.");
       alert("Failed to send location data. Please try again later.");
     }
   };
@@ -107,6 +117,12 @@ const MapView = () => {
           <Grid item xs={3}></Grid>
           <Grid item xs={6}>
             <div style={{}}>
+              <h1>Contribute to DDD Map </h1>
+              <p>
+                Select your home location where you connect to the internet and
+                send us. That will help people to get a visual outcome of
+                Digital Divide Distribution in Sri Lanka.
+              </p>
               <PlacesAutocomplete
                 value={address}
                 onChange={setAddress}
@@ -148,6 +164,7 @@ const MapView = () => {
                   </div>
                 )}
               </PlacesAutocomplete>
+              <br />
               <Map
                 style="mapbox://styles/mapbox/streets-v9"
                 center={center}
@@ -178,6 +195,7 @@ const MapView = () => {
                   />
                 )}
               </Map>
+              <br />
               <button
                 onClick={handleSendLocation}
                 disabled={!location.latitude || !location.longitude}

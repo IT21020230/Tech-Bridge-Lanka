@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const District = require("../models/districtModel");
 
 // Create JWT token
 const createToken = (_id) => {
@@ -123,6 +124,9 @@ const signupUser = async (req, res) => {
     });
     await user.save();
 
+    // Increment the count by one in the district model
+    await District.findOneAndUpdate({ district: city }, { $inc: { count: 1 } });
+
     const token = createToken(user._id);
 
     res.status(200).json({
@@ -197,7 +201,7 @@ const getAllUser = async (req, res) => {
   }
 };
 
-//Get a user by its ID
+// Get a user by its ID
 const getUserById = async (req, res) => {
   try {
     // Find user by ID
