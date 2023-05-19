@@ -155,6 +155,12 @@ const deleteEvents = async (req, res) => {
   }
 };
 
+//Get Event by status
+const getEventByStatus = async (req, res) => {
+  const event = await Event.find({ status: req.params.status });
+  res.status(200).json(event);
+};
+
 module.exports = {
   createEvents,
   updateEvents,
@@ -162,4 +168,5 @@ module.exports = {
   getEventById,
   getEventByCommId,
   deleteEvents,
+  getEventByStatus,
 };

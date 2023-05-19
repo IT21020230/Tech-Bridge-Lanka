@@ -9,6 +9,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Routes, Route, Navigate, BrowserRouter } from "react-router-dom";
 import { useAuthContext } from "./TBL/hooks/useAuthContext";
 
+// //Admin
+// const Admin = lazy(() => import("./TBL-admin/pages/admin"));
+
 //Add user
 const AddUser = lazy(() => import("./TBL-admin/pages/addUser"));
 
@@ -43,8 +46,16 @@ const ViewEvent = lazy(() => import("./TBL/pages/event/viewEvent"));
 // List Project
 const ListProject = lazy(() => import("./TBL/pages/project/listProject"));
 
+//List Project by comm ID
+const ListProjectById = lazy(() =>
+  import("./TBL/pages/project/listProjectById")
+);
+
 //List Event
 const ListEvent = lazy(() => import("./TBL/pages/event/listEvent"));
+
+//List Event by comm ID
+const ListEventById = lazy(() => import("./TBL/pages/event/listEventById"));
 
 // List Project
 const Projects = lazy(() => import("./TBL/pages/project/projects"));
@@ -99,10 +110,17 @@ function App() {
               path={process.env.PUBLIC_URL + "/test"}
               element={<TestingUi />}
             />
+
+            {/* <Route
+              path="/admin"
+              element={user ? <Admin /> : <Navigate to="/login" />}
+            /> */}
+
             <Route
-              path="/"
-              element={user ? <TestingUi /> : <Navigate to="/login" />}
+              path={process.env.PUBLIC_URL + "/"}
+              element={<TestingUi />}
             />
+
             <Route
               path="/login"
               element={!user ? <Login /> : <Navigate to="/" />}
@@ -166,8 +184,16 @@ function App() {
               element={user ? <ViewProject /> : <Navigate to="/login" />}
             />
             <Route
+              path="/viewProjectById/:id"
+              element={user ? <ListProjectById /> : <Navigate to="/login" />}
+            />
+            <Route
               path="/viewEvent/:id"
               element={user ? <ViewEvent /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/viewEventById/:id"
+              element={user ? <ListEventById /> : <Navigate to="/login" />}
             />
             <Route
               path="/listProject"

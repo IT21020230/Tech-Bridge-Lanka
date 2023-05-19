@@ -633,13 +633,25 @@ export default function () {
                         <Grid container spacing={2}>
                           <Grid item xs={12}>
                             <div className="options">
-                              <button className="createEvent">
+                              <button
+                                className="createEvent"
+                                onClick={() => {
+                                  const url = `/viewEventById/${id}`;
+                                  window.location.href = url;
+                                }}
+                              >
                                 <p className="ln1">
                                   <MdOutlineEventNote />
                                 </p>
                                 <p className="ln2"> View Event</p>
                               </button>
-                              <button className="createProject">
+                              <button
+                                className="createProject"
+                                onClick={() => {
+                                  const url = `/viewProjectById/${id}`;
+                                  window.location.href = url;
+                                }}
+                              >
                                 <p className="ln3">
                                   <AiOutlineFundProjectionScreen />
                                 </p>

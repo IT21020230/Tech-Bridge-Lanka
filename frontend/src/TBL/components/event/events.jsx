@@ -50,7 +50,9 @@ function Events() {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch(`http://localhost:7000/api/events`);
+      const response = await fetch(
+        `http://localhost:7000/api/events/status/Accepted`
+      );
       const json = await response.json();
       console.log(json);
       console.log(json[0]);

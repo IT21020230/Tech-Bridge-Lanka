@@ -15,8 +15,10 @@ import { Formik } from "formik";
 
 function ViewEvent() {
   const [name, setName] = useState("");
-  const [commID, setCommID] = useState("64577ee1f64e188701af5510");
-  const [commName, setCommName] = useState("Leo Club of SLIIT");
+  // const [commID, setCommID] = useState("64577ee1f64e188701af5510");
+  // const [commName, setCommName] = useState("Leo Club of SLIIT");
+  const [commID, setCommID] = useState("");
+  const [commName, setCommName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [location, setLocation] = useState("");
@@ -265,7 +267,7 @@ function ViewEvent() {
                     rows="5"
                     aria-describedby="inputGroupPrepend"
                     name="commName"
-                    value={"Leo Club of SLIIT"}
+                    value={commName}
                     onChange={handleChange}
                     isValid={touched.commName && !errors.commName}
                     isInvalid={!!errors.commName}
