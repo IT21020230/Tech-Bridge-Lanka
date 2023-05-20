@@ -636,7 +636,7 @@ export default function () {
                               <button
                                 className="createEvent"
                                 onClick={() => {
-                                  const url = `/viewEventById/${id}`;
+                                  const url = `/viewEventByCommId/${id}`;
                                   window.location.href = url;
                                 }}
                               >
@@ -648,7 +648,7 @@ export default function () {
                               <button
                                 className="createProject"
                                 onClick={() => {
-                                  const url = `/viewProjectById/${id}`;
+                                  const url = `/viewProjectByCommId/${id}`;
                                   window.location.href = url;
                                 }}
                               >

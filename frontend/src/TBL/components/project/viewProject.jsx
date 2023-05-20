@@ -98,7 +98,7 @@ function ViewProject() {
       body: JSON.stringify({
         name: values.name,
         description: values.description,
-        image: values.image,
+        image: image,
         startDate: values.startDate,
         endDate: values.endDate,
       }),

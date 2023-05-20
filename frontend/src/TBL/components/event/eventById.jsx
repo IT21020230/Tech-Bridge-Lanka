@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import Modal from "react-bootstrap/Modal";
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { Row } from "react-bootstrap";
 
@@ -36,6 +36,7 @@ function ParticipateModal(props) {
 }
 
 function Events() {
+  const { id } = useParams();
   const { user } = useAuthContext();
 
   const navigate = useNavigate();
@@ -53,7 +54,9 @@ function Events() {
       // const response = await fetch(
       //   `http://localhost:7000/api/events/get-event-by-status/Accepted`
       // );
-      const response = await fetch(`http://localhost:7000/api/events/`);
+      const response = await fetch(
+        `http://localhost:7000/api/events/commID/` + id
+      );
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
