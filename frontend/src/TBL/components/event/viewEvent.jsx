@@ -14,6 +14,16 @@ import * as yup from "yup";
 import { Formik } from "formik";
 
 function ViewEvent() {
+  const [imageURL, setImageURL] = useState("");
+
+  //file upload handler
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    const base64 = await convertToBase64(file);
+    setImage(base64);
+  };
+
   const [name, setName] = useState("");
   // const [commID, setCommID] = useState("64577ee1f64e188701af5510");
   // const [commName, setCommName] = useState("Leo Club of SLIIT");
@@ -85,7 +95,7 @@ function ViewEvent() {
       body: JSON.stringify({
         name: values.name,
         description: values.description,
-        image: values.image,
+        image: image,
         location: values.location,
         date: values.date,
       }),
@@ -425,3 +435,16 @@ function ViewEvent() {
 }
 
 export default ViewEvent;
+
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+}

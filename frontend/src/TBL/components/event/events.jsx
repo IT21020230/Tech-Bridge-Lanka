@@ -50,9 +50,10 @@ function Events() {
 
   useEffect(() => {
     const fetchEvents = async () => {
-      const response = await fetch(
-        `http://localhost:7000/api/events/status/Accepted`
-      );
+      // const response = await fetch(
+      //   `http://localhost:7000/api/events/get-event-by-status/Accepted`
+      // );
+      const response = await fetch(`http://localhost:7000/api/events/`);
       const json = await response.json();
       console.log(json);
       console.log(json[0]);
@@ -122,7 +123,7 @@ function Events() {
 
                 <div style={{ display: "flex", justifyContent: "center" }}>
                   <Image
-                    src="https://learnenglish.britishcouncil.org/sites/podcasts/files/RS6243_175211709-hig.jpg"
+                    src={event.image}
                     style={{ height: "250px", width: "400px" }}
                   />
                 </div>

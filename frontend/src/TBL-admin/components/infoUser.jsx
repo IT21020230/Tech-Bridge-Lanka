@@ -104,7 +104,7 @@ function ViewUser() {
         position: "bottom-left",
       });
       setTimeout(() => {
-        //navigate("/user");
+        window.location.href = "/listUser";
       }, 2000);
     }
   };
@@ -129,7 +129,7 @@ function ViewUser() {
         position: "bottom-left",
       });
       setTimeout(() => {
-        //navigate("/login");
+        window.location.href = "/listUser";
       }, 2000);
     }
   };

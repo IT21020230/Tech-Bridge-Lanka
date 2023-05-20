@@ -212,8 +212,8 @@ function App() {
               element={user ? <ListProject /> : <Navigate to="/test" />}
             />
             <Route
-              path="/listEvent"
-              element={user ? <ListEvent /> : <Navigate to="/login" />}
+              path={process.env.PUBLIC_URL + "/listEvent"}
+              element={<ListEvent />}
             />
             <Route
               path="/events"

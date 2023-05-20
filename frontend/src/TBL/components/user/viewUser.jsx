@@ -73,7 +73,7 @@ function ViewUser() {
   const [modalDeleteShow, setModalDeleteShow] = React.useState(false);
 
   //UPDATE USER DATA
-  const handleSubmit = async (values) => {
+  const handleSubmitUpdate = async (values) => {
     //e.preventDefault();
 
     const response = await fetch(
@@ -160,7 +160,7 @@ function ViewUser() {
           <Button
             style={{ marginRight: "20px" }}
             variant="success"
-            onClick={handleSubmit}
+            onClick={handleSubmitUpdate}
           >
             Update
           </Button>
@@ -274,7 +274,7 @@ function ViewUser() {
         validationSchema={schema}
         validateOnChange={false} // Disable validation on change
         validateOnBlur={true} // Enable validation on blur
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmitUpdate}
         initialValues={initialValues}
       >
         {({ handleSubmit, handleChange, values, touched, errors }) => (
@@ -516,6 +516,9 @@ function ViewUser() {
                     {selectedProvince ? selectedProvince : "Select a Province"}
                   </Dropdown.Toggle>
                   <Dropdown.Menu style={{ width: "100%" }}>
+                    <Dropdown.Item eventKey="Western">
+                      Western Province
+                    </Dropdown.Item>
                     <Dropdown.Item eventKey="Northern">
                       Northern Province
                     </Dropdown.Item>
@@ -621,7 +624,8 @@ function ViewUser() {
             <Button
               className="submitBTN"
               variant="outline-success"
-              type="submit"
+              //type="submit"
+              onClick={() => handleSubmitUpdate(values)}
             >
               Update
             </Button>
