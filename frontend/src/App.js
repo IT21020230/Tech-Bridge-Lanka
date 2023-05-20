@@ -24,6 +24,12 @@ const AdminHomePage = lazy(() => import("./TBL/pages/admin/AdminHomePage"));
 // //Admin
 // const Admin = lazy(() => import("./TBL-admin/pages/admin"));
 
+//Project by Comm ID
+const ProjectByCommId = lazy(() => import("./TBL/pages/project/ProjectById"));
+
+//Events by Comm ID
+const EventById = lazy(() => import("./TBL/pages/event/eventById"));
+
 //Add user
 const AddUser = lazy(() => import("./TBL-admin/pages/addUser"));
 
@@ -199,6 +205,11 @@ function App() {
               path="/viewProjectById/:id"
               element={user ? <ListProjectById /> : <Navigate to="/login" />}
             />
+
+            <Route
+              path="/viewProjectByCommId/:id"
+              element={user ? <ProjectByCommId /> : <Navigate to="/login" />}
+            />
             <Route
               path="/viewEvent/:id"
               element={user ? <ViewEvent /> : <Navigate to="/login" />}
@@ -206,6 +217,10 @@ function App() {
             <Route
               path="/viewEventById/:id"
               element={user ? <ListEventById /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="/viewEventByCommId/:id"
+              element={user ? <EventById /> : <Navigate to="/login" />}
             />
             <Route
               path="/listProject"
