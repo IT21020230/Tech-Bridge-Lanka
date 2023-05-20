@@ -86,9 +86,9 @@ export default function EditPost() {
                   onChange={(ev) => setCommunity(ev.target.value)}
                 >
                   <option value="">Select a community</option>
-                  <option value="Community 1">Community 1</option>
-                  <option value="Community 2">Community 2</option>
-                  <option value="Community 3">Community 3</option>
+                  <option value="Leo club">Leo club</option>
+                  <option value="MS club">MS club</option>
+                  <option value="Rotaract Clubs">Rotaract Clubs</option>
                   {/* Add more options for communities as needed */}
                 </select>
                 <br /> <br />
